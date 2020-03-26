@@ -1,1 +1,81 @@
-<p>login works!</p>
+<div class="d-flex align-items-center justify-content-center">
+    <div class="max-width container-fluid">
+        <div class="reg-form d-flex justify-content-between pb-2"> 
+            <img 
+                src="https://visitors.galexpo.com.ua:7002/static/registration/shared/name.png" 
+                alt="https://visitors.galexpo.com.ua:7002/static/registration/shared/name.png"
+                width="40%"
+                height=auto
+                class="header-img">
+            <img 
+                src="https://visitors.galexpo.com.ua:7002/static/registration/shared/logo.png" 
+                alt="https://visitors.galexpo.com.ua:7002/static/registration/shared/logo.png"
+                width="10%" 
+                height=auto
+                class="header-img">    
+        </div>
+        <div class="reg-form">
+            <form class="example-form back2" [formGroup]="loginForm">
+                <div class="discr" >Введіть електронну пошту та/або мобільний телефон</div>
+                <mat-form-field class="form-group example-full-width">
+                    <input type="email" matInput placeholder="{{'Електронна пошта'}}" formControlName="email"> 
+                    <mat-icon matSuffix color="accent" class="main-color">alternate_email</mat-icon>
+                    <mat-hint>
+                        {{'Введіть електронну адресу (якщо ви реєструвалися раніше - введіть електронну адресу яку ви вказували при реєстрації)'}}
+                    </mat-hint>
+                    <mat-error *ngIf="!loginForm.get('email').valid">
+                        {{'Будь ласка введіть Вашу дійсну електроннну адресу'}}
+                    </mat-error>
+                </mat-form-field>
+                <br><br>
+                <mat-form-field class="form-group example-full-width">
+                    <input type="tel" matInput placeholder="{{'380ххххххххх'}}" formControlName="cellphone">
+                    <mat-icon matSuffix color="accent" class="main-color">phone</mat-icon>
+                    <mat-hint>
+                        {{'Введіть свій номер мобільного телефона (якщо ви реєструвалися раніше - введіть номер який ви вказували при реєстрації)'}}
+                    </mat-hint>
+                    <mat-error *ngIf="!loginForm.get('cellphone').valid">
+                        {{'Будь ласка введіть мобільний телефон у вказаному форматі'}}
+                    </mat-error>
+                </mat-form-field>
+                <br><br>
+                <mat-form-field class="form-group example-full-width">
+                    <input type="password" matInput placeholder="{{'Пароль'}}" formControlName="password">
+                    <mat-icon matSuffix color="accent" class="main-color">vpn_key</mat-icon>
+                    <mat-hint>
+                        {{'Введіть пароль, якщо Ви задали пароль при реєстрації'}}
+                    </mat-hint>
+                    <mat-error *ngIf="!loginForm.get('password').valid">
+                        {{'невірний пароль'}}
+                    </mat-error>
+                </mat-form-field>
+    
+                <!-- <ng-container *ngIf = 'visibleCaptcha'> 
+                    <div  
+                        class="d-flex justify-content-center align-items-center mt-3">
+                        
+                        <re-captcha
+                            style="transform:scale(1)"
+                            formControlName="captcha"
+                            siteKey="6Lcp7r0UAAAAAPd5sDUsXBnLWdXvHiLLXavjJINt">
+                        </re-captcha>
+                    </div>
+                </ng-container>   -->
+                
+                <div *ngIf="warning" class="warning">
+                    {{warning}}
+                </div>
+            </form>
+            <br>
+            
+        </div>
+        <button 
+            mat-raised-button 
+            (click)="login()"
+            color="accent" 
+            class="btn-lg btn-block py-2 reg-form btn-color">
+            <span class="pr-2 btn-font">{{'Отримати запрошення'}}</span>
+            <mat-icon>local_activity</mat-icon>
+        </button> 
+    </div> 
+</div> 
