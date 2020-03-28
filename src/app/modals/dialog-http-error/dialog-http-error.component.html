@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>HttpService responses errors</h2>
+<div mat-dialog-content>
+    <div *ngIf='!data[0]'>No such errors</div>
+    <div *ngFor='let err of data; let i=index'>
+        <p><span class="mr-2 font-weight-bold">{{i+1}}</span>{{err}}</p>
+    </div>
+</div>
+<mat-dialog-actions align="center">
+    <button mat-button (click)="onNoClick()">Ok</button>
+</mat-dialog-actions> 
