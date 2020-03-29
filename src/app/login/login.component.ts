@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {VisitorService} from '../shared/visitor.service'
-import {Login} from '../shared/visitors.interfaces'
+import {ILogin} from '../shared/visitors.interfaces'
 
 @Component({
   selector: 'app-login',

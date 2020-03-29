@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {HttpService} from './http.service';
-import {Login} from './visitors.interfaces';
-import {VisitorModel} from '../visitor/VisitorModel'
+import {ILogin} from './visitors.interfaces';
+import {VisitorModel} from '../visitor/visitor-model'
 import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
 import { catchError, map} from 'rxjs/operators';
 
@@ -16,6 +16,8 @@ export class VisitorService {
   getErrMessages: Subject<string> = new Subject();
   errMessage: string;
 
+  getRegion: BehaviorSubject<any> = new BehaviorSubject([]);
+
   constructor(
     private http: HttpService,
     private router: Router,
@@ -23,17 +25,21 @@ export class VisitorService {
     this.http.getErrMessages.subscribe(errMessage =>{
       this.errMessage = errMessage;
       this.getErrMessages.next(this.errMessage);
+    });
+    this.http.get('region').subscribe(data =>{
+      this.getRegion.next(data)
     })
   }
 
-  getVisitor(body: Login){
+  getVisitor(body: ILogin){
     this.errMessage = null;
     this.http.post(body, "get").subscribe(data =>{
       if(this.errMessage) return console.log('err: ',this.errMessage);
       console.log(data);
       if(data[0]) this.curretnVisitorModel = new VisitorModel(data[0]);
       this.getCurrrentVisitor.next(this.curretnVisitorModel);
-      console.log('model: ', this.curretnVisitorModel);
+      //console.log('model: ', this.curretnVisitorModel);
+      this.router.navigate(['visitor'])
     })
   }
 
@@ -41,8 +47,10 @@ export class VisitorService {
     this.curretnVisitorModel = new VisitorModel();
   }
 
-  setKey(data){
+  setKey(data: ILogin){
     this.curretnVisitorModel.newEmail = data.email;
     this.curretnVisitorModel.newCellphone = data.cellphone;
   }
+
+
 }

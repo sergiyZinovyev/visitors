@@ -6,8 +6,8 @@ export class VisitorModel {
     gender:string;
     cellphone:string;
     email:string;
-    countryid:number;
-    regionid:number;
+    countryid:string;
+    regionid:string;
     city:string;
     m_robotu:string;
     posada:string;
@@ -21,8 +21,8 @@ export class VisitorModel {
         this.gender = getVisitorData?.gender ?? null;
         this.cellphone = getVisitorData?.cellphone ?? null;
         this.email = getVisitorData?.email ?? null;
-        this.countryid = getVisitorData?.countryid ?? null;
-        this.regionid = getVisitorData?.regionid ?? null;
+        this.countryid = String(getVisitorData?.countryid ?? "1");
+        this.regionid = String(getVisitorData?.regionid ?? null);
         this.city = getVisitorData?.city ?? null;
         this.m_robotu = getVisitorData?.m_robotu ?? null;
         this.posada = getVisitorData?.posada ?? null;

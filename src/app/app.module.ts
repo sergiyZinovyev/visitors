@@ -13,11 +13,13 @@ import { InviteComponent } from './invite/invite.component';
 import { DialogHttpErrorComponent } from './modals/dialog-http-error/dialog-http-error.component'; 
 
 import {MatIconModule} from '@angular/material/icon'; 
-import { MatSliderModule } from '@angular/material/slider';
+import {MatSliderModule} from '@angular/material/slider';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import {MatInputModule} from '@angular/material/input'; 
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [DialogHttpErrorComponent],
   providers: [],
