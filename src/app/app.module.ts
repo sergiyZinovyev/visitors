@@ -21,6 +21,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
+import { MatSelectFilterModule } from 'mat-select-filter';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatButtonModule,
     MatDialogModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectFilterModule
   ],
   entryComponents: [DialogHttpErrorComponent],
   providers: [],

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {HttpService} from './http.service';
-import {ILogin} from './visitors.interfaces';
+import {ILogin, IRegion} from './visitors.interfaces';
 import {VisitorModel} from '../visitor/visitor-model'
 import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
 import { catchError, map} from 'rxjs/operators';
@@ -16,7 +16,10 @@ export class VisitorService {
   getErrMessages: Subject<string> = new Subject();
   errMessage: string;
 
-  getRegion: BehaviorSubject<any> = new BehaviorSubject([]);
+  Countries: BehaviorSubject<IRegion[]> = new BehaviorSubject([]);
+  Regions: BehaviorSubject<IRegion[]> = new BehaviorSubject([]);
+  Cities: BehaviorSubject<IRegion[]> = new BehaviorSubject([]);
+
 
   constructor(
     private http: HttpService,
@@ -26,8 +29,8 @@ export class VisitorService {
       this.errMessage = errMessage;
       this.getErrMessages.next(this.errMessage);
     });
-    this.http.get('region').subscribe(data =>{
-      this.getRegion.next(data)
+    this.http.get('region').subscribe((data: IRegion[]) =>{
+      this.Countries.next(data)
     })
   }
 
@@ -38,7 +41,6 @@ export class VisitorService {
       console.log(data);
       if(data[0]) this.curretnVisitorModel = new VisitorModel(data[0]);
       this.getCurrrentVisitor.next(this.curretnVisitorModel);
-      //console.log('model: ', this.curretnVisitorModel);
       this.router.navigate(['visitor'])
     })
   }
@@ -50,6 +52,20 @@ export class VisitorService {
   setKey(data: ILogin){
     this.curretnVisitorModel.newEmail = data.email;
     this.curretnVisitorModel.newCellphone = data.cellphone;
+  }
+
+  getRegions(countryid){
+    this.http.get(`region?countryid=${countryid}`).subscribe((data: IRegion[]) =>{
+      this.Regions.next(data);
+      this.Cities.next([])
+    })
+  }
+
+  getCities(countryid, regionid){
+    this.http.get(`region?countryid=${countryid}&regionid=${regionid}`).subscribe((data: IRegion[]) =>{
+      console.log('Cities: ', data);
+      this.Cities.next(data)
+    })
   }
 
 

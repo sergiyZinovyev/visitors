@@ -51,12 +51,17 @@
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
                             <mat-select placeholder="{{'Країна'}}" formControlName="countryid" required>
-                                <!-- <mat-option value=1>Україна</mat-option>
-                                <mat-option value=2>Польща</mat-option>
-                                <mat-option value=3>Німеччина</mat-option> -->
-                                <ng-container *ngFor="let region of regions">
-                                    <mat-option value='{{region.countryid}}'>{{region.teretory}}</mat-option>
-                                </ng-container>
+                                <mat-select-filter 
+                                    [placeholder]="'Пошук'" 
+                                    [array]="countries" 
+                                    [displayMember]="'teretory'" 
+                                    (filteredReturn)="filteredCountries =$event">
+                                </mat-select-filter>
+                                <mat-option 
+                                    *ngFor="let country of filteredCountries" 
+                                    value='{{country.countryid}}'>
+                                    {{country.teretory}}
+                                </mat-option>
                             </mat-select>
                             <mat-error *ngIf="!visitorForm.get('countryid').valid"> 
                                 {{'Будь ласка введіть країну'}}
@@ -68,10 +73,17 @@
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
                             <mat-select placeholder="{{'Область'}}" formControlName="regionid" required>
-                                <mat-option value=1>Україна</mat-option>
-                                <!-- <ng-container *ngFor="let item of region">
-                                    <mat-option value='{{item.regionid}}'>{{item.teretory}}</mat-option>
-                                </ng-container> -->
+                                <mat-select-filter 
+                                    [placeholder]="'Пошук'" 
+                                    [array]="regions" 
+                                    [displayMember]="'teretory'" 
+                                    (filteredReturn)="filteredRegions =$event">
+                                </mat-select-filter>
+                                <mat-option 
+                                    *ngFor="let region of filteredRegions" 
+                                    value='{{region.regionid}}'>
+                                    {{region.teretory}}
+                                </mat-option>
                             </mat-select> 
                             <mat-error *ngIf="!visitorForm.get('regionid').valid">
                                 {{'Будь ласка введіть область'}}
@@ -81,7 +93,12 @@
 
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'Місто'}}" formControlName="city" required>
+                            <!-- <input type="text" matInput placeholder="{{'Місто'}}" formControlName="city" required> -->
+                            <mat-select placeholder="{{'Місто'}}" formControlName="city" required>
+                                <ng-container *ngFor="let city of cities | async">
+                                    <mat-option value='{{city.teretory}}'>{{city.teretory}}</mat-option>
+                                </ng-container>
+                            </mat-select> 
                             <mat-error *ngIf="!visitorForm.get('city').valid">
                                 {{'Будь ласка введіть місто'}}
                             </mat-error>
