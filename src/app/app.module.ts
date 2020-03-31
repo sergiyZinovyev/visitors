@@ -20,6 +20,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 
 import { MatSelectFilterModule } from 'mat-select-filter';
 
@@ -46,7 +47,8 @@ import { MatSelectFilterModule } from 'mat-select-filter';
     MatDialogModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatSelectFilterModule
+    MatSelectFilterModule,
+    MatAutocompleteModule
   ],
   entryComponents: [DialogHttpErrorComponent],
   providers: [],

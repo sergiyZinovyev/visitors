@@ -13,6 +13,8 @@ import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, Fo
 })
 export class VisitorComponent implements OnInit, OnDestroy{
 
+  newVisitor: boolean = true;
+
   getCurrrentVisitor: Subscription;
 
   getCountries: Subscription;
@@ -23,7 +25,13 @@ export class VisitorComponent implements OnInit, OnDestroy{
   regions: IRegion[];
   filteredRegions: IRegion[];
 
-  cities: Observable<Object>;
+  getCities: Subscription;
+  cities: IRegion[];
+  filteredCities: IRegion[];
+
+  getBranches: Subscription;
+  branches: [];
+  filteredBranches: [];
 
   visitorForm = this.fb.group({
     condition: ['', []],
@@ -35,7 +43,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
 
     email: ['', [Validators.email]],
     prizv: ['', [Validators.required]],
-    city: ['', [Validators.required]],
+    city: ['', []],
     cellphone: ['', [Validators.pattern('380[0-9]{9}')]],
     regnum: ['', []],
     potvid: ['', []],
@@ -77,20 +85,35 @@ export class VisitorComponent implements OnInit, OnDestroy{
       this.regions = data;
     });
 
-    this.cities = this.visitorService.Cities;
+    this.getCities = this.visitorService.Cities.subscribe(data=>{
+      this.filteredCities = data;
+      this.cities = data;
+    });
+
+    this.getBranches = this.visitorService.Branches.subscribe(data=>{
+      this.filteredBranches = data;
+      this.branches = data;
+    });
 
     this.getCurrrentVisitor = this.visitorService.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
-      this.visitorForm.patchValue(data);
+      if(data.regnum) this.newVisitor = false;
+      this.visitorForm.patchValue(data, {emitEvent: false});
       if(data.countryid) this.visitorService.getRegions(data.countryid);
       if(data.countryid && data.regionid) this.visitorService.getCities(data.countryid, data.regionid);
     })
 
     this.visitorForm.get('countryid').valueChanges.subscribe(data => {
+      this.visitorForm.patchValue({regionid: '', city: ''});
       this.visitorService.getRegions(data);
     });
-    
+
     this.visitorForm.get('regionid').valueChanges.subscribe(data => {
+      this.visitorForm.patchValue({city: ''});
       this.visitorService.getCities(this.visitorForm.get('countryid').value, data);
+    });
+
+    this.visitorForm.get('city').valueChanges.subscribe(data => {
+      this.filteredCities = this.cities.filter(city => city.teretory.toLowerCase().includes(data.toLowerCase()))
     });
   }
 
@@ -101,6 +124,8 @@ export class VisitorComponent implements OnInit, OnDestroy{
   ngOnDestroy():void{
     this.getCurrrentVisitor.unsubscribe();
     this.getRegions.unsubscribe();
-    this.getCountries.unsubscribe()
+    this.getCountries.unsubscribe();
+    this.getCities.unsubscribe();
+    this.getBranches.unsubscribe()
   }
 }

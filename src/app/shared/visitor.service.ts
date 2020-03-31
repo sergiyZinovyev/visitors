@@ -16,6 +16,8 @@ export class VisitorService {
   getErrMessages: Subject<string> = new Subject();
   errMessage: string;
 
+  Branches: BehaviorSubject<[]> = new BehaviorSubject([]);
+
   Countries: BehaviorSubject<IRegion[]> = new BehaviorSubject([]);
   Regions: BehaviorSubject<IRegion[]> = new BehaviorSubject([]);
   Cities: BehaviorSubject<IRegion[]> = new BehaviorSubject([]);
@@ -31,6 +33,11 @@ export class VisitorService {
     });
     this.http.get('region').subscribe((data: IRegion[]) =>{
       this.Countries.next(data)
+    });
+    this.http.get('branch').pipe(
+      map(vl => vl.map(obj => obj.branch))
+    ).subscribe(data =>{
+      this.Branches.next(data)
     })
   }
 
@@ -62,10 +69,11 @@ export class VisitorService {
   }
 
   getCities(countryid, regionid){
-    this.http.get(`region?countryid=${countryid}&regionid=${regionid}`).subscribe((data: IRegion[]) =>{
-      console.log('Cities: ', data);
-      this.Cities.next(data)
-    })
+    if(regionid>0){
+      this.http.get(`region?countryid=${countryid}&regionid=${regionid}`).subscribe((data: IRegion[]) =>{
+        this.Cities.next(data)
+      })
+    }
   }
 
 

@@ -8,9 +8,8 @@
 
             <div class="reg-form">
                 <div class="discr d-flex justify-content-between">
-                    <!-- <ng-container *ngIf='!edit'>Представтесь, будь ласка</ng-container> 
-                    <ng-container *ngIf='edit'>Вітаємо!</ng-container> -->
-                    <ng-container>Вітаємо!</ng-container>
+                    <ng-container *ngIf='newVisitor'>Представтесь, будь ласка</ng-container> 
+                    <ng-container *ngIf='!newVisitor'>Вітаємо!</ng-container>
                     <mat-icon matSuffix>person</mat-icon>
                 </div>
                 <div class="row">
@@ -42,9 +41,8 @@
 
             <div class="reg-form">
                 <div class="discr d-flex justify-content-between">
-                    <!-- <ng-container *ngIf='!edit'>Заповніть Ваші контактні дані</ng-container>
-                    <ng-container *ngIf='edit'>Відредагуйте Ваші контактні дані, якщо вони змінилися</ng-container> -->
-                    <ng-container>Заповніть Ваші контактні дані</ng-container>
+                    <ng-container *ngIf='newVisitor'>Заповніть Ваші контактні дані</ng-container>
+                    <ng-container *ngIf='!newVisitor'>Відредагуйте Ваші контактні дані, якщо вони змінилися</ng-container>
                     <mat-icon matSuffix>assignment</mat-icon>
                 </div>
                 <div class="row">
@@ -93,12 +91,19 @@
 
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <!-- <input type="text" matInput placeholder="{{'Місто'}}" formControlName="city" required> -->
-                            <mat-select placeholder="{{'Місто'}}" formControlName="city" required>
-                                <ng-container *ngFor="let city of cities | async">
-                                    <mat-option value='{{city.teretory}}'>{{city.teretory}}</mat-option>
-                                </ng-container>
-                            </mat-select> 
+                            <input 
+                                type="text" 
+                                matInput 
+                                placeholder="Місто" 
+                                formControlName="city" 
+                                [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option 
+                                    *ngFor="let city of filteredCities" 
+                                    value='{{city.teretory}}'>
+                                    {{city.teretory}}
+                                </mat-option>
+                            </mat-autocomplete> 
                             <mat-error *ngIf="!visitorForm.get('city').valid">
                                 {{'Будь ласка введіть місто'}}
                             </mat-error>
@@ -131,9 +136,8 @@
 
             <div class="reg-form">
                 <div class="discr d-flex justify-content-between">
-                    <!-- <ng-container *ngIf='!edit'>Ваша робота</ng-container>
-                    <ng-container *ngIf='edit'>Відредагуйте Ваші дані про роботу, якщо вони змінилися</ng-container> -->
-                    <ng-container>Відредагуйте Ваші дані про роботу, якщо вони змінилися</ng-container>
+                    <ng-container *ngIf='newVisitor'>Ваша робота</ng-container>
+                    <ng-container *ngIf='!newVisitor'>Відредагуйте Ваші дані про роботу, якщо вони змінилися</ng-container>
                     <mat-icon matSuffix>business</mat-icon>
                 </div>
                 <div class="row">
@@ -152,15 +156,18 @@
                     </div>
 
                     <div class="col-12 col-sm-6">
-                        <!-- <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'Сфера діяльності'}}" formControlName="sferadij"> 
-                        </mat-form-field> -->
                         <mat-form-field class="form-group example-full-width">
                             <mat-select placeholder="{{'Сфера діяльності'}}" formControlName="sferadij">
-                                <mat-option value=1>{{'працівник'}}</mat-option>
-                                <!-- <ng-container *ngFor="let item of branch">
-                                    <mat-option value='{{item}}'>{{item}}</mat-option>
-                                </ng-container> -->
+                                <mat-select-filter 
+                                    [placeholder]="'Пошук'" 
+                                    [array]="branches" 
+                                    (filteredReturn)="filteredBranches =$event">
+                                </mat-select-filter>
+                                <mat-option 
+                                    *ngFor="let branch of filteredBranches" 
+                                    value='{{branch}}'>
+                                    {{branch}}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
