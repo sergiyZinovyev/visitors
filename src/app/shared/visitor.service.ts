@@ -45,7 +45,7 @@ export class VisitorService {
     this.errMessage = null;
     this.http.post(body, "get").subscribe(data =>{
       if(this.errMessage) return console.log('err: ',this.errMessage);
-      console.log(data);
+      //console.log(data);
       if(data[0]) this.curretnVisitorModel = new VisitorModel(data[0]);
       this.getCurrrentVisitor.next(this.curretnVisitorModel);
       this.router.navigate(['visitor'])

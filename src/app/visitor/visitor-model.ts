@@ -12,6 +12,7 @@ export class VisitorModel {
     m_robotu:string;
     posada:string;
     sferadij:string;
+    potvid: string;
 
     constructor(getVisitorData?){
         this.regnum = getVisitorData?.regnum ?? null;
@@ -26,7 +27,8 @@ export class VisitorModel {
         this.city = getVisitorData?.city ?? null;
         this.m_robotu = getVisitorData?.m_robotu ?? null;
         this.posada = getVisitorData?.posada ?? null;
-        this.sferadij = getVisitorData?.sferadij ?? null; 
+        this.sferadij = getVisitorData?.sferadij ?? null;
+        this.potvid = getVisitorData?.potvid ?? null;
     }
 
     

@@ -174,26 +174,14 @@
                 </div>
             </div>
 
-            <!-- <div class="reg-form2">
+            <div class="reg-form2">
                 <mat-expansion-panel class="reg-form3">
                     <mat-expansion-panel-header>
                         <mat-panel-title class="discr2">Оберіть виставки, яки Вас ще можуть зацікавити</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <form [formGroup]="exhibForm">
-                        <div class="row">
-                            <ng-container *ngFor="let item of exhib">
-                                <ng-container *ngIf='item.kod==1'>
-                                    <div class="col-12 col-sm-6">
-                                        <mat-checkbox class='ml-1' formControlName={{item.name}}>
-                                            {{item.name}}
-                                        </mat-checkbox>
-                                    </div>
-                                </ng-container>    
-                            </ng-container>
-                        </div>
-                    </form>
-                </mat-expansion-panel>  
-            </div> -->
+                    <app-exhibitions [userExhibitions]="visitorForm.get('potvid').value"></app-exhibitions>
+                </mat-expansion-panel>
+            </div>
 
                 <button 
                     mat-raised-button 
