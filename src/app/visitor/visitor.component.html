@@ -179,7 +179,7 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title class="discr2">Оберіть виставки, яки Вас ще можуть зацікавити</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <app-exhibitions [userExhibitions]="visitorForm.get('potvid').value"></app-exhibitions>
+                    <app-exhibitions [userExhibitions]="visitorForm.get('potvid').value" [idAddingExhibitions]="searcParamsExhib" (changeUserExhibitions)="patchPotvid($event)"></app-exhibitions>
                 </mat-expansion-panel>
             </div>
 

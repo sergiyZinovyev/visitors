@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {HttpService} from './http.service';
 import {ILogin, IRegion} from './visitors.interfaces';
 import {VisitorModel} from '../visitor/visitor-model'
@@ -26,7 +26,7 @@ export class VisitorService {
   constructor(
     private http: HttpService,
     private router: Router,
-  ){ 
+  ){
     this.http.getErrMessages.subscribe(errMessage =>{
       this.errMessage = errMessage;
       this.getErrMessages.next(this.errMessage);

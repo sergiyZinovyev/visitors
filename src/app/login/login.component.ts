@@ -3,6 +3,7 @@ import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, Fo
 import { Router } from '@angular/router';
 import {VisitorService} from '../shared/visitor.service'
 import {ILogin} from '../shared/visitors.interfaces'
+import {UrlService} from './../shared/url.service'
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private visitorService: VisitorService,
     private router: Router,
+    private urlApp: UrlService
   ) { }
 
   ngOnInit(): void { 

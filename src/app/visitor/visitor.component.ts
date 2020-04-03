@@ -5,6 +5,7 @@ import {VisitorModel} from './visitor-model';
 import {Subscription, Observable} from'rxjs'; 
 import {ILogin, IRegion} from '../shared/visitors.interfaces';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
+import {UrlService} from './../shared/url.service'
 
 @Component({
   selector: 'app-visitor',
@@ -68,10 +69,14 @@ export class VisitorComponent implements OnInit, OnDestroy{
     ins_user: ['', []],
   })
 
+  potvid: string = this.visitorForm.get('potvid').value;
+  searcParamsExhib = this.urlApp.getSearchParam('idex')
+
   constructor(
     private fb: FormBuilder,
     private visitorService: VisitorService,
     private router: Router,
+    private urlApp: UrlService
   ) {}
 
   ngOnInit(): void {
@@ -117,7 +122,12 @@ export class VisitorComponent implements OnInit, OnDestroy{
     });
   }
 
+  patchPotvid(val: string){
+    this.potvid = val
+  }
+
   submit(){
+    this.visitorForm.patchValue({potvid: this.potvid})
     console.log('visitorForm: ', this.visitorForm.value);
   }
  

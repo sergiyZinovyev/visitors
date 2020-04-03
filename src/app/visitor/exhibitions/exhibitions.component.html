@@ -1,12 +1,20 @@
 <form [formGroup]="exhibitionForm">
     <div class="row">
         <ng-container *ngFor="let item of exhibitions">
-            <div class="col-12 col-sm-6">
+            <div *ngIf='item.kod===1' class="col-12 col-sm-6">
                 <mat-checkbox class='ml-1' formControlName={{item.name}}>
                     {{item.name}}
                 </mat-checkbox>
             </div> 
         </ng-container>
     </div>
+    <input type="text" #exhib>
+    <button 
+        mat-raised-button 
+        (click)=" getAddingExhib(exhib.value)"
+        color="accent">
+        {{'add exhib'}}
+    </button>
+    <div *ngIf = '!exhibitionForm.valid' class="alert alert-warning" role="alert">{{exhibitionForm.errors?.custom}}</div>
 </form>
 
