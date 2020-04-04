@@ -73,7 +73,7 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
       };
     };
   }
-
+ 
   getAddingExhib(id){
     this.exhib.getAddingExhib(id)
   }

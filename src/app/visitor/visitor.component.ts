@@ -2,10 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import {VisitorService} from '../shared/visitor.service';
 import {VisitorModel} from './visitor-model';
-import {Subscription, Observable} from'rxjs'; 
+import {Subscription, Observable} from'rxjs';
+import { catchError, map, tap} from 'rxjs/operators';
 import {ILogin, IRegion} from '../shared/visitors.interfaces';
-import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm, AbstractControl } from '@angular/forms';
 import {UrlService} from './../shared/url.service'
+import {HttpService} from './../shared/http.service'
 
 @Component({
   selector: 'app-visitor',
@@ -42,7 +44,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
 
     captcha: [''],
 
-    email: ['', [Validators.email]],
+    email: ['', [Validators.email], [this.validcontact.bind(this)]],
     prizv: ['', [Validators.required]],
     city: ['', []],
     cellphone: ['', [Validators.pattern('380[0-9]{9}')]],
@@ -76,7 +78,8 @@ export class VisitorComponent implements OnInit, OnDestroy{
     private fb: FormBuilder,
     private visitorService: VisitorService,
     private router: Router,
-    private urlApp: UrlService
+    private urlApp: UrlService,
+    private server: HttpService
   ) {}
 
   ngOnInit(): void {
@@ -126,9 +129,19 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.potvid = val
   }
 
+  private validcontact(control: FormControl){
+    return this.server.get(`validcontact?field=email&value=${control.value}&regnum=1`).pipe(
+      map(response => {
+        return response ? response : null;
+      })
+    );
+  }
+
   submit(){
     this.visitorForm.patchValue({potvid: this.potvid})
     console.log('visitorForm: ', this.visitorForm.value);
+    console.log('email errors: ', this.visitorForm.get('email').errors);
+    console.log('email: ', this.visitorForm.get('email').status);
   }
  
   ngOnDestroy():void{
