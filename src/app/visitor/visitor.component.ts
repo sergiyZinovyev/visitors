@@ -44,7 +44,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
 
     captcha: [''],
 
-    email: ['', [Validators.email], [this.validcontact.bind(this)]],
+    email: ['', [Validators.email]],
     prizv: ['', [Validators.required]],
     city: ['', []],
     cellphone: ['', [Validators.pattern('380[0-9]{9}')]],
@@ -69,7 +69,9 @@ export class VisitorComponent implements OnInit, OnDestroy{
     datelastcor: ['', []],
     rating: ['', []],
     ins_user: ['', []],
-  })
+  },  {
+    asyncValidator: this.validcontact.bind(this)
+  });
 
   potvid: string = this.visitorForm.get('potvid').value;
   searcParamsExhib = this.urlApp.getSearchParam('idex')
@@ -83,6 +85,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
   ) {}
 
   ngOnInit(): void {
+    //this.visitorForm.setValidators(this.validcontact.bind(this))
     this.getCountries = this.visitorService.Countries.subscribe(data=>{
       this.filteredCountries = data;
       this.countries = data;
@@ -106,6 +109,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.getCurrrentVisitor = this.visitorService.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
       if(data.regnum) this.newVisitor = false;
       this.visitorForm.patchValue(data, {emitEvent: false});
+      //this.visitorForm.setValidators(this.validcontact.bind(this))
       if(data.countryid) this.visitorService.getRegions(data.countryid);
       if(data.countryid && data.regionid) this.visitorService.getCities(data.countryid, data.regionid);
     })
@@ -129,19 +133,50 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.potvid = val
   }
 
-  private validcontact(control: FormControl){
-    return this.server.get(`validcontact?field=email&value=${control.value}&regnum=1`).pipe(
+  // private validcontact(control: FormControl){
+  //   return this.server.get(`validcontact?field=email&value=${control.value}&regnum=1`).pipe(
+  //     map(response => {
+  //       return response ? response : null;
+  //     })
+  //   );
+  // }
+
+  private validcontact(group: FormGroup){
+    console.log('validator start');
+    console.log(`validcontact?field=email&value=${group.get('email').value}&regnum=${group.get('regnum').value}`);
+    return this.server.get(`validcontact?field=email&value=${group.get('email').value}&regnum=${group.get('regnum').value}`).pipe(
       map(response => {
-        return response ? response : null;
+        console.log('data valid: ',response)
+        if(response) {
+          group.get('email').setErrors(response)
+          return response
+        }
+        else return null
+        //return response ? response : null;
       })
     );
+  }
+
+  getErrors(formGroup: FormGroup, errors: any = {}) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        errors[field] = control.errors;
+      } else if (control instanceof FormGroup) {
+        errors[field] = this.getErrors(control);
+      }
+    });
+    return errors;
   }
 
   submit(){
     this.visitorForm.patchValue({potvid: this.potvid})
     console.log('visitorForm: ', this.visitorForm.value);
-    console.log('email errors: ', this.visitorForm.get('email').errors);
-    console.log('email: ', this.visitorForm.get('email').status);
+    console.log('visitorForm errors: ', this.getErrors(this.visitorForm));
+    console.log('visitorForm status: ', this.visitorForm.status);
+    if(!this.visitorForm.invalid){
+      console.log('visitorForm valid');
+    }
   }
  
   ngOnDestroy():void{

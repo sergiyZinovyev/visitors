@@ -116,10 +116,14 @@
                         <mat-form-field class="form-group example-full-width">
                             <input type="email" matInput placeholder="{{'Особиста електронна пошта'}}" formControlName="email" required>
                             <mat-icon matSuffix>alternate_email</mat-icon>
-                            <mat-error *ngIf="!visitorForm.get('email').valid">
-                                {{'Будь ласка введіть Вашу дійсну електроннну адресу'}}
+                            
+                            <mat-error>
+                                <div *ngIf="visitorForm.get('email').hasError('required') || visitorForm.get('email').hasError('email')">{{'Будь ласка введіть Вашу дійсну електроннну адресу'}}</div> 
+                                {{visitorForm.get('email').errors?.invalid}}
                             </mat-error>
+                            
                         </mat-form-field>
+                        <!-- <div class="mt-n4" style="font-size: smaller; color: red">{{visitorForm.errors?.invalid}}</div> -->
                     </div>
 
                     <div class="col-12 col-sm-6">
@@ -183,17 +187,19 @@
                 </mat-expansion-panel>
             </div>
 
-                <button 
-                    mat-raised-button 
-                    (click)="submit()"
-                    color="accent" 
-                    class="btn-lg btn-block py-2 my-btn btn-color">
-                    <strong class="pr-2">{{'Отримати запрошення'}}</strong><mat-icon>local_activity</mat-icon>
-                </button>
+            <ng-container *ngIf = 'visitorForm.invalid'>
+                <div class="alert alert-warning" role="alert">{{visitorForm.errors?.invalid}}</div> 
+            </ng-container>
 
-            <!-- <ng-container *ngIf = 'worningCheck'>
-                <div class="alert alert-warning" role="alert">{{worningCheck}}</div> 
-            </ng-container> -->
+            <button 
+                mat-raised-button 
+                (click)="submit()"
+                color="accent" 
+                class="btn-lg btn-block py-2 my-btn btn-color">
+                <strong class="pr-2">{{'Отримати запрошення'}}</strong><mat-icon>local_activity</mat-icon>
+            </button>
+
+            
         </form>
     </div>  
 </div>
