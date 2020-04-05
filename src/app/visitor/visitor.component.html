@@ -119,19 +119,19 @@
                             
                             <mat-error>
                                 <div *ngIf="visitorForm.get('email').hasError('required') || visitorForm.get('email').hasError('email')">{{'Будь ласка введіть Вашу дійсну електроннну адресу'}}</div> 
-                                {{visitorForm.get('email').errors?.invalid}}
+                                {{visitorForm.get('email').errors?.emailValid}}
                             </mat-error>
                             
                         </mat-form-field>
-                        <!-- <div class="mt-n4" style="font-size: smaller; color: red">{{visitorForm.errors?.invalid}}</div> -->
                     </div>
 
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
                             <input type="text" matInput placeholder="{{'моб.тел. 380ххххххххх'}}" formControlName="cellphone" required>
                             <mat-icon matSuffix>phone</mat-icon>
-                            <mat-error *ngIf="!visitorForm.get('cellphone').valid">
-                                {{'Будь ласка введіть мобільний телефон у вказаному форматі без пробілів'}}
+                            <mat-error>
+                                <div *ngIf="visitorForm.get('cellphone').hasError('required') || visitorForm.get('cellphone').hasError('pattern')">{{'Будь ласка введіть мобільний телефон у вказаному форматі без пробілів'}}</div> 
+                                {{visitorForm.get('cellphone').errors?.cellphoneValid}}
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -183,12 +183,21 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title class="discr2">Оберіть виставки, яки Вас ще можуть зацікавити</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <app-exhibitions [userExhibitions]="visitorForm.get('potvid').value" [idAddingExhibitions]="searcParamsExhib" (changeUserExhibitions)="patchPotvid($event)"></app-exhibitions>
+                    <app-exhibitions [userExhibitions]="visitorForm.get('potvid').value" [idAddingExhibitions]="searchParamsExhib" (changeUserExhibitions)="patchPotvid($event)"></app-exhibitions>
                 </mat-expansion-panel>
             </div>
 
             <ng-container *ngIf = 'visitorForm.invalid'>
-                <div class="alert alert-warning" role="alert">{{visitorForm.errors?.invalid}}</div> 
+                <div class="alert alert-warning" role="alert">
+                    <div class="font-weight-bold mb-2">Не всі обов'язкові поля запонені або заповнені невірно</div>
+                    <ng-container  *ngFor='let items of this.getErrorsMessages(this.getErrors(this.visitorForm))'>
+                        <!-- <ng-container *ngIf='isArray(items)'>
+                            <ng-container *ngFor='let item of items'> -->
+                                <div>{{items}}</div>
+                            <!-- </ng-container>
+                        </ng-container> -->
+                    </ng-container>
+                </div> 
             </ng-container>
 
             <button 
