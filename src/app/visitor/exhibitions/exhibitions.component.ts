@@ -46,7 +46,7 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
       this.exhib.AddingExhibitions.subscribe((exhib:[])=>{
         //console.log('AddingExhibitions: ',exhib)
         this.exhibitionForm.reset();
-        this.exhibitionForm.patchValue(new UserExhibitions(this.exhib.stringToArr(this.userExhibitions)), {emitEvent: false});
+        this.exhibitionForm.patchValue(new UserExhibitions(this.exhib.stringToArr(this.userExhibitions)), {emitEvent: false}); 
         this.exhibitionForm.patchValue(new UserExhibitions(exhib));
       })
 

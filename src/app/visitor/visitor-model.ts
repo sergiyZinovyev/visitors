@@ -23,7 +23,7 @@ export class VisitorModel {
         this.cellphone = getVisitorData?.cellphone ?? null;
         this.email = getVisitorData?.email ?? null;
         this.countryid = String(getVisitorData?.countryid ?? "1");
-        this.regionid = String(getVisitorData?.regionid ?? null);
+        this.regionid = String(getVisitorData?.regionid ?? "");
         this.city = getVisitorData?.city ?? null;
         this.m_robotu = getVisitorData?.m_robotu ?? null;
         this.posada = getVisitorData?.posada ?? null;

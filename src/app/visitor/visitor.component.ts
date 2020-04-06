@@ -6,9 +6,9 @@ import {Subscription, Observable, from} from'rxjs';
 import { catchError, map, tap} from 'rxjs/operators';
 import {ILogin, IRegion} from '../shared/visitors.interfaces';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm, AbstractControl } from '@angular/forms';
-import {UrlService} from './../shared/url.service'
-import {HttpService} from './../shared/http.service'
-import {ValidatorvisService} from './validatorvis.service'
+import {UrlService} from './../shared/url.service';
+import {HttpService} from './../shared/http.service';
+import {ValidatorvisService} from './validatorvis.service';
 
 @Component({
   selector: 'app-visitor',
@@ -50,7 +50,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     city: ['', []],
     cellphone: ['', [Validators.required, Validators.pattern('380[0-9]{9}')]],
     regnum: ['', []],
-    potvid: ['', [Validators.required]],
+    potvid: ['', [this.CastomValidator.validExhibition.bind(this.CastomValidator)]],
     name: ['', [Validators.required]],
     countryid: ['', [Validators.required]],
     regionid: ['', [Validators.required]],
@@ -71,11 +71,17 @@ export class VisitorComponent implements OnInit, OnDestroy{
     rating: ['', []],
     ins_user: ['', []],
   },  {
-    asyncValidator: [this.CastomValidator.validEmail.bind(this), this.CastomValidator.validCellphone.bind(this)]
+    asyncValidator: [
+      this.CastomValidator.validEmail.bind(this.CastomValidator), 
+      this.CastomValidator.validCellphone.bind(this.CastomValidator)
+    ]
   });
 
-  potvid: string = this.visitorForm.get('potvid').value;
-  searchParamsExhib = this.urlApp.getSearchParam('idex')
+  potvid: string = null;
+  searchParamsExhib = this.urlApp.getSearchParam('idex');
+  patchPotvid(val: string){
+    this.visitorForm.patchValue({potvid: val});
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -110,6 +116,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.getCurrrentVisitor = this.visitorService.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
       if(data.regnum) this.newVisitor = false;
       this.visitorForm.patchValue(data, {emitEvent: false});
+      this.potvid = data.potvid;
       if(data.countryid) this.visitorService.getRegions(data.countryid);
       if(data.countryid && data.regionid) this.visitorService.getCities(data.countryid, data.regionid);
     })
@@ -129,39 +136,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     });
   }
 
-  patchPotvid(val: string){
-    this.potvid = val
-  }
-
-  // private validEmail(group: FormGroup){
-  //   console.log('validator start');
-  //   console.log(`validcontact?field=email&value=${group.get('email').value}&regnum=${group.get('regnum').value}`);
-  //   return this.server.get(`validcontact?field=email&value=${group.get('email').value}&regnum=${group.get('regnum').value}`).pipe(
-  //     map(response => {
-  //       console.log('data valid: ',response)
-  //       if(response) {
-  //         group.get('email').setErrors(response)
-  //         return response
-  //       }
-  //       else return null
-  //     })
-  //   );
-  // }
-
-  // private validCellphone(group: FormGroup){
-  //   console.log('validator2 start');
-  //   console.log(`validcontact?field=cellphone&value=${group.get('cellphone').value}&regnum=${group.get('regnum').value}`);
-  //   return this.server.get(`validcontact?field=cellphone&value=${group.get('cellphone').value}&regnum=${group.get('regnum').value}`).pipe(
-  //     map(response => {
-  //       console.log('data valid2: ',response)
-  //       if(response) {
-  //         group.get('cellphone').setErrors(response)
-  //         return response
-  //       }
-  //       else return null
-  //     })
-  //   );
-  // }
+  
 
   getErrors(formGroup: FormGroup, errors: any = {}) {
     Object.keys(formGroup.controls).forEach(field => {
@@ -176,34 +151,42 @@ export class VisitorComponent implements OnInit, OnDestroy{
     return errors;
   }
 
-  getErrorsMessages(errors){
-    let errorValue;
-    let messages = [];
-    for (let key in errors){
-      if(errors[key] instanceof Object) {
-        for (let key2 in errors[key]){
-          errorValue = errorValue===true?'поле не заповнене':errors[key][key2]
-          messages.push(`${key}: ${errorValue}`)
-        }
-      }
-    }
-    return messages
+  // getErrorsMessages(errors){
+  //   let errorValue;
+  //   let messages = [];
+  //   for (let key in errors){
+  //     if(errors[key] instanceof Object) {
+  //       for (let key2 in errors[key]){
+  //         errorValue = errorValue===true?'поле не заповнене':errors[key][key2]
+  //         messages.push(`${key}: ${errorValue}`)
+  //       }
+  //     }
+  //   }
+  //   return messages
+  // }
+
+  getErrorsMessage(formGroup: FormGroup):Array<string>{
+    return this.CastomValidator.getErrorsMessages(formGroup)
   }
 
-  isArray(value: any): boolean{
-    return value instanceof Array 
-  }
+  // patch(obj: {}){
+  //   return new Promise((resolve, reject) => {
+  //     this.visitorForm.patchValue(obj);
+  //     return resolve(obj)
+  //   })
+  // }
 
   submit(){
-    this.visitorForm.patchValue({potvid: this.potvid});
+    //this.visitorForm.patchValue({potvid: this.potvid});
 
     console.log('visitorForm: ', this.visitorForm.value);
     console.log('visitorForm errors: ', this.getErrors(this.visitorForm));
-    console.log('visitorForm messages: ', this.getErrorsMessages(this.getErrors(this.visitorForm)));
+    console.log('visitorForm messages: ', this.getErrorsMessage(this.visitorForm));
     console.log('visitorForm status: ', this.visitorForm.status);
-    if(!this.visitorForm.invalid){
+    if(this.visitorForm.valid){
       console.log('!!! visitorForm valid !!!');
     }
+
   }
  
   ngOnDestroy():void{
