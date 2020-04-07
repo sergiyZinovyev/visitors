@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center justify-content-center">
     <div class="max-width container-fluid">
         
-        <form class="example-form back2" [formGroup]="visitorForm" (submit)='submit()'>
+        <form class="example-form back2" [formGroup]="visitorForm" novalidate (submit)='submit()'>
             <!-- <div class="example-loading-shade" *ngIf="isLoadingResults">
                 <mat-spinner></mat-spinner>
             </div> -->
@@ -70,7 +70,7 @@
 
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <mat-select placeholder="{{'Область'}}" formControlName="regionid" required>
+                            <mat-select placeholder="{{'Область'}}" formControlName="regionid" [required]="visitorForm.get('regionid').validator">
                                 <mat-select-filter 
                                     [placeholder]="'Пошук'" 
                                     [array]="regions" 
@@ -153,6 +153,7 @@
                 </div>
 
                 <div class="row">
+
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
                             <input type="text" matInput placeholder="{{'Посада'}}" formControlName="posada">
@@ -175,19 +176,20 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+
                 </div>
             </div>
 
             <div class="reg-form2">
                 <mat-expansion-panel class="reg-form3">
                     <mat-expansion-panel-header>
-                        <mat-panel-title class="discr2">Оберіть виставки, яки Вас ще можуть зацікавити</mat-panel-title>
+                        <mat-panel-title class="discr2">Оберіть виставки, яки Вас ще можуть зацікавити<span class="ml-1 text-danger">*</span></mat-panel-title>
                     </mat-expansion-panel-header>
                     <app-exhibitions [userExhibitions]="potvid" [idAddingExhibitions]="searchParamsExhib" (changeUserExhibitions)="patchPotvid($event)"></app-exhibitions>
                 </mat-expansion-panel>
             </div>
 
-            <ng-container *ngIf = 'visitorForm.invalid'>
+            <ng-container *ngIf = "submitted && visitorForm.invalid">
                 <div class="alert alert-warning" role="alert">
                     <div class="font-weight-bold mb-2">Не всі обов'язкові поля запонені або заповнені невірно</div>
                     <ng-container  *ngFor='let item of getErrorsMessage(visitorForm)'>
@@ -196,13 +198,17 @@
                 </div> 
             </ng-container>
 
+            <div *ngIf="warning" class="alert alert-danger">
+                {{warning}}
+            </div>
+
             <button 
                 type="submit"
                 mat-raised-button 
-
                 color="accent" 
                 class="btn-lg btn-block py-2 my-btn btn-color">
-                <strong class="pr-2">{{'Отримати запрошення'}}</strong><mat-icon>local_activity</mat-icon>
+                <span class="pr-2 btn-font">{{'Отримати запрошення'}}</span>
+                <mat-icon>local_activity</mat-icon>
             </button>
 
             

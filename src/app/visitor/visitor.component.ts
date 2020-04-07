@@ -18,6 +18,8 @@ import {ValidatorvisService} from './validatorvis.service';
 export class VisitorComponent implements OnInit, OnDestroy{
 
   newVisitor: boolean = true;
+  warning: string = '';
+  submitted: boolean = false;
 
   getCurrrentVisitor: Subscription;
 
@@ -45,7 +47,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
 
     captcha: [''],
 
-    email: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
     prizv: ['', [Validators.required]],
     city: ['', []],
     cellphone: ['', [Validators.required, Validators.pattern('380[0-9]{9}')]],
@@ -122,6 +124,9 @@ export class VisitorComponent implements OnInit, OnDestroy{
     })
 
     this.visitorForm.get('countryid').valueChanges.subscribe(data => {
+      if(data == 1) this.visitorForm.get('regionid').setValidators(Validators.required)
+      else this.visitorForm.get('regionid').clearValidators();
+      this.visitorForm.get('regionid').updateValueAndValidity();
       this.visitorForm.patchValue({regionid: '', city: ''});
       this.visitorService.getRegions(data);
     });
@@ -134,6 +139,10 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.visitorForm.get('city').valueChanges.subscribe(data => {
       this.filteredCities = this.cities.filter(city => city.teretory.toLowerCase().includes(data.toLowerCase()))
     });
+
+    this.visitorService.getErrMessages.subscribe(errMessage =>{
+      if(errMessage) this.warning = errMessage
+    })
   }
 
   
@@ -151,34 +160,13 @@ export class VisitorComponent implements OnInit, OnDestroy{
     return errors;
   }
 
-  // getErrorsMessages(errors){
-  //   let errorValue;
-  //   let messages = [];
-  //   for (let key in errors){
-  //     if(errors[key] instanceof Object) {
-  //       for (let key2 in errors[key]){
-  //         errorValue = errorValue===true?'поле не заповнене':errors[key][key2]
-  //         messages.push(`${key}: ${errorValue}`)
-  //       }
-  //     }
-  //   }
-  //   return messages
-  // }
-
   getErrorsMessage(formGroup: FormGroup):Array<string>{
     return this.CastomValidator.getErrorsMessages(formGroup)
   }
 
-  // patch(obj: {}){
-  //   return new Promise((resolve, reject) => {
-  //     this.visitorForm.patchValue(obj);
-  //     return resolve(obj)
-  //   })
-  // }
-
   submit(){
-    //this.visitorForm.patchValue({potvid: this.potvid});
-
+    this.warning = '';
+    this.submitted = true;
     console.log('visitorForm: ', this.visitorForm.value);
     console.log('visitorForm errors: ', this.getErrors(this.visitorForm));
     console.log('visitorForm messages: ', this.getErrorsMessage(this.visitorForm));

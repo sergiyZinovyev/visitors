@@ -42,19 +42,13 @@ export class ValidatorvisService {
     );
   }
 
-  validExhibition(): ValidatorFn {
-    console.log('validExhibition start');
-    return (control: AbstractControl, errName: string = 'validExhibition', err = {}): {[key: string]: any} | null => {
-      let valid: boolean = true;
-      control.value.split(',');
-      console.log('validExhibition: ', control.value.split(','));
-      if(valid) return null;
-      else {
-        this.set.add(errName);
-        err[errName] = 'Потрібно обрати принаймі одну виставку';
-        return err
-      }
-    };
+  validExhibition(control: AbstractControl, errName: string = 'validExhibition', err = {}): {[key: string]: any} | null{
+    this.set.add(errName);
+    err[errName] = 'Потрібно обрати принаймі одну виставку';
+    if(!control.value) return err;
+    let arr: Array<string> = control.value.split(', ').filter((val:string) => val != '')
+    if(arr.length > 0) return null;
+    else return err
   }
 
   private getErrors(formGroup: FormGroup, errors: any = {}):Object {
