@@ -51,7 +51,7 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
       })
 
       this.exhibitionForm.valueChanges.subscribe(ev => {
-        //console.log('exhibitionForm.valueChanges: ',ev);
+        //console.log('exhibitionForm.valueChanges: ',ev); 
         this.changeUserExhibitions.emit(this.exhib.objToString(ev));
       })
     })

@@ -41,24 +41,54 @@ export class VisitorService {
     })
   }
 
-  getVisitor(body: ILogin){
+  getVisitor(body: ILogin): Promise<any>{
+    return this.crudVisitor(body, 'get').then(data => {if(data[0])this.createNewModel(data[0])})
+  }
+
+  createVisitor(body: VisitorModel): Promise<any>{
+    return this.crudVisitor(body, 'create')
+  }
+
+  updateVisitor(body: VisitorModel): Promise<any>{
+    return this.crudVisitor(body, 'update')
+  }
+
+  private crudVisitor(body:{}, routeName: string){
     this.errMessage = null;
-    this.http.post(body, "get").subscribe(data =>{
-      if(this.errMessage) return console.log('err: ',this.errMessage);
-      //console.log(data);
-      if(data[0]) this.curretnVisitorModel = new VisitorModel(data[0]);
-      this.getCurrrentVisitor.next(this.curretnVisitorModel);
-      this.router.navigate(['visitor'])
+    return new Promise((resolve, reject) =>{
+      this.http.post(body, routeName).subscribe(data =>{
+        if(this.errMessage) return reject(this.errMessage)
+        return resolve(data)
+      })
     })
   }
 
-  createNewModel(){
-    this.curretnVisitorModel = new VisitorModel();
+  private createNewModel(data?){
+    this.curretnVisitorModel = new VisitorModel(data);
+    this.getCurrrentVisitor.next(this.curretnVisitorModel);
   }
 
   setKey(data: ILogin){
+    this.createNewModel();
     this.curretnVisitorModel.newEmail = data.email;
     this.curretnVisitorModel.newCellphone = data.cellphone;
+    this.getCurrrentVisitor.next(this.curretnVisitorModel);
+  }
+
+  compareModels(newModel: VisitorModel): boolean{
+    let currentModel = this.curretnVisitorModel
+    let flag = true
+    for (let key in currentModel){
+        if(currentModel[key] == newModel[key]){
+          //console.log(key, ': not changed')
+        }
+        else{
+          flag = false;
+          //console.log(key, ': changed')
+        }
+    }
+    console.log(flag);
+    return flag;
   }
 
   getRegions(countryid){

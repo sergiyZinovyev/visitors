@@ -52,6 +52,7 @@ export class ExhibitionsService {
       if(obj[key]) val+=`${key}, `;
       else val+=`, `
     }
+    if(!this.stringToArr(val) || this.stringToArr(val).length == 0) val = '';
     return val
   }
 

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
+
 import { DialogHttpErrorComponent } from '../modals/dialog-http-error/dialog-http-error.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
  
-import { catchError, map} from 'rxjs/operators';
+import { catchError, map, retry} from 'rxjs/operators';
 import {runOnKeys} from './lib/run-on-keys';
 
 @Injectable({

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, ValidatorFn, AbstractControl} from '@angular/forms';
-import {HttpService} from './../shared/http.service'
+import {HttpService} from './../shared/http.service';
+import {VisitorService} from '../shared/visitor.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,35 +10,71 @@ import {HttpService} from './../shared/http.service'
 export class ValidatorvisService {
 
   constructor(
-    private server: HttpService
+    private server: HttpService,
+    private visitorService: VisitorService,
   ) { }
 
   set = new Set();
 
-  validEmail(group: FormGroup, errName: string = 'validEmail', err = {}){
-    return this.server.get(`validcontact?field=email&value=${group.get('email').value}&regnum=${group.get('regnum').value}`).pipe(
+  // validEmail(group: FormGroup, errName: string = 'validEmail', err = {}){
+  //   console.log('validEmail: start');
+  //   return this.server.get(`validcontact?field=email&value=${group.get('email').value}&regnum=${group.get('regnum').value}`).pipe(
+  //     map(response => {
+  //       console.log('validEmail: ', response);
+  //       if(response) {
+  //         this.set.add(errName);
+  //         err[errName] = 'Така електронна пошта вже існує, вкажіть іншу';
+  //         group.get('email').setErrors(err)
+  //         return response
+  //       }
+  //       else return null
+  //     })
+  //   );
+  // }
+
+  // validCellphone(group: FormGroup, errName: string = 'validCellphone', err = {}){
+  //   console.log('validCellphone: start');
+  //   return this.server.get(`validcontact?field=cellphone&value=${group.get('cellphone').value}&regnum=${group.get('regnum').value}`).pipe(
+  //     map(response => {
+  //       console.log('validCellphone: ', response);
+  //       if(response) {
+  //         this.set.add(errName);
+  //         err[errName] = 'Такий телефон вже існує, вкажіть інший';
+  //         group.get('cellphone').setErrors(err)
+  //         return response
+  //       }
+  //       return null
+  //     })
+  //   );
+  // }
+
+  validEmail(control: AbstractControl, errName: string = 'validEmail', err = {}){
+    console.log('validEmail: start');
+    return this.server.get(`validcontact?field=email&value=${control.value}&regnum=${this.visitorService.curretnVisitorModel.regnum}`).pipe(
       map(response => {
+        console.log('validEmail: ', response);
         if(response) {
           this.set.add(errName);
           err[errName] = 'Така електронна пошта вже існує, вкажіть іншу';
-          group.get('email').setErrors(err)
-          return response
+          //control.setErrors(err)
+          return err
         }
         else return null
       })
     );
   }
 
-  validCellphone(group: FormGroup, errName: string = 'validCellphone', err = {}){
-    return this.server.get(`validcontact?field=cellphone&value=${group.get('cellphone').value}&regnum=${group.get('regnum').value}`).pipe(
+  validCellphone(control: AbstractControl, errName: string = 'validCellphone', err = {}){
+    console.log('validCellphone: start');
+    return this.server.get(`validcontact?field=cellphone&value=${control.value}&regnum=${this.visitorService.curretnVisitorModel.regnum}`).pipe(
       map(response => {
+        console.log('validCellphone: ', response);
         if(response) {
           this.set.add(errName);
           err[errName] = 'Такий телефон вже існує, вкажіть інший';
-          group.get('cellphone').setErrors(err)
-          return response
+          return err
         }
-        else return null
+        return null
       })
     );
   }

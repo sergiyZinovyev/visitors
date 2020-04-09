@@ -28,7 +28,7 @@ export class VisitorModel {
         this.m_robotu = getVisitorData?.m_robotu ?? null;
         this.posada = getVisitorData?.posada ?? null;
         this.sferadij = getVisitorData?.sferadij ?? null;
-        this.potvid = getVisitorData?.potvid ?? null;
+        this.potvid = getVisitorData?.potvid ?? "";
     }
 
     

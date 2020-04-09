@@ -115,20 +115,24 @@
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
                             <input type="email" matInput placeholder="{{'Особиста електронна пошта'}}" formControlName="email" required>
-                            <mat-icon matSuffix>alternate_email</mat-icon>
-                            
+                            <mat-icon matSuffix>
+                                <mat-spinner *ngIf="visitorForm.get('email').status == 'PENDING'" [diameter]="20"></mat-spinner>
+                                <span *ngIf="visitorForm.get('email').status != 'PENDING'">alternate_email</span>
+                            </mat-icon>
                             <mat-error>
                                 <div *ngIf="visitorForm.get('email').hasError('required') || visitorForm.get('email').hasError('email')">{{'Будь ласка введіть Вашу дійсну електроннну адресу'}}</div> 
                                 {{visitorForm.get('email').errors?.validEmail}}
                             </mat-error>
-                            
                         </mat-form-field>
                     </div>
 
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'моб.тел. 380ххххххххх'}}" formControlName="cellphone" required>
-                            <mat-icon matSuffix>phone</mat-icon>
+                            <input type="text" matInput placeholder="{{'моб.тел. 380ххххххххх'}}" formControlName="cellphone" required>                         
+                            <mat-icon matSuffix>
+                                <mat-spinner *ngIf="visitorForm.get('cellphone').status == 'PENDING'" [diameter]="20"></mat-spinner>
+                                <span *ngIf="visitorForm.get('cellphone').status != 'PENDING'">phone</span>
+                            </mat-icon>
                             <mat-error>
                                 <div *ngIf="visitorForm.get('cellphone').hasError('required') || visitorForm.get('cellphone').hasError('pattern')">{{'Будь ласка введіть мобільний телефон у вказаному форматі без пробілів'}}</div> 
                                 {{visitorForm.get('cellphone').errors?.validCellphone}}
@@ -193,7 +197,7 @@
                 <div class="alert alert-warning" role="alert">
                     <div class="font-weight-bold mb-2">Не всі обов'язкові поля запонені або заповнені невірно</div>
                     <ng-container  *ngFor='let item of getErrorsMessage(visitorForm)'>
-                        <div>{{item}}</div>
+                        <div>- {{item}}</div>
                     </ng-container>
                 </div> 
             </ng-container>

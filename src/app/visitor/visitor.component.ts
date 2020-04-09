@@ -47,10 +47,10 @@ export class VisitorComponent implements OnInit, OnDestroy{
 
     captcha: [''],
 
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email], this.CastomValidator.validEmail.bind(this.CastomValidator)],
     prizv: ['', [Validators.required]],
     city: ['', []],
-    cellphone: ['', [Validators.required, Validators.pattern('380[0-9]{9}')]],
+    cellphone: ['', [Validators.required, Validators.pattern('380[0-9]{9}')], this.CastomValidator.validCellphone.bind(this.CastomValidator)],
     regnum: ['', []],
     potvid: ['', [this.CastomValidator.validExhibition.bind(this.CastomValidator)]],
     name: ['', [Validators.required]],
@@ -72,12 +72,14 @@ export class VisitorComponent implements OnInit, OnDestroy{
     datelastcor: ['', []],
     rating: ['', []],
     ins_user: ['', []],
-  },  {
-    asyncValidator: [
-      this.CastomValidator.validEmail.bind(this.CastomValidator), 
-      this.CastomValidator.validCellphone.bind(this.CastomValidator)
-    ]
   });
+
+  // {
+  //   asyncValidator: [
+  //     this.CastomValidator.validEmail.bind(this.CastomValidator), 
+  //     this.CastomValidator.validCellphone.bind(this.CastomValidator)
+  //   ]
+  // }
 
   potvid: string = null;
   searchParamsExhib = this.urlApp.getSearchParam('idex');
@@ -95,6 +97,9 @@ export class VisitorComponent implements OnInit, OnDestroy{
   ) {}
 
   ngOnInit(): void {
+
+    //this.visitorForm.valueChanges.subscribe(data => console.log('######## change data: ', data));
+
     this.getCountries = this.visitorService.Countries.subscribe(data=>{
       this.filteredCountries = data;
       this.countries = data;
@@ -116,11 +121,12 @@ export class VisitorComponent implements OnInit, OnDestroy{
     });
 
     this.getCurrrentVisitor = this.visitorService.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
+      console.log('new Model: ',data);
       if(data.regnum) this.newVisitor = false;
-      this.visitorForm.patchValue(data, {emitEvent: false});
-      this.potvid = data.potvid;
       if(data.countryid) this.visitorService.getRegions(data.countryid);
       if(data.countryid && data.regionid) this.visitorService.getCities(data.countryid, data.regionid);
+      this.visitorForm.patchValue(data);
+      this.potvid = data.potvid;
     })
 
     this.visitorForm.get('countryid').valueChanges.subscribe(data => {
@@ -132,7 +138,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     });
 
     this.visitorForm.get('regionid').valueChanges.subscribe(data => {
-      this.visitorForm.patchValue({city: ''});
+      //this.visitorForm.patchValue({city: ''});
       this.visitorService.getCities(this.visitorForm.get('countryid').value, data);
     });
 
@@ -147,18 +153,18 @@ export class VisitorComponent implements OnInit, OnDestroy{
 
   
 
-  getErrors(formGroup: FormGroup, errors: any = {}) {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      if (control instanceof FormControl) {
-        if(control.errors)errors[field] = control.errors
-        else errors[field] = null;
-      } else if (control instanceof FormGroup) {
-        errors[field] = this.getErrors(control);
-      }
-    });
-    return errors;
-  }
+  // getErrors(formGroup: FormGroup, errors: any = {}) {
+  //   Object.keys(formGroup.controls).forEach(field => {
+  //     const control = formGroup.get(field);
+  //     if (control instanceof FormControl) {
+  //       if(control.errors)errors[field] = control.errors
+  //       else errors[field] = null;
+  //     } else if (control instanceof FormGroup) {
+  //       errors[field] = this.getErrors(control);
+  //     }
+  //   });
+  //   return errors;
+  // }
 
   getErrorsMessage(formGroup: FormGroup):Array<string>{
     return this.CastomValidator.getErrorsMessages(formGroup)
@@ -167,12 +173,16 @@ export class VisitorComponent implements OnInit, OnDestroy{
   submit(){
     this.warning = '';
     this.submitted = true;
-    console.log('visitorForm: ', this.visitorForm.value);
-    console.log('visitorForm errors: ', this.getErrors(this.visitorForm));
-    console.log('visitorForm messages: ', this.getErrorsMessage(this.visitorForm));
+    //console.log('visitorForm: ', this.visitorForm.value);
+    //console.log('visitorForm errors: ', this.getErrors(this.visitorForm));
+    //console.log('visitorForm messages: ', this.getErrorsMessage(this.visitorForm));
     console.log('visitorForm status: ', this.visitorForm.status);
+    this.visitorService.compareModels(this.visitorForm.value);
     if(this.visitorForm.valid){
       console.log('!!! visitorForm valid !!!');
+      if(this.newVisitor) this.visitorService.createVisitor(this.visitorForm.value)
+      else if (!this.visitorService.compareModels(this.visitorForm.value)) this.visitorService.updateVisitor(this.visitorForm.value)
+      else this.router.navigate(['invite'])
     }
 
   }

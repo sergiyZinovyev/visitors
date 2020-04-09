@@ -39,9 +39,11 @@ export class LoginComponent implements OnInit {
 
   login(){
     if(this.loginForm.valid && (this.loginForm.get('email').value !== '' || this.loginForm.get('cellphone').value !== '')){
-      this.visitorService.createNewModel();
+      //this.visitorService.createNewModel();
       this.visitorService.setKey(this.loginForm.value);
-      this.visitorService.getVisitor(this.loginForm.value);
+      this.visitorService.getVisitor(this.loginForm.value)
+        .then(_ => this.router.navigate(['visitor']))
+        .catch(err => console.log(err));
     }
     else this.warning = 'Введіть електронну пошту або телефон'
     
