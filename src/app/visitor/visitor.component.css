@@ -58,19 +58,3 @@
 .btn-font{
   font-size: smaller;
 }
-
-.example-loading-shade {
-  padding-top: 300px;
-  position: absolute;
-  height: 200%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  bottom: 0px;
-  right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 100;
-  display: flex;
-  /* align-items: center; */
-  justify-content: center;
-}

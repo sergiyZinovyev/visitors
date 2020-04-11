@@ -26,8 +26,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
 
 import { MatSelectFilterModule } from 'mat-select-filter';
-
-
+import { SpinnerFullscreenComponent } from './modals/spinner-fullscreen/spinner-fullscreen.component';
 
 
 @NgModule({
@@ -37,7 +36,8 @@ import { MatSelectFilterModule } from 'mat-select-filter';
     VisitorComponent,
     InviteComponent,
     DialogHttpErrorComponent,
-    ExhibitionsComponent
+    ExhibitionsComponent,
+    SpinnerFullscreenComponent,
   ],
   imports: [
     BrowserModule,

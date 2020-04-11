@@ -30,6 +30,10 @@ export class HttpService {
       )
    }
  
+  // private getAuth(){ //дані для аутентифікації
+  //   return `login=${localStorage.getItem('user')}&password=${localStorage.getItem('password')}`
+  // } 
+
   get(prop: string): Observable<any>{
     return this.http.get(`${this.dbUrl}/${prop}`)
       .pipe(

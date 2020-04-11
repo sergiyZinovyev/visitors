@@ -16,47 +16,14 @@ export class ValidatorvisService {
 
   set = new Set();
 
-  // validEmail(group: FormGroup, errName: string = 'validEmail', err = {}){
-  //   console.log('validEmail: start');
-  //   return this.server.get(`validcontact?field=email&value=${group.get('email').value}&regnum=${group.get('regnum').value}`).pipe(
-  //     map(response => {
-  //       console.log('validEmail: ', response);
-  //       if(response) {
-  //         this.set.add(errName);
-  //         err[errName] = 'Така електронна пошта вже існує, вкажіть іншу';
-  //         group.get('email').setErrors(err)
-  //         return response
-  //       }
-  //       else return null
-  //     })
-  //   );
-  // }
-
-  // validCellphone(group: FormGroup, errName: string = 'validCellphone', err = {}){
-  //   console.log('validCellphone: start');
-  //   return this.server.get(`validcontact?field=cellphone&value=${group.get('cellphone').value}&regnum=${group.get('regnum').value}`).pipe(
-  //     map(response => {
-  //       console.log('validCellphone: ', response);
-  //       if(response) {
-  //         this.set.add(errName);
-  //         err[errName] = 'Такий телефон вже існує, вкажіть інший';
-  //         group.get('cellphone').setErrors(err)
-  //         return response
-  //       }
-  //       return null
-  //     })
-  //   );
-  // }
-
   validEmail(control: AbstractControl, errName: string = 'validEmail', err = {}){
-    console.log('validEmail: start');
+    //console.log('validEmail: start');
     return this.server.get(`validcontact?field=email&value=${control.value}&regnum=${this.visitorService.curretnVisitorModel.regnum}`).pipe(
       map(response => {
-        console.log('validEmail: ', response);
+        //console.log('validEmail: ', response);
         if(response) {
           this.set.add(errName);
           err[errName] = 'Така електронна пошта вже існує, вкажіть іншу';
-          //control.setErrors(err)
           return err
         }
         else return null
@@ -65,10 +32,10 @@ export class ValidatorvisService {
   }
 
   validCellphone(control: AbstractControl, errName: string = 'validCellphone', err = {}){
-    console.log('validCellphone: start');
+    //console.log('validCellphone: start');
     return this.server.get(`validcontact?field=cellphone&value=${control.value}&regnum=${this.visitorService.curretnVisitorModel.regnum}`).pipe(
       map(response => {
-        console.log('validCellphone: ', response);
+        //console.log('validCellphone: ', response);
         if(response) {
           this.set.add(errName);
           err[errName] = 'Такий телефон вже існує, вкажіть інший';
@@ -88,6 +55,24 @@ export class ValidatorvisService {
     else return err
   }
 
+  validContact(group: FormGroup, errName: string = 'validContact', err = {}): {[key: string]: any}{
+    //console.log('validContact: start');
+   
+      this.set.add(errName);
+      err[errName] = '- Потрібно заповнити або телефон або email';
+      //console.log('cellphone', group.get('cellphone').value);
+      //console.log('email', group.get('email').value);
+      if(!group.get('cellphone').value && !group.get('email').value){
+        //console.log(err);
+        return err
+      }
+      else {
+        //console.log('null');
+        return null
+      }
+    
+  }
+
   private getErrors(formGroup: FormGroup, errors: any = {}):Object {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
@@ -101,14 +86,14 @@ export class ValidatorvisService {
     return errors;
   }
 
-  getErrorsMessages(formGroup: FormGroup):Array<string>{
+  getErrorsMessages(formGroup: FormGroup){
     let errors = this.getErrors(formGroup)
-    let messages = [];
+    let messages = new Set();
     for (let key in errors){
       if(errors[key] instanceof Object) {
         for (let errName in errors[key]){
           if(this.set.has(errName))
-          messages.push(errors[key][errName])
+          messages.add(errors[key][errName])
         }
       }
     }

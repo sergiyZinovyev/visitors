@@ -1,7 +1,7 @@
 export interface ILogin {
     email: string,
     cellphone: string,
-    password: string
+    password?: string
 }
 
 export interface IRegion {

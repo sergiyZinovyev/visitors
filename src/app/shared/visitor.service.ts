@@ -25,7 +25,6 @@ export class VisitorService {
 
   constructor(
     private http: HttpService,
-    private router: Router,
   ){
     this.http.getErrMessages.subscribe(errMessage =>{
       this.errMessage = errMessage;
@@ -42,15 +41,19 @@ export class VisitorService {
   }
 
   getVisitor(body: ILogin): Promise<any>{
-    return this.crudVisitor(body, 'get').then(data => {if(data[0])this.createNewModel(data[0])})
+    return this.crudVisitor(body, 'get')
+      .then(data => {
+        if(data[0])this.createNewModel(data[0]);
+        return data
+      })
   }
 
   createVisitor(body: VisitorModel): Promise<any>{
-    return this.crudVisitor(body, 'create')
+    return this.crudVisitor(body, 'createInVisitorsCreate')
   }
 
   updateVisitor(body: VisitorModel): Promise<any>{
-    return this.crudVisitor(body, 'update')
+    return this.crudVisitor(body, 'editPro2')
   }
 
   private crudVisitor(body:{}, routeName: string){

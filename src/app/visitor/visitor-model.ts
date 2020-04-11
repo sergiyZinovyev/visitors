@@ -14,27 +14,51 @@ export class VisitorModel {
     sferadij:string;
     potvid: string;
 
+    namepovne: string;
+    postindeks: string;
+    address:string;
+    postaddreses: string;
+    telephon: string;
+    type: string;
+    kompeten: string;
+    datawnesenny: string;
+    datelastcor: string;
+    rating: string;
+    ins_user: string;
+
     constructor(getVisitorData?){
-        this.regnum = getVisitorData?.regnum ?? null;
-        this.name = getVisitorData?.name ?? null;
-        this.pobatkovi = getVisitorData?.pobatkovi ?? null;
-        this.prizv = getVisitorData?.prizv ?? null;
-        this.gender = getVisitorData?.gender ?? null;
-        this.cellphone = getVisitorData?.cellphone ?? null;
-        this.email = getVisitorData?.email ?? null;
+        this.regnum = getVisitorData?.regnum ?? "";
+        this.name = getVisitorData?.name ?? "";
+        this.pobatkovi = getVisitorData?.pobatkovi ?? "";
+        this.prizv = getVisitorData?.prizv ?? "";
+        this.gender = getVisitorData?.gender ?? "";
+        this.cellphone = getVisitorData?.cellphone ?? "";
+        this.email = getVisitorData?.email ?? "";
         this.countryid = String(getVisitorData?.countryid ?? "1");
         this.regionid = String(getVisitorData?.regionid ?? "");
-        this.city = getVisitorData?.city ?? null;
-        this.m_robotu = getVisitorData?.m_robotu ?? null;
-        this.posada = getVisitorData?.posada ?? null;
-        this.sferadij = getVisitorData?.sferadij ?? null;
+        this.city = getVisitorData?.city ?? "";
+        this.m_robotu = getVisitorData?.m_robotu ?? "";
+        this.posada = getVisitorData?.posada ?? "";
+        this.sferadij = getVisitorData?.sferadij ?? "";
         this.potvid = getVisitorData?.potvid ?? "";
+
+        this.namepovne = getVisitorData?.namepovne ?? "";
+        this.postindeks = getVisitorData?.postindeks ?? "";
+        this.address = getVisitorData?.address ?? "";
+        this.postaddreses = getVisitorData?.postaddreses ?? "";
+        this.telephon = getVisitorData?.telephon ?? "";
+        this.type = getVisitorData?.type ?? "";
+        this.kompeten = getVisitorData?.kompeten ?? "";
+        this.datawnesenny = getVisitorData?.datawnesenny ?? "";
+        this.datelastcor = getVisitorData?.datelastcor ?? "";
+        this.rating = getVisitorData?.rating ?? "";
+        this.ins_user = getVisitorData?.ins_user ?? "";
     }
 
     
-    public get fullName(): string {
-        return this.name + this.pobatkovi + this.prizv
-    }
+    // public get fullName(): string {
+    //     return this.name + this.pobatkovi + this.prizv
+    // }
 
     public set newEmail(v : string) {
         this.email = v;

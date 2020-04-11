@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {VisitorService} from '../shared/visitor.service'
@@ -10,9 +10,10 @@ import {UrlService} from './../shared/url.service'
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   warning: string = '';
+  loading: boolean = false;
   //matcher = new MyErrorStateMatcher();
 
   loginForm: FormGroup = this.fb.group({
@@ -39,14 +40,24 @@ export class LoginComponent implements OnInit {
 
   login(){
     if(this.loginForm.valid && (this.loginForm.get('email').value !== '' || this.loginForm.get('cellphone').value !== '')){
-      //this.visitorService.createNewModel();
+      this.loading = true;
       this.visitorService.setKey(this.loginForm.value);
       this.visitorService.getVisitor(this.loginForm.value)
-        .then(_ => this.router.navigate(['visitor']))
-        .catch(err => console.log(err));
+        .then(data => {
+          console.log('login data: ', data);
+          this.loading = false;
+          this.router.navigate(['visitor'])
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(err)
+        });
     }
     else this.warning = 'Введіть електронну пошту або телефон'
-    
+  }
+
+  ngOnDestroy(): void {
+    this.loading = false;
   }
 
 }

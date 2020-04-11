@@ -8,6 +8,7 @@ import {ILogin, IRegion} from '../shared/visitors.interfaces';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm, AbstractControl } from '@angular/forms';
 import {UrlService} from './../shared/url.service';
 import {HttpService} from './../shared/http.service';
+import {ExhibvisService} from '../shared/exhibvis.service';
 import {ValidatorvisService} from './validatorvis.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
   newVisitor: boolean = true;
   warning: string = '';
   submitted: boolean = false;
+  loading: boolean = false;
 
   getCurrrentVisitor: Subscription;
 
@@ -40,17 +42,17 @@ export class VisitorComponent implements OnInit, OnDestroy{
   filteredBranches: [];
 
   visitorForm = this.fb.group({
-    condition: ['', []],
-    table: ['', []],
+    // condition: ['', []],
+    // table: ['', []],
     checkEmail: [false, []],
     checkPhone: [false, []],
 
     captcha: [''],
 
-    email: ['', [Validators.required, Validators.email], this.CastomValidator.validEmail.bind(this.CastomValidator)],
+    email: ['', [Validators.email], this.CastomValidator.validEmail.bind(this.CastomValidator)],
     prizv: ['', [Validators.required]],
     city: ['', []],
-    cellphone: ['', [Validators.required, Validators.pattern('380[0-9]{9}')], this.CastomValidator.validCellphone.bind(this.CastomValidator)],
+    cellphone: ['', [Validators.pattern('380[0-9]{9}')], this.CastomValidator.validCellphone.bind(this.CastomValidator)],
     regnum: ['', []],
     potvid: ['', [this.CastomValidator.validExhibition.bind(this.CastomValidator)]],
     name: ['', [Validators.required]],
@@ -74,12 +76,6 @@ export class VisitorComponent implements OnInit, OnDestroy{
     ins_user: ['', []],
   });
 
-  // {
-  //   asyncValidator: [
-  //     this.CastomValidator.validEmail.bind(this.CastomValidator), 
-  //     this.CastomValidator.validCellphone.bind(this.CastomValidator)
-  //   ]
-  // }
 
   potvid: string = null;
   searchParamsExhib = this.urlApp.getSearchParam('idex');
@@ -92,14 +88,14 @@ export class VisitorComponent implements OnInit, OnDestroy{
     private visitorService: VisitorService,
     private router: Router,
     private urlApp: UrlService,
-    private server: HttpService,
+    private exhib: ExhibvisService,
     private CastomValidator: ValidatorvisService
   ) {}
 
   ngOnInit(): void {
 
-    //this.visitorForm.valueChanges.subscribe(data => console.log('######## change data: ', data));
-
+    this.visitorForm.setValidators(this.CastomValidator.validContact.bind(this.CastomValidator));
+    
     this.getCountries = this.visitorService.Countries.subscribe(data=>{
       this.filteredCountries = data;
       this.countries = data;
@@ -138,7 +134,6 @@ export class VisitorComponent implements OnInit, OnDestroy{
     });
 
     this.visitorForm.get('regionid').valueChanges.subscribe(data => {
-      //this.visitorForm.patchValue({city: ''});
       this.visitorService.getCities(this.visitorForm.get('countryid').value, data);
     });
 
@@ -151,38 +146,45 @@ export class VisitorComponent implements OnInit, OnDestroy{
     })
   }
 
-  
-
-  // getErrors(formGroup: FormGroup, errors: any = {}) {
-  //   Object.keys(formGroup.controls).forEach(field => {
-  //     const control = formGroup.get(field);
-  //     if (control instanceof FormControl) {
-  //       if(control.errors)errors[field] = control.errors
-  //       else errors[field] = null;
-  //     } else if (control instanceof FormGroup) {
-  //       errors[field] = this.getErrors(control);
-  //     }
-  //   });
-  //   return errors;
-  // }
-
-  getErrorsMessage(formGroup: FormGroup):Array<string>{
+  getErrorsMessage(formGroup: FormGroup){
     return this.CastomValidator.getErrorsMessages(formGroup)
   }
 
   submit(){
     this.warning = '';
     this.submitted = true;
-    //console.log('visitorForm: ', this.visitorForm.value);
-    //console.log('visitorForm errors: ', this.getErrors(this.visitorForm));
+
     //console.log('visitorForm messages: ', this.getErrorsMessage(this.visitorForm));
-    console.log('visitorForm status: ', this.visitorForm.status);
-    this.visitorService.compareModels(this.visitorForm.value);
+    //console.log('visitorForm status: ', this.visitorForm.status);
     if(this.visitorForm.valid){
-      console.log('!!! visitorForm valid !!!');
-      if(this.newVisitor) this.visitorService.createVisitor(this.visitorForm.value)
-      else if (!this.visitorService.compareModels(this.visitorForm.value)) this.visitorService.updateVisitor(this.visitorForm.value)
-      else this.router.navigate(['invite'])
+      //console.log('!!! visitorForm valid !!!');
+      //console.log('visitorForm: ', this.visitorForm.value);
+      this.loading = true;
+      if(this.newVisitor) {
+        this.visitorService.createVisitor(this.visitorForm.value)
+          .then(_=>{
+            this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value})
+              .then(_ => this.exhib.addVisitorToExhib());
+            this.loading = false;
+            this.router.navigate(['invite'])
+          })
+          .catch(err=>this.loading = false)
+      }
+      else if (!this.visitorService.compareModels(this.visitorForm.value)) {
+        this.visitorService.updateVisitor(this.visitorForm.value)
+          .then(_=>{
+            this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value})
+              .then(_ => this.exhib.addVisitorToExhib());
+            this.loading = false;
+            this.router.navigate(['invite'])
+          })
+          .catch(err=>this.loading = false)
+      }
+      else {
+        this.exhib.addVisitorToExhib();
+        this.loading = false; 
+        this.router.navigate(['invite'])
+      }
     }
 
   }
@@ -192,6 +194,8 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.getRegions.unsubscribe();
     this.getCountries.unsubscribe();
     this.getCities.unsubscribe();
-    this.getBranches.unsubscribe()
+    this.getBranches.unsubscribe();
+
+    this.loading = false;
   }
 }

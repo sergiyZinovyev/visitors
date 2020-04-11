@@ -13,7 +13,7 @@
         mat-raised-button 
         (click)=" getAddingExhib(exhib.value)"
         color="accent">
-        {{'add exhib'}}
+        {{'add exhib'}}  
     </button> -->
     <div *ngIf = '!exhibitionForm.valid' class="alert alert-warning" role="alert">{{exhibitionForm.errors?.custom}}</div>
 </form>
