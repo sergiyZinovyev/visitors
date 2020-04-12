@@ -90,7 +90,7 @@ export class VisitorService {
           //console.log(key, ': changed')
         }
     }
-    console.log(flag);
+    //console.log(flag);
     return flag;
   }
 

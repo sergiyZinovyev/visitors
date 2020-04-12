@@ -117,7 +117,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     });
 
     this.getCurrrentVisitor = this.visitorService.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
-      console.log('new Model: ',data);
+      //console.log('new Model: ',data);
       if(data.regnum) this.newVisitor = false;
       if(data.countryid) this.visitorService.getRegions(data.countryid);
       if(data.countryid && data.regionid) this.visitorService.getCities(data.countryid, data.regionid);
@@ -162,28 +162,40 @@ export class VisitorComponent implements OnInit, OnDestroy{
       this.loading = true;
       if(this.newVisitor) {
         this.visitorService.createVisitor(this.visitorForm.value)
-          .then(_=>{
-            this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value})
-              .then(_ => this.exhib.addVisitorToExhib());
+          .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
+          .then(_ => this.exhib.addVisitorToExhib())
+          .then(_ => {
             this.loading = false;
             this.router.navigate(['invite'])
           })
-          .catch(err=>this.loading = false)
+          .catch(err=>{
+            this.loading = false;
+            console.log('err: ', err)
+          })
       }
       else if (!this.visitorService.compareModels(this.visitorForm.value)) {
         this.visitorService.updateVisitor(this.visitorForm.value)
-          .then(_=>{
-            this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value})
-              .then(_ => this.exhib.addVisitorToExhib());
+          .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
+          .then(_ => this.exhib.addVisitorToExhib())
+          .then(_ => {
             this.loading = false;
             this.router.navigate(['invite'])
           })
-          .catch(err=>this.loading = false)
+          .catch(err=>{
+            this.loading = false;
+            console.log('err: ', err)
+          })
       }
       else {
-        this.exhib.addVisitorToExhib();
-        this.loading = false; 
-        this.router.navigate(['invite'])
+        this.exhib.addVisitorToExhib()
+          .then(_ => {
+            this.loading = false;
+            this.router.navigate(['invite'])
+          })
+          .catch(err=>{
+            this.loading = false;
+            console.log('err: ', err)
+          });
       }
     }
 
