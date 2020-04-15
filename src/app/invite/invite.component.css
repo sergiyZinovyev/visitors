@@ -1,0 +1,13 @@
+.example-card {
+    max-width: 400px;
+}
+
+.example-header-image {
+    background-image: url('https://visitors.galexpo.com.ua:7002/static/registration/shared/logo2.png');
+    background-size: cover;
+}
+
+.color{
+    background-color: rgb(219, 220, 255);   
+}
+ 

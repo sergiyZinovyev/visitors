@@ -21,6 +21,8 @@ class ExhibvisModel {
   utm_content: string;
   new_visitor: string = undefined;
 
+  reg: boolean = false;
+
   constructor(searchParameters: SearchParams, regnum: number) {
     this.id_exhibition = searchParameters.idex;
     this.referrer_url = searchParameters.referrer_url;
@@ -31,6 +33,7 @@ class ExhibvisModel {
     this.utm_content = searchParameters.utm_content;
     this.id_visitor = regnum;
   }
+    
 }
 
 @Injectable({
@@ -44,7 +47,7 @@ export class ExhibvisService {
   constructor(
     private visitor: VisitorService,
     private http: HttpService,
-    private urlService: UrlService
+    private urlService: UrlService,
   ){
     this.visitor.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
       this.visitorsData.id_visitor = data.regnum
@@ -58,11 +61,13 @@ export class ExhibvisService {
     this.errMessage = null;
     return new Promise((resolve, reject)=>{
       if(!this.visitorsData.id_exhibition) return reject('without regestration');
+      this.visitorsData.reg = false;
       this.http.get(`checkViv/?idVis=${this.visitorsData.id_visitor}&exhib=${this.visitorsData.id_exhibition}`).subscribe(checkData =>{
         if(this.errMessage) return reject(this.errMessage)
         if(checkData[0]) {
-          alert('ви вже реєструвалися');
-          return resolve('ви вже реєструвалися')
+          this.visitorsData.reg = true;
+          //this.dialogOpen('ви вже реєструвалися'); 
+          return resolve('REGISTERED')
         }
         else {
           this.http.post(this.visitorsData, 'createInExhibition_vis').subscribe(data =>{ 
@@ -74,6 +79,5 @@ export class ExhibvisService {
       })
     })
   }
-
 
 }

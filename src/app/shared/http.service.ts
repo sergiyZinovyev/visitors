@@ -13,8 +13,8 @@ import {runOnKeys} from './lib/run-on-keys';
 })
 export class HttpService {
 
-  private dbUrl = 'https://visitors.galexpo.com.ua:7002'; //dev host
-  //private dbUrl = 'https://visitors.galexpo.com.ua:7001'; //prod host    
+  dbUrl = 'https://visitors.galexpo.com.ua:7002'; //dev host
+  //dbUrl = 'https://visitors.galexpo.com.ua:7001'; //prod host    
 
   errMessages: string[] = [];
   getErrMessages: Subject<string> = new Subject();

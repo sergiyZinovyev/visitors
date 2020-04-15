@@ -11,7 +11,10 @@ import { LoginComponent } from './login/login.component';
 import { VisitorComponent } from './visitor/visitor.component';
 import { InviteComponent } from './invite/invite.component';
 import { ExhibitionsComponent } from './visitor/exhibitions/exhibitions.component';
-import { DialogHttpErrorComponent } from './modals/dialog-http-error/dialog-http-error.component'; 
+import { DialogHttpErrorComponent } from './modals/dialog-http-error/dialog-http-error.component';
+import { SpinnerFullscreenComponent } from './modals/spinner-fullscreen/spinner-fullscreen.component';
+import { DialogInfoComponent } from './modals/dialog-info/dialog-info.component';
+import { DashboardComponent } from './dashboard/dashboard.component'; 
 
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatSliderModule} from '@angular/material/slider';
@@ -23,10 +26,17 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import {MatExpansionModule} from '@angular/material/expansion';
-import {MatCheckboxModule} from '@angular/material/checkbox'; 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatChipsModule} from '@angular/material/chips';
 
 import { MatSelectFilterModule } from 'mat-select-filter';
-import { SpinnerFullscreenComponent } from './modals/spinner-fullscreen/spinner-fullscreen.component';
+import { NgxBarcodeComponent } from './shared/lib/ngx-barcode.component';
+
+
+
 
 
 @NgModule({
@@ -38,6 +48,9 @@ import { SpinnerFullscreenComponent } from './modals/spinner-fullscreen/spinner-
     DialogHttpErrorComponent,
     ExhibitionsComponent,
     SpinnerFullscreenComponent,
+    DialogInfoComponent,
+    NgxBarcodeComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,11 +67,15 @@ import { SpinnerFullscreenComponent } from './modals/spinner-fullscreen/spinner-
     MatSelectModule,
     MatProgressSpinnerModule,
     MatSelectFilterModule,
+    MatCardModule,
     MatAutocompleteModule,
     MatExpansionModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatChipsModule
   ],
-  entryComponents: [DialogHttpErrorComponent],
+  entryComponents: [DialogHttpErrorComponent, DialogInfoComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

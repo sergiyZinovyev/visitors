@@ -56,9 +56,9 @@ export class VisitorModel {
     }
 
     
-    // public get fullName(): string {
-    //     return this.name + this.pobatkovi + this.prizv
-    // }
+    public get fullName(): string {
+        return this.name + ' ' + this.prizv
+    }
 
     public set newEmail(v : string) {
         this.email = v;

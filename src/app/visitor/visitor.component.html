@@ -197,7 +197,7 @@
             <ng-container *ngIf = "submitted && visitorForm.invalid">
                 <div class="alert alert-warning" role="alert">
                     <div class="font-weight-bold mb-2">Не всі обов'язкові поля запонені або заповнені невірно</div>
-                    {{visitorForm.errors?.validContact}}
+                        - {{visitorForm.errors?.validContact}}
                     <ng-container  *ngFor='let item of getErrorsMessage(visitorForm)'>
                         <div>- {{item}}</div>
                     </ng-container>

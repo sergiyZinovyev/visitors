@@ -2,14 +2,14 @@ import { Component, OnInit, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-http-error',
-  templateUrl: './dialog-http-error.component.html',
-  styleUrls: ['./dialog-http-error.component.css']
+  selector: 'app-dialog-info',
+  templateUrl: './dialog-info.component.html',
+  styleUrls: ['./dialog-info.component.css']
 })
-export class DialogHttpErrorComponent implements OnInit {
+export class DialogInfoComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogHttpErrorComponent>,
+    public dialogRef: MatDialogRef<DialogInfoComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {}
 
   ngOnInit(): void {
@@ -18,4 +18,5 @@ export class DialogHttpErrorComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-} 
+
+}

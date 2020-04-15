@@ -10,6 +10,7 @@ import {UrlService} from './../shared/url.service';
 import {HttpService} from './../shared/http.service';
 import {ExhibvisService} from '../shared/exhibvis.service';
 import {ValidatorvisService} from './validatorvis.service';
+import {DialogService} from '../modals/dialog.service';
 
 @Component({
   selector: 'app-visitor',
@@ -89,7 +90,8 @@ export class VisitorComponent implements OnInit, OnDestroy{
     private router: Router,
     private urlApp: UrlService,
     private exhib: ExhibvisService,
-    private CastomValidator: ValidatorvisService
+    private CastomValidator: ValidatorvisService,
+    private dialog: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -151,8 +153,10 @@ export class VisitorComponent implements OnInit, OnDestroy{
   }
 
   submit(){
+    let queryPar = '';
     this.warning = '';
     this.submitted = true;
+
 
     //console.log('visitorForm messages: ', this.getErrorsMessage(this.visitorForm));
     //console.log('visitorForm status: ', this.visitorForm.status);
@@ -164,9 +168,13 @@ export class VisitorComponent implements OnInit, OnDestroy{
         this.visitorService.createVisitor(this.visitorForm.value)
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_ => this.exhib.addVisitorToExhib())
-          .then(_ => {
+          .then(data => {
+            if(data == 'REGISTERED') {
+              this.dialog.dialogOpen('ви вже реєструвалися');
+              queryPar = 'REGISTERED'
+            }
             this.loading = false;
-            this.router.navigate(['invite'])
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
           })
           .catch(err=>{
             this.loading = false;
@@ -174,12 +182,17 @@ export class VisitorComponent implements OnInit, OnDestroy{
           })
       }
       else if (!this.visitorService.compareModels(this.visitorForm.value)) {
+        
         this.visitorService.updateVisitor(this.visitorForm.value)
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_ => this.exhib.addVisitorToExhib())
-          .then(_ => {
+          .then(data => {
+            if(data == 'REGISTERED') {
+              this.dialog.dialogOpen('ви вже реєструвалися');
+              queryPar = 'REGISTERED'
+            }
             this.loading = false;
-            this.router.navigate(['invite'])
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
           })
           .catch(err=>{
             this.loading = false;
@@ -188,9 +201,13 @@ export class VisitorComponent implements OnInit, OnDestroy{
       }
       else {
         this.exhib.addVisitorToExhib()
-          .then(_ => {
+          .then(data => {
+            if(data == 'REGISTERED') {
+              this.dialog.dialogOpen('ви вже реєструвалися');
+              queryPar = 'REGISTERED'
+            }
             this.loading = false;
-            this.router.navigate(['invite'])
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
           })
           .catch(err=>{
             this.loading = false;

@@ -59,7 +59,7 @@ export class ValidatorvisService {
     //console.log('validContact: start');
    
       this.set.add(errName);
-      err[errName] = '- Потрібно заповнити або телефон або email';
+      err[errName] = 'Потрібно заповнити або телефон або email';
       //console.log('cellphone', group.get('cellphone').value);
       //console.log('email', group.get('email').value);
       if(!group.get('cellphone').value && !group.get('email').value){

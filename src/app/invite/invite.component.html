@@ -1,1 +1,28 @@
-<p>invite works!</p>
+<div #content class="d-flex align-items-center justify-content-center pt-3" id='element-to-print'>
+    <mat-card class="example-card color" >
+        <mat-card-header class="mb-2">
+            <div mat-card-avatar class="example-header-image"></div> 
+            <mat-card-title>ЗАПРОШЕННЯ</mat-card-title>
+            <mat-card-subtitle>Дентал-ЕКСПО</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image class="" [src]="getImg()">
+        <mat-card-content>
+            <p>
+                Шановний(а) 
+                <strong>{{visitor.fullName}}</strong>
+                , Ви отримали персональне запрошення на виставку
+                <span *ngIf='visitor.email'>, яке також було надіслано на Вашу електронну пошту</span>
+            </p>
+            <p>Покажіть цей код на вході:</p>
+            <p>
+                <ngx-barcode #bcElement [bc-value]='visitor.regnum' [bc-display-value]=true [bc-height]=70 [bc-font-size]=14 [bc-format]='bcFormat'></ngx-barcode> 
+            </p>
+            <p>Збережіть це запрошення або просто покажіть на екрані вашого смартфону</p>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+
+<br><br>
+<button (click)="getPDF()">html2pdf</button>
+<button (click)="getPDFAndSend()">getPDFAndSend</button>
