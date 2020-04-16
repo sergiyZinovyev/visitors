@@ -7,32 +7,32 @@
             
             <div class="reg-form">
                 <div class="discr d-flex justify-content-between">
-                    <ng-container *ngIf='newVisitor'>Представтесь, будь ласка</ng-container> 
-                    <ng-container *ngIf='!newVisitor'>Вітаємо!</ng-container>
+                    <ng-container *ngIf='newVisitor'>{{'Представтесь, будь ласка' | translate: lang}}</ng-container> 
+                    <ng-container *ngIf='!newVisitor'>{{'Вітаємо!' | translate: lang}}</ng-container>
                     <mat-icon matSuffix>person</mat-icon>
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'Прізвище'}}" formControlName="prizv" required>
+                            <input type="text" matInput [placeholder]="'Прізвище' | translate: lang" formControlName="prizv" required>
                             <mat-error *ngIf="!visitorForm.get('prizv').valid">
-                                {{'Будь ласка введіть прізвище'}}
+                                {{'Будь ласка введіть прізвище' | translate: lang}}
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="Ім'я" formControlName="name" required>
+                            <input type="text" matInput [placeholder]="'Ім\'я' | translate: lang" formControlName="name" required>
                             <mat-error *ngIf="!visitorForm.get('name').valid">
-                                {{"Будь ласка введіть ім'я"}}
+                                {{"Будь ласка введіть ім'я" | translate: lang}}
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'По-батькові'}}" formControlName="pobatkovi">
+                            <input type="text" matInput [placeholder]="'По-батькові' | translate: lang" formControlName="pobatkovi">
                         </mat-form-field>
                     </div>
                 </div>    
@@ -40,16 +40,16 @@
 
             <div class="reg-form">
                 <div class="discr d-flex justify-content-between">
-                    <ng-container *ngIf='newVisitor'>Заповніть Ваші контактні дані</ng-container>
-                    <ng-container *ngIf='!newVisitor'>Відредагуйте Ваші контактні дані, якщо вони змінилися</ng-container>
+                    <ng-container *ngIf='newVisitor'>{{'Заповніть Ваші контактні дані' | translate: lang}}</ng-container>
+                    <ng-container *ngIf='!newVisitor'>{{'Відредагуйте Ваші контактні дані, якщо вони змінилися' | translate: lang}}</ng-container>
                     <mat-icon matSuffix>assignment</mat-icon>
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <mat-select placeholder="{{'Країна'}}" formControlName="countryid" required>
+                            <mat-select [placeholder]="'Країна' | translate: lang" formControlName="countryid" required>
                                 <mat-select-filter 
-                                    [placeholder]="'Пошук'" 
+                                    [placeholder]="'Пошук' | translate: lang" 
                                     [array]="countries" 
                                     [displayMember]="'teretory'" 
                                     (filteredReturn)="filteredCountries =$event">
@@ -61,7 +61,7 @@
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="!visitorForm.get('countryid').valid"> 
-                                {{'Будь ласка введіть країну'}}
+                                {{'Будь ласка введіть країну' | translate: lang}}
                             </mat-error> 
                         </mat-form-field>
                         
@@ -69,9 +69,9 @@
 
                     <div class="col-12 col-sm-4">
                         <mat-form-field class="form-group example-full-width">
-                            <mat-select placeholder="{{'Область'}}" formControlName="regionid" [required]="visitorForm.get('regionid').validator">
+                            <mat-select [placeholder]="'Область' | translate: lang" formControlName="regionid" [required]="visitorForm.get('regionid').validator">
                                 <mat-select-filter 
-                                    [placeholder]="'Пошук'" 
+                                    [placeholder]="'Пошук' | translate: lang" 
                                     [array]="regions" 
                                     [displayMember]="'teretory'" 
                                     (filteredReturn)="filteredRegions =$event">
@@ -83,7 +83,7 @@
                                 </mat-option>
                             </mat-select> 
                             <mat-error *ngIf="!visitorForm.get('regionid').valid">
-                                {{'Будь ласка введіть область'}}
+                                {{'Будь ласка введіть область' | translate: lang}}
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -93,7 +93,7 @@
                             <input 
                                 type="text" 
                                 matInput 
-                                placeholder="Місто" 
+                                [placeholder]="'Місто' | translate: lang" 
                                 formControlName="city" 
                                 [matAutocomplete]="auto">
                             <mat-autocomplete #auto="matAutocomplete">
@@ -104,7 +104,7 @@
                                 </mat-option>
                             </mat-autocomplete> 
                             <mat-error *ngIf="!visitorForm.get('city').valid">
-                                {{'Будь ласка введіть місто'}}
+                                {{'Будь ласка введіть місто' | translate: lang}}
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -113,30 +113,30 @@
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="email" matInput placeholder="{{'Особиста електронна пошта *'}}" formControlName="email">
+                            <input type="email" matInput [placeholder]="'Особиста електронна пошта *' | translate: lang" formControlName="email">
                             <mat-icon matSuffix>
                                 <mat-spinner *ngIf="visitorForm.get('email').status == 'PENDING'" [diameter]="20"></mat-spinner>
                                 <span *ngIf="visitorForm.get('email').status != 'PENDING'">alternate_email</span>
                             </mat-icon>
                             <mat-error>
-                                <div *ngIf="visitorForm.get('email').hasError('required') || visitorForm.get('email').hasError('email')">{{'Будь ласка введіть Вашу дійсну електроннну адресу'}}</div> 
-                                {{visitorForm.get('email').errors?.validEmail}}
-                                {{visitorForm.get('email').errors?.validContact}}
+                                <div *ngIf="visitorForm.get('email').hasError('required') || visitorForm.get('email').hasError('email')">{{'Будь ласка введіть Вашу дійсну електронну адресу' | translate: lang}}</div> 
+                                {{visitorForm.get('email').errors?.validEmail | translate: lang}}
+                                {{visitorForm.get('email').errors?.validContact | translate: lang}}
                             </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'моб.тел. 380ххххххххх *'}}" formControlName="cellphone">                         
+                            <input type="text" matInput [placeholder]="'моб.тел. 380ххххххххх *' | translate: lang" formControlName="cellphone">                         
                             <mat-icon matSuffix>
                                 <mat-spinner *ngIf="visitorForm.get('cellphone').status == 'PENDING'" [diameter]="20"></mat-spinner>
                                 <span *ngIf="visitorForm.get('cellphone').status != 'PENDING'">phone</span>
                             </mat-icon>
                             <mat-error>
-                                <div *ngIf="visitorForm.get('cellphone').hasError('required') || visitorForm.get('cellphone').hasError('pattern')">{{'Будь ласка введіть мобільний телефон у вказаному форматі без пробілів'}}</div> 
-                                {{visitorForm.get('cellphone').errors?.validCellphone}}
-                                {{visitorForm.get('cellphone').errors?.validContact}}
+                                <div *ngIf="visitorForm.get('cellphone').hasError('required') || visitorForm.get('cellphone').hasError('pattern')">{{'Будь ласка введіть мобільний телефон у вказаному форматі' | translate: lang}}</div> 
+                                {{visitorForm.get('cellphone').errors?.validCellphone | translate: lang}}
+                                {{visitorForm.get('cellphone').errors?.validContact | translate: lang}}
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -145,14 +145,14 @@
 
             <div class="reg-form">
                 <div class="discr d-flex justify-content-between">
-                    <ng-container *ngIf='newVisitor'>Ваша робота</ng-container>
-                    <ng-container *ngIf='!newVisitor'>Відредагуйте Ваші дані про роботу, якщо вони змінилися</ng-container>
+                    <ng-container *ngIf='newVisitor'>{{'Ваша робота' | translate: lang}}</ng-container>
+                    <ng-container *ngIf='!newVisitor'>{{'Відредагуйте Ваші дані про роботу, якщо вони змінилися' | translate: lang}}</ng-container>
                     <mat-icon matSuffix>business</mat-icon>
                 </div>
                 <div class="row">
                     <div class="col">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'Місце роботи'}}" formControlName="m_robotu">
+                            <input type="text" matInput [placeholder]="'Місце роботи' | translate: lang" formControlName="m_robotu">
                         </mat-form-field>
                     </div>
                 </div>
@@ -161,15 +161,15 @@
 
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
-                            <input type="text" matInput placeholder="{{'Посада'}}" formControlName="posada">
+                            <input type="text" matInput [placeholder]="'Посада' | translate: lang" formControlName="posada">
                         </mat-form-field>
                     </div>
 
                     <div class="col-12 col-sm-6">
                         <mat-form-field class="form-group example-full-width">
-                            <mat-select placeholder="{{'Сфера діяльності'}}" formControlName="sferadij">
+                            <mat-select [placeholder]="'Сфера діяльності' | translate: lang" formControlName="sferadij">
                                 <mat-select-filter 
-                                    [placeholder]="'Пошук'" 
+                                    [placeholder]="'Пошук' | translate: lang" 
                                     [array]="branches" 
                                     (filteredReturn)="filteredBranches =$event">
                                 </mat-select-filter>
@@ -188,7 +188,7 @@
             <div class="reg-form2">
                 <mat-expansion-panel class="reg-form3">
                     <mat-expansion-panel-header>
-                        <mat-panel-title class="discr2"><div>Оберіть виставки, яки Вас ще можуть зацікавити<span class="ml-1 text-danger">*</span></div></mat-panel-title>
+                        <mat-panel-title class="discr2"><div>{{'Оберіть виставки, яки Вас ще можуть зацікавити' | translate: lang}}<span class="ml-1 text-danger">*</span></div></mat-panel-title>
                     </mat-expansion-panel-header>
                     <app-exhibitions [userExhibitions]="potvid" [idAddingExhibitions]="searchParamsExhib" (changeUserExhibitions)="patchPotvid($event)"></app-exhibitions>
                 </mat-expansion-panel>
@@ -196,16 +196,16 @@
 
             <ng-container *ngIf = "submitted && visitorForm.invalid">
                 <div class="alert alert-warning" role="alert">
-                    <div class="font-weight-bold mb-2">Не всі обов'язкові поля запонені або заповнені невірно</div>
-                        - {{visitorForm.errors?.validContact}}
+                    <div class="font-weight-bold mb-2">{{"Не всі обов'язкові поля заповнені або заповнені невірно" | translate: lang}}</div>
+                        - {{visitorForm.errors?.validContact | translate: lang}}
                     <ng-container  *ngFor='let item of getErrorsMessage(visitorForm)'>
-                        <div>- {{item}}</div>
+                        <div>- {{item | translate: lang}}</div>
                     </ng-container>
                 </div> 
             </ng-container>
 
             <div *ngIf="warning" class="alert alert-danger">
-                {{warning}}
+                {{warning | translate: lang}}
             </div>
 
             <button 
@@ -213,7 +213,7 @@
                 mat-raised-button 
                 color="accent" 
                 class="btn-lg btn-block py-2 my-btn btn-color">
-                <span class="pr-2 btn-font">{{'Отримати запрошення'}}</span>
+                <span class="pr-2 btn-font">{{'Отримати запрошення' | translate: lang}}</span>
                 <mat-icon>local_activity</mat-icon>
             </button>
 

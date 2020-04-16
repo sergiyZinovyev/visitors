@@ -48,7 +48,7 @@ export class ValidatorvisService {
 
   validExhibition(control: AbstractControl, errName: string = 'validExhibition', err = {}): {[key: string]: any} | null{
     this.set.add(errName);
-    err[errName] = 'Потрібно обрати принаймі одну виставку';
+    err[errName] = 'Потрібно обрати принаймні одну виставку';
     if(!control.value) return err;
     let arr: Array<string> = control.value.split(', ').filter((val:string) => val != '')
     if(arr.length > 0) return null;

@@ -34,6 +34,7 @@ import {MatChipsModule} from '@angular/material/chips';
 
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { NgxBarcodeComponent } from './shared/lib/ngx-barcode.component';
+import { TranslatePipe } from './translate.pipe';
 
 
 
@@ -51,6 +52,7 @@ import { NgxBarcodeComponent } from './shared/lib/ngx-barcode.component';
     DialogInfoComponent,
     NgxBarcodeComponent,
     DashboardComponent,
+    TranslatePipe,
   ],
   imports: [
     BrowserModule,

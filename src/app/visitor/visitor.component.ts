@@ -11,6 +11,7 @@ import {HttpService} from './../shared/http.service';
 import {ExhibvisService} from '../shared/exhibvis.service';
 import {ValidatorvisService} from './validatorvis.service';
 import {DialogService} from '../modals/dialog.service';
+import {DashboardService} from '../dashboard/dashboard.service';
 
 @Component({
   selector: 'app-visitor',
@@ -23,6 +24,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
   warning: string = '';
   submitted: boolean = false;
   loading: boolean = false;
+  lang: string;
 
   getCurrrentVisitor: Subscription;
 
@@ -91,10 +93,13 @@ export class VisitorComponent implements OnInit, OnDestroy{
     private urlApp: UrlService,
     private exhib: ExhibvisService,
     private CastomValidator: ValidatorvisService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private dashboard: DashboardService,
   ) {}
 
   ngOnInit(): void {
+
+    this.dashboard.lang.subscribe(lang => this.lang = lang);
 
     this.visitorForm.setValidators(this.CastomValidator.validContact.bind(this.CastomValidator));
     

@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import {VisitorService} from '../shared/visitor.service'
-import {ILogin} from '../shared/visitors.interfaces'
-import {UrlService} from './../shared/url.service'
+import {VisitorService} from '../shared/visitor.service';
+import {ILogin} from '../shared/visitors.interfaces';
+import {UrlService} from './../shared/url.service';
+import {DashboardService} from '../dashboard/dashboard.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   warning: string = '';
   loading: boolean = false;
-  //matcher = new MyErrorStateMatcher();
+  lang: string;
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.email]],
@@ -26,16 +27,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private visitorService: VisitorService,
     private router: Router,
+    private dashboard: DashboardService,
     private urlApp: UrlService
   ) { }
 
   ngOnInit(): void { 
+    this.dashboard.lang.subscribe(lang => this.lang = lang);
+
     this.loginForm.valueChanges.subscribe(_ => {
       this.warning = ''
      });
+
     this.visitorService.getErrMessages.subscribe(errMessage =>{
       if(errMessage) this.warning = errMessage
     })
+    
   }
 
   login(){

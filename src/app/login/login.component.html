@@ -18,15 +18,17 @@
         </div> -->
         <div class="reg-form">
             <form class="example-form back2" [formGroup]="loginForm">
-                <div class="discr" >Введіть електронну пошту та/або мобільний телефон</div>
+                <div class="discr">
+                    {{'Введіть електронну пошту та/або мобільний телефон' | translate: lang}}
+                </div>
                 <mat-form-field class="form-group example-full-width">
-                    <input type="email" matInput placeholder="{{'Електронна пошта'}}" formControlName="email"> 
+                    <input type="email" matInput [placeholder]="'Електронна пошта' | translate: lang" formControlName="email"> 
                     <mat-icon matSuffix color="accent" class="main-color">alternate_email</mat-icon>
                     <mat-hint>
-                        {{'Введіть електронну адресу (якщо ви реєструвалися раніше - введіть електронну адресу яку ви вказували при реєстрації)'}}
+                        {{'Введіть електронну адресу (якщо ви реєструвалися раніше - введіть електронну адресу яку ви вказували при реєстрації)' | translate: lang}}
                     </mat-hint>
                     <mat-error *ngIf="!loginForm.get('email').valid">
-                        {{'Будь ласка введіть Вашу дійсну електроннну адресу'}}
+                        {{'Будь ласка введіть Вашу дійсну електронну адресу' | translate: lang}}
                     </mat-error>
                 </mat-form-field>
                 <br><br>
@@ -34,21 +36,21 @@
                     <input type="tel" matInput placeholder="{{'380ххххххххх'}}" formControlName="cellphone">
                     <mat-icon matSuffix color="accent" class="main-color">phone</mat-icon>
                     <mat-hint>
-                        {{'Введіть свій номер мобільного телефона (якщо ви реєструвалися раніше - введіть номер який ви вказували при реєстрації)'}}
+                        {{'Введіть свій номер мобільного телефона (якщо ви реєструвалися раніше - введіть номер який ви вказували при реєстрації)' | translate: lang}}
                     </mat-hint>
                     <mat-error *ngIf="!loginForm.get('cellphone').valid">
-                        {{'Будь ласка введіть мобільний телефон у вказаному форматі'}}
+                        {{'Будь ласка введіть мобільний телефон у вказаному форматі' | translate: lang}}
                     </mat-error>
                 </mat-form-field>
                 <br><br>
                 <mat-form-field class="form-group example-full-width">
-                    <input type="password" matInput placeholder="{{'Пароль'}}" formControlName="password">
+                    <input type="password" matInput [placeholder]="'Пароль' | translate: lang" formControlName="password">
                     <mat-icon matSuffix color="accent" class="main-color">vpn_key</mat-icon>
                     <mat-hint>
-                        {{'Введіть пароль, якщо Ви встановили пароль при реєстрації'}}
+                        {{'Введіть пароль, якщо Ви встановили пароль при реєстрації' | translate: lang}}
                     </mat-hint>
                     <mat-error *ngIf="!loginForm.get('password').valid">
-                        {{'невірний пароль'}}
+                        {{'невірний пароль' | translate: lang}}
                     </mat-error>
                 </mat-form-field>
     
@@ -65,7 +67,7 @@
                 </ng-container>   -->
                 
                 <div *ngIf="warning" class="warning">
-                    {{warning}}
+                    {{warning | translate: lang}}
                 </div>
             </form>
             <br>
@@ -76,7 +78,7 @@
             (click)="login()"
             color="accent" 
             class="btn-lg btn-block py-2 reg-form btn-color">
-            <span class="pr-2 btn-font">{{'Отримати запрошення'}}</span>
+            <span class="pr-2 btn-font">{{'Отримати запрошення' | translate: lang}}</span>
             <mat-icon>local_activity</mat-icon>
         </button> 
     </div> 
