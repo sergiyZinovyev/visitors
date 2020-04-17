@@ -8,6 +8,25 @@
 }
 
 .color{
-    background-color: rgb(219, 220, 255);   
+    /* background-color: rgb(219, 220, 255); */
+    background-color:#0063af28; 
+}
+
+.btn-color{
+    background-color: #0064af;
+}
+  
+.my-btn{
+    font-family: sans-serif;
+    /* font-weight: bold; */
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 7px 28px rgba(0,0,0,0.25), 0 5px 10px rgba(0,0,0,0.22); 
+}
+
+.container{
+    padding: 0px;
+    max-width: 400px;
+    /* border: 1px solid  black; */
 }
  

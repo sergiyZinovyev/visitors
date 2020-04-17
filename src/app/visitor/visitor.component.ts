@@ -174,12 +174,12 @@ export class VisitorComponent implements OnInit, OnDestroy{
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_ => this.exhib.addVisitorToExhib())
           .then(data => {
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
             if(data == 'REGISTERED') {
               this.dialog.dialogOpen('ви вже реєструвалися');
               queryPar = 'REGISTERED'
             }
             this.loading = false;
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
           })
           .catch(err=>{
             this.loading = false;
@@ -192,12 +192,12 @@ export class VisitorComponent implements OnInit, OnDestroy{
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_ => this.exhib.addVisitorToExhib())
           .then(data => {
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
             if(data == 'REGISTERED') {
               this.dialog.dialogOpen('ви вже реєструвалися');
               queryPar = 'REGISTERED'
             }
             this.loading = false;
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
           })
           .catch(err=>{
             this.loading = false;
@@ -207,12 +207,12 @@ export class VisitorComponent implements OnInit, OnDestroy{
       else {
         this.exhib.addVisitorToExhib()
           .then(data => {
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
             if(data == 'REGISTERED') {
               this.dialog.dialogOpen('ви вже реєструвалися');
               queryPar = 'REGISTERED'
             }
             this.loading = false;
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
           })
           .catch(err=>{
             this.loading = false;

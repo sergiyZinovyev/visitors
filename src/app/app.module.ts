@@ -15,6 +15,7 @@ import { DialogHttpErrorComponent } from './modals/dialog-http-error/dialog-http
 import { SpinnerFullscreenComponent } from './modals/spinner-fullscreen/spinner-fullscreen.component';
 import { DialogInfoComponent } from './modals/dialog-info/dialog-info.component';
 import { DashboardComponent } from './dashboard/dashboard.component'; 
+import { ExhibComponent } from './exhib/exhib.component';
 
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatSliderModule} from '@angular/material/slider';
@@ -40,6 +41,7 @@ import { TranslatePipe } from './translate.pipe';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +55,7 @@ import { TranslatePipe } from './translate.pipe';
     NgxBarcodeComponent,
     DashboardComponent,
     TranslatePipe,
+    ExhibComponent,
   ],
   imports: [
     BrowserModule,

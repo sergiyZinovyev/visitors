@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+import { Router } from '@angular/router';
 
 import {VisitorService} from '../shared/visitor.service';
 import {ExhibvisService} from '../shared/exhibvis.service';
@@ -29,7 +30,7 @@ class EmailDataModel {
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.css']
 })
-export class InviteComponent implements OnInit {
+export class InviteComponent implements OnInit, AfterViewInit {
 
   visitor: VisitorModel = this.visitorService.curretnVisitorModel;
   bcFormat = 'CODE128';
@@ -41,9 +42,14 @@ export class InviteComponent implements OnInit {
     private exhib: ExhibvisService,
     private http: HttpService,
     private dialog: DialogService,
+    private router: Router,
   ) {  } 
 
   ngOnInit(): void {
+    //if(!this.exhib.visitorsData.reg)this.getPDFAndSend()
+  }
+
+  ngAfterViewInit(){
     if(!this.exhib.visitorsData.reg)this.getPDFAndSend()
   }
 
@@ -81,6 +87,10 @@ export class InviteComponent implements OnInit {
     return this.getPDFWorker().outputPdf('datauristring').then((data: string) => {
         this.sendEmail(data);
       });
+  }
+
+  getInvite(){
+    this.router.navigate(['exhibitions'])
   }
 
   
