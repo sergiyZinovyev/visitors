@@ -3,24 +3,24 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LoginComponent } from './login/login.component';
-import { VisitorComponent } from './visitor/visitor.component';
-import { InviteComponent } from './invite/invite.component';
-import { ExhibitionsComponent } from './visitor/exhibitions/exhibitions.component';
+import { LoginComponent } from './components/login/login.component';
+import { VisitorComponent } from './components/profile/visitor.component';
+import { InviteComponent } from './components/invite/invite.component';
+import { ExhibitionsComponent } from './components/profile/exhibitions/exhibitions.component';
 import { DialogHttpErrorComponent } from './modals/dialog-http-error/dialog-http-error.component';
 import { SpinnerFullscreenComponent } from './modals/spinner-fullscreen/spinner-fullscreen.component';
 import { DialogInfoComponent } from './modals/dialog-info/dialog-info.component';
-import { DashboardComponent } from './dashboard/dashboard.component'; 
-import { ExhibComponent } from './exhib/exhib.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component'; 
+import { ExhibComponent } from './components/exhib/exhib.component';
 
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatSliderModule} from '@angular/material/slider';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
-import {MatInputModule} from '@angular/material/input'; 
+import {MatInputModule} from '@angular/material/input';  
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select'; 
@@ -36,6 +36,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { NgxBarcodeComponent } from './shared/lib/ngx-barcode.component';
 import { TranslatePipe } from './translate.pipe';
+import { DialogConfirmComponent } from './modals/dialog-confirm/dialog-confirm.component';
 
 
 
@@ -56,6 +57,7 @@ import { TranslatePipe } from './translate.pipe';
     DashboardComponent,
     TranslatePipe,
     ExhibComponent,
+    DialogConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,7 @@ import { TranslatePipe } from './translate.pipe';
     MatTooltipModule,
     MatChipsModule
   ],
-  entryComponents: [DialogHttpErrorComponent, DialogInfoComponent],
+  entryComponents: [DialogHttpErrorComponent, DialogInfoComponent, DialogConfirmComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpService} from './../../shared/http.service';
+import {HttpService} from '../../../shared/http.service';
 import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
 import { catchError, map} from 'rxjs/operators';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
-import {UrlService} from './../../shared/url.service'
+import {UrlService} from '../../../shared/url.service'
 
 export interface IExhib{
   id: number,

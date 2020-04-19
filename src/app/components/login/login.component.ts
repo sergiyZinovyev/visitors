@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import {VisitorService} from '../shared/visitor.service';
-import {ILogin} from '../shared/visitors.interfaces';
-import {UrlService} from './../shared/url.service';
+import {VisitorService} from '../../shared/visitor.service';
+import {ILogin} from '../../shared/visitors.interfaces';
+import {UrlService} from '../../shared/url.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 
 @Component({
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.visitorService.getErrMessages.subscribe(errMessage =>{
       if(errMessage) this.warning = errMessage
     })
-    
+
   }
 
   login(){

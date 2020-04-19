@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
 
-import {VisitorService} from '../shared/visitor.service';
-import {ExhibvisService} from '../shared/exhibvis.service';
-import {HttpService} from '../shared/http.service';
-import {VisitorModel} from '../visitor/visitor-model';
-import {DialogService} from '../modals/dialog.service';
+import {VisitorService} from '../../shared/visitor.service';
+import {ExhibvisService} from '../../shared/exhibvis.service';
+import {HttpService} from '../../shared/http.service';
+import {VisitorModel} from '../profile/visitor-model';
+import {DialogService} from '../../modals/dialog.service';
 
 import * as html2pdf from 'html2pdf.js';
 
@@ -43,17 +43,18 @@ export class InviteComponent implements OnInit, AfterViewInit {
     private http: HttpService,
     private dialog: DialogService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {  } 
-
+ 
   ngOnInit(): void {
-    //if(!this.exhib.visitorsData.reg)this.getPDFAndSend()
+    if(this.route.snapshot.queryParams.reg === 'REGISTERED')this.dialog.dialogOpen('ви вже реєструвалися');
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit(): void{
     if(!this.exhib.visitorsData.reg)this.getPDFAndSend()
   }
 
-  getImg(){
+  getImg(): string{
     return `${this.http.dbUrl}/static/registration/shared/${this.exhib.visitorsData.id_exhibition}.png` 
   } 
 
@@ -70,7 +71,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
     return worker.from(element).set(opt)
   }
 
-  private sendEmail(myData: string){
+  private sendEmail(myData: string): void{
     if(!this.visitor.email) return 
     let data = new EmailDataModel(this.visitor);
     data.file = myData;
@@ -89,7 +90,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getInvite(){
+  getInvite(): void{
     this.router.navigate(['exhibitions'])
   }
 

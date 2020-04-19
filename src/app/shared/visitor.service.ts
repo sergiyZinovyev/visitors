@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {HttpService} from './http.service';
 import {ILogin, IRegion} from './visitors.interfaces';
-import {VisitorModel} from '../visitor/visitor-model'
+import {VisitorModel} from '../components/profile/visitor-model'
 import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
 import { catchError, map} from 'rxjs/operators';
 
@@ -65,7 +65,7 @@ export class VisitorService {
       })
     })
   }
-
+ 
   private createNewModel(data?){
     this.curretnVisitorModel = new VisitorModel(data);
     this.getCurrrentVisitor.next(this.curretnVisitorModel);

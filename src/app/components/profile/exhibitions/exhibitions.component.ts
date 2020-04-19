@@ -3,7 +3,7 @@ import {ExhibitionsService, IExhib} from './exhibitions.service';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import {Subscription, Observable} from'rxjs'; 
 import { group } from '@angular/animations';
-import {UrlService} from './../../shared/url.service'
+import {UrlService} from '../../../shared/url.service'
 
 class UserExhibitions {
   constructor(arrayExhib: string[]) {

@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import {VisitorService} from '../shared/visitor.service';
+import {VisitorService} from '../../shared/visitor.service';
 import {VisitorModel} from './visitor-model';
 import {Subscription, Observable, from} from'rxjs';
 import { catchError, map, tap} from 'rxjs/operators';
-import {ILogin, IRegion} from '../shared/visitors.interfaces';
+import {ILogin, IRegion} from '../../shared/visitors.interfaces';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm, AbstractControl } from '@angular/forms';
-import {UrlService} from './../shared/url.service';
-import {HttpService} from './../shared/http.service';
-import {ExhibvisService} from '../shared/exhibvis.service';
+import {UrlService} from '../../shared/url.service';
+import {HttpService} from '../../shared/http.service';
+import {ExhibvisService} from '../../shared/exhibvis.service';
 import {ValidatorvisService} from './validatorvis.service';
-import {DialogService} from '../modals/dialog.service';
+import {DialogService} from '../../modals/dialog.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 
 @Component({
@@ -174,49 +174,42 @@ export class VisitorComponent implements OnInit, OnDestroy{
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_ => this.exhib.addVisitorToExhib())
           .then(data => {
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
-            if(data == 'REGISTERED') {
-              this.dialog.dialogOpen('ви вже реєструвалися');
-              queryPar = 'REGISTERED'
-            }
+            if(data == 'REGISTERED') queryPar = 'REGISTERED';
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
             this.loading = false;
           })
           .catch(err=>{
             this.loading = false;
-            console.log('err: ', err)
+            console.log('err: ', err);
+            if(err == 'noExhib') this.router.navigate(['exhibitions']); 
           })
-      }
+      } 
       else if (!this.visitorService.compareModels(this.visitorForm.value)) {
-        
         this.visitorService.updateVisitor(this.visitorForm.value)
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_ => this.exhib.addVisitorToExhib())
           .then(data => {
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
-            if(data == 'REGISTERED') {
-              this.dialog.dialogOpen('ви вже реєструвалися');
-              queryPar = 'REGISTERED'
-            }
+            if(data == 'REGISTERED') queryPar = 'REGISTERED';
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
             this.loading = false;
           })
           .catch(err=>{
             this.loading = false;
-            console.log('err: ', err)
+            console.log('err: ', err);
+            if(err == 'noExhib') this.router.navigate(['exhibitions']);
           })
       }
       else {
         this.exhib.addVisitorToExhib()
           .then(data => {
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}})
-            if(data == 'REGISTERED') {
-              this.dialog.dialogOpen('ви вже реєструвалися');
-              queryPar = 'REGISTERED'
-            }
+            if(data == 'REGISTERED') queryPar = 'REGISTERED';
+            this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
             this.loading = false;
           })
           .catch(err=>{
             this.loading = false;
-            console.log('err: ', err)
+            console.log('err: ', err);
+            if(err == 'noExhib') this.router.navigate(['exhibitions']);
           });
       }
     }

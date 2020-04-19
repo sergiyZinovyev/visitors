@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, ValidatorFn, AbstractControl} from '@angular/forms';
-import {HttpService} from './../shared/http.service';
-import {VisitorService} from '../shared/visitor.service';
+import {HttpService} from '../../shared/http.service';
+import {VisitorService} from '../../shared/visitor.service';
 
 @Injectable({
   providedIn: 'root'
