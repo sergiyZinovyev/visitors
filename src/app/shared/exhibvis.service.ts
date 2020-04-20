@@ -60,7 +60,7 @@ export class ExhibvisService {
   addVisitorToExhib(){
     this.errMessage = null;
     return new Promise((resolve, reject)=>{
-      if(!this.visitorsData.id_exhibition) return reject('noExhib');
+      //if(!this.visitorsData.id_exhibition) return reject('noExhib');
       this.visitorsData.reg = false;
       this.http.get(`checkViv/?idVis=${this.visitorsData.id_visitor}&exhib=${this.visitorsData.id_exhibition}`).subscribe(checkData =>{
         if(this.errMessage) return reject(this.errMessage)
@@ -79,5 +79,5 @@ export class ExhibvisService {
       })
     })
   }
-
+ 
 }

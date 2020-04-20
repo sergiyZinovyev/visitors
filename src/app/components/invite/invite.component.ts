@@ -47,7 +47,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
   ) {  } 
  
   ngOnInit(): void {
-    if(this.route.snapshot.queryParams.reg === 'REGISTERED')this.dialog.dialogOpen('ви вже реєструвалися');
+    if(this.route.snapshot.data['exhibData'] === 'REGISTERED')this.dialog.dialogOpen('ви вже реєструвалися');
   }
 
   ngAfterViewInit(): void{

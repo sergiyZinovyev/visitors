@@ -149,7 +149,9 @@ export class VisitorComponent implements OnInit, OnDestroy{
     });
 
     this.visitorService.getErrMessages.subscribe(errMessage =>{
-      if(errMessage) this.warning = errMessage
+      if(errMessage) {
+        this.loading = false;
+        this.warning = errMessage}
     })
   }
 
@@ -172,45 +174,55 @@ export class VisitorComponent implements OnInit, OnDestroy{
       if(this.newVisitor) {
         this.visitorService.createVisitor(this.visitorForm.value)
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
-          .then(_ => this.exhib.addVisitorToExhib())
-          .then(data => {
-            if(data == 'REGISTERED') queryPar = 'REGISTERED';
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
-            this.loading = false;
+          .then(_=> {
+            //this.loading = false;
+            this.router.navigate(['invite']);
           })
+          // .then(_ => this.exhib.addVisitorToExhib())
+          // .then(data => {
+          //   if(data == 'REGISTERED') queryPar = 'REGISTERED';
+          //   this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
+          //   this.loading = false;
+          // })
           .catch(err=>{
             this.loading = false;
             console.log('err: ', err);
-            if(err == 'noExhib') this.router.navigate(['exhibitions']); 
+            //if(err == 'noExhib') this.router.navigate(['exhibitions']); 
           })
       } 
       else if (!this.visitorService.compareModels(this.visitorForm.value)) {
         this.visitorService.updateVisitor(this.visitorForm.value)
           .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
-          .then(_ => this.exhib.addVisitorToExhib())
-          .then(data => {
-            if(data == 'REGISTERED') queryPar = 'REGISTERED';
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
-            this.loading = false;
+          .then(_=> {
+            //this.loading = false;
+            this.router.navigate(['invite']);
           })
+          //.then(_ => this.exhib.addVisitorToExhib())
+          // .then(data => {
+          //   if(data == 'REGISTERED') queryPar = 'REGISTERED';
+          //   this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
+          //   this.loading = false;
+          // })
           .catch(err=>{
             this.loading = false;
             console.log('err: ', err);
-            if(err == 'noExhib') this.router.navigate(['exhibitions']);
+            //if(err == 'noExhib') this.router.navigate(['exhibitions']);
           })
       }
       else {
-        this.exhib.addVisitorToExhib()
-          .then(data => {
-            if(data == 'REGISTERED') queryPar = 'REGISTERED';
-            this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
-            this.loading = false;
-          })
-          .catch(err=>{
-            this.loading = false;
-            console.log('err: ', err);
-            if(err == 'noExhib') this.router.navigate(['exhibitions']);
-          });
+        //this.loading = false;
+        this.router.navigate(['invite']);
+        // this.exhib.addVisitorToExhib()
+        //   .then(data => {
+        //     if(data == 'REGISTERED') queryPar = 'REGISTERED';
+        //     this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
+        //     this.loading = false;
+        //   })
+        //   .catch(err=>{
+        //     this.loading = false;
+        //     console.log('err: ', err);
+        //     if(err == 'noExhib') this.router.navigate(['exhibitions']);
+        //   });
       }
     }
 
