@@ -25,7 +25,7 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
   @Output() changeUserExhibitions = new EventEmitter<String>();
 
   getExhibitions: Subscription;
-
+ 
   exhibitions:IExhib[] = [];
   exhibitionForm:FormGroup;
 
@@ -35,19 +35,21 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
+ 
     this.getAddingExhib(this.idAddingExhibitions);
 
     this.getExhibitions = this.exhib.Exhibitions.subscribe((data:IExhib[])=>{
       this.exhibitions = data;
       this.exhibitionForm = this.exhib.initForm(this.exhibitions);
       this.exhibitionForm.setValidators(this.exhibitionFormValidator());
+      console.log('exhibitionForm start: ',this.exhibitionForm.value);
       
       this.exhib.AddingExhibitions.subscribe((exhib:[])=>{
         //console.log('AddingExhibitions: ',exhib)
         this.exhibitionForm.reset();
         this.exhibitionForm.patchValue(new UserExhibitions(this.exhib.stringToArr(this.userExhibitions)), {emitEvent: false}); 
         this.exhibitionForm.patchValue(new UserExhibitions(exhib));
+        console.log('exhibitionForm next: ',this.exhibitionForm.value);
       })
 
       this.exhibitionForm.valueChanges.subscribe(ev => {
@@ -61,19 +63,21 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
   private exhibitionFormValidator(): ValidatorFn{
     return (group: FormGroup): {[key: string]: any} =>{
       let valid:boolean = false;
+      console.log('------------------------------------------------------');
       for(let key in group.controls){
+        //console.log(`${key}: ${group.controls[key].value}`);
         if(group.controls[key].value == true) {
           valid = true;
           break
         }
       }
-      if(valid)return null;
+      if(valid) return null;
       return {
         custom: 'Потрібно обрати принаймі одну виставку'
       };
     };
   }
- 
+  
   getAddingExhib(id){
     this.exhib.getAddingExhib(id)
   }

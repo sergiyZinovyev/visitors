@@ -2,14 +2,20 @@
     max-width: 400px;
 }
 
-.example-header-image {
-    background-image: url('https://visitors.galexpo.com.ua:7002/static/registration/shared/logo2.png');
-    background-size: cover;
+.card-header{
+    background-color: rgba(255, 255, 255, 0);
+    padding: 0px;
+    padding-bottom: 10px;
+}
+
+.title{
+    font-size: large;
+    color: #004880;
 }
 
 .color{
     /* background-color: rgb(219, 220, 255); */
-    background-color:#0063af28; 
+    background-color:#0063af28;  
 }
 
 .btn-color{

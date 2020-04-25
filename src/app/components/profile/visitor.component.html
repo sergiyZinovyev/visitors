@@ -184,7 +184,7 @@
 
                 </div>
             </div>
-
+ 
             <div class="reg-form2">
                 <mat-expansion-panel class="reg-form3">
                     <mat-expansion-panel-header>
@@ -197,7 +197,7 @@
             <ng-container *ngIf = "submitted && visitorForm.invalid">
                 <div class="alert alert-warning" role="alert">
                     <div class="font-weight-bold mb-2">{{"Не всі обов'язкові поля заповнені або заповнені невірно" | translate: lang}}</div>
-                        - {{visitorForm.errors?.validContact | translate: lang}}
+                    {{visitorForm.errors?.validContact | translate: lang}}
                     <ng-container  *ngFor='let item of getErrorsMessage(visitorForm)'>
                         <div>- {{item | translate: lang}}</div>
                     </ng-container>
@@ -207,13 +207,13 @@
             <div *ngIf="warning" class="alert alert-danger">
                 {{warning | translate: lang}}
             </div>
-
+ 
             <button 
                 type="submit"
                 mat-raised-button 
                 color="accent" 
                 class="btn-lg btn-block py-2 my-btn btn-color">
-                <span class="pr-2 btn-font">{{'Отримати запрошення' | translate: lang}}</span>
+                <span class="pr-2 btn-font"><span *ngIf='newVisitor'>{{'Зареєструватися'}} / </span>{{'Отримати запрошення' | translate: lang}}</span>
                 <mat-icon>local_activity</mat-icon>
             </button>
 

@@ -1,0 +1,53 @@
+.title{
+    color: #0064af;
+}
+
+.example-card {
+    width: 400px;
+    height: 650px;
+}
+ 
+/* .card-avatar{
+    width: 11%;
+
+} */
+
+.card-header{
+    height: 8.5%;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 0px;
+    padding-bottom: 10px;
+    
+}
+.some-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size:20px;
+}
+
+.card-image{
+    height: 65%;
+}
+
+.card-content{
+    font-size: 12px;
+    height: 16.5%;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #0063af31 #0063af0e;
+}
+
+ 
+@media screen and (max-device-width:400px){
+    .card-image{
+        height: 90vw;
+    }
+    .card-content{
+        font-size: 12px;
+        height: 23%;
+        overflow: auto;
+    }
+}
+
+
+

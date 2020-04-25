@@ -19,7 +19,10 @@ export interface IExhib{
 export class ExhibitionsService {
 
   Exhibitions: BehaviorSubject<IExhib[]> = new BehaviorSubject([]);
-  AddingExhibitions: BehaviorSubject<string[]> = new BehaviorSubject([]);
+  // AddingExhibitions: BehaviorSubject<string[]> = new BehaviorSubject([]);
+
+
+  AddingExhibitions: Subject<string[]> = new Subject();
 
   constructor(
     private http: HttpService,
@@ -28,7 +31,7 @@ export class ExhibitionsService {
     this.http.get('db/exhibitions_dict').subscribe((data: IExhib[]) =>{
       this.Exhibitions.next(data)
     });
-    //this.getAddingExhib(this.urlApp.getSearchParam('idex'))
+    //this.getAddingExhib(this.urlApp.getSearchParam('idex')) 
   }
 
   initForm(exhibitions:IExhib[]):FormGroup{
@@ -52,7 +55,7 @@ export class ExhibitionsService {
       if(obj[key]) val+=`${key}, `;
       else val+=`, `
     }
-    if(!this.stringToArr(val) || this.stringToArr(val).length == 0) val = '';
+    if(!this.stringToArr(val) || this.stringToArr(val).length == 0) val = ''; 
     return val
   }
 

@@ -1,1 +1,25 @@
-<p>exhib works!</p>
+<div class="container-fluid pt-4">
+    <div class="d-flex justify-content-center h4 title mb-4 text-center">Оберіть виставку та отримайте запрошення</div>
+    <div class="d-flex justify-content-center flex-wrap">
+        <mat-card class="example-card mx-md-3 mb-5 d-flex flex-column justify-content-between" *ngFor="let item of exhibitions">
+            <div class="d-flex card-header">
+                <img 
+                    [src]="item.logoImg" 
+                    (error)="imgErrorHandler($event, item.altLogoImg)" 
+                    class='mr-3'
+                    width=auto 
+                    height=40
+                    alt="img">
+                <div class="some-text">{{item.name}}</div>
+            </div>
+            <img mat-card-image [src]="item.img" (error)="imgErrorHandler($event, item.altImg)" class='card-image' alt="img">
+            <div mat-card-content class="card-content">
+                <p>{{item.description}}</p>
+            </div>
+            <mat-card-actions class="mt-0 pt-0">
+                <a mat-button [href]='item.site'>Детальніше</a>
+                <button mat-button (click)='getInvite(item.numexhib)'>Запрошення</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>   

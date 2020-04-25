@@ -53,4 +53,8 @@ export class UrlService {
     return this.params
   }
 
+  setIdex(idex){
+    return this._frontUrl.searchParams.set('idex', idex)
+  }
+
 }

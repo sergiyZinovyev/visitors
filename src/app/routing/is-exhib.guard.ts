@@ -17,7 +17,7 @@ export class IsExhibGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if(this.visitor.curretnVisitorModel.regnum) {
-      if(this.exhib.visitorsData.id_exhibition) return true;
+      if(next.queryParams.idex) return true;
       this.dialog.confirmOpen('Оберіть виставку', 'exhibitions');
       return false;
     };

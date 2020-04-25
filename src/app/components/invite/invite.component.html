@@ -1,14 +1,31 @@
 <div class="container">
     <div #content class="d-flex align-items-center justify-content-center pt-3" id='element-to-print'>
         <mat-card class="example-card color" >
-            <mat-card-header class="mb-2">
-                <div mat-card-avatar class="example-header-image"></div> 
-                <mat-card-title>ЗАПРОШЕННЯ</mat-card-title>
-                <mat-card-subtitle>Дентал-ЕКСПО</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image class="" [src]="getImg()">
+            <div class="d-flex card-header">
+                <img 
+                    [src]="exhib?.logoImg" 
+                    (error)="imgErrorHandler($event, exhib?.altLogoImg)"
+                    (load)="imgLoadHandler($event)" 
+                    width=auto 
+                    height=40 
+                    class='mr-3' 
+                    alt="img"
+                    id='logo'>
+                <div>
+                    <div class="title">ЗАПРОШЕННЯ</div>
+                    <div class="text-black-50">{{exhib?.name}}</div>
+                </div>
+            </div>
+            <img 
+                mat-card-image 
+                [src]="exhib?.img" 
+                (error)="imgErrorHandler($event, exhib?.altImg)"
+                (load)="imgLoadHandler($event)" 
+                class='' 
+                alt="img"
+                id='img'>
             <mat-card-content>
-                <p>
+                <p> 
                     Шановний(а) 
                     <strong>{{visitor.fullName}}</strong>
                     , Ви отримали персональне запрошення на виставку

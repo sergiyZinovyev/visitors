@@ -6,12 +6,13 @@ import {Subscription, Observable, from} from'rxjs';
 import { catchError, map, tap} from 'rxjs/operators';
 import {ILogin, IRegion} from '../../shared/visitors.interfaces';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm, AbstractControl } from '@angular/forms';
-import {UrlService} from '../../shared/url.service';
+import {UrlService, SearchParams} from '../../shared/url.service';
 import {HttpService} from '../../shared/http.service';
 import {ExhibvisService} from '../../shared/exhibvis.service';
 import {ValidatorvisService} from './validatorvis.service';
 import {DialogService} from '../../modals/dialog.service';
 import {DashboardService} from '../dashboard/dashboard.service';
+
 
 @Component({
   selector: 'app-visitor',
@@ -154,7 +155,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
         this.warning = errMessage}
     })
   }
-
+ 
   getErrorsMessage(formGroup: FormGroup){
     return this.CastomValidator.getErrorsMessages(formGroup)
   }
@@ -173,10 +174,10 @@ export class VisitorComponent implements OnInit, OnDestroy{
       this.loading = true;
       if(this.newVisitor) {
         this.visitorService.createVisitor(this.visitorForm.value)
-          .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
+          //.then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_=> {
             //this.loading = false;
-            this.router.navigate(['invite']);
+            this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}});
           })
           // .then(_ => this.exhib.addVisitorToExhib())
           // .then(data => {
@@ -192,12 +193,12 @@ export class VisitorComponent implements OnInit, OnDestroy{
       } 
       else if (!this.visitorService.compareModels(this.visitorForm.value)) {
         this.visitorService.updateVisitor(this.visitorForm.value)
-          .then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
+          //.then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
           .then(_=> {
             //this.loading = false;
-            this.router.navigate(['invite']);
+            this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}});
           })
-          //.then(_ => this.exhib.addVisitorToExhib())
+          //.then(_ => this.exhib.addVisitorToExhib()) 
           // .then(data => {
           //   if(data == 'REGISTERED') queryPar = 'REGISTERED';
           //   this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
@@ -211,7 +212,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
       }
       else {
         //this.loading = false;
-        this.router.navigate(['invite']);
+        this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}});
         // this.exhib.addVisitorToExhib()
         //   .then(data => {
         //     if(data == 'REGISTERED') queryPar = 'REGISTERED';

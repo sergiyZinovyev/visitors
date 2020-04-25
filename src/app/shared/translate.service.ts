@@ -121,8 +121,8 @@ export class TranslateService {
       EN: 'Not all required fields are filled or filled in incorrectly'
     },
     {
-      id: 'Потрібно заповнити або телефон або email',
-      EN: 'You need to fill in either your phone or email'
+      id: '- Потрібно заповнити або телефон або email',
+      EN: '- You need to fill in either your phone or email'
     },
     {
       id: 'Потрібно обрати принаймні одну виставку',

@@ -50,16 +50,16 @@ export class ValidatorvisService {
     this.set.add(errName);
     err[errName] = 'Потрібно обрати принаймні одну виставку';
     if(!control.value) return err;
-    let arr: Array<string> = control.value.split(', ').filter((val:string) => val != '')
+    let arr: Array<string> = control.value.split(', ').filter((val:string) => val != '');
     if(arr.length > 0) return null;
     else return err
   }
 
   validContact(group: FormGroup, errName: string = 'validContact', err = {}): {[key: string]: any}{
-    //console.log('validContact: start');
+    //console.log('validContact: start'); 
    
       this.set.add(errName);
-      err[errName] = 'Потрібно заповнити або телефон або email';
+      err[errName] = '- Потрібно заповнити або телефон або email';
       //console.log('cellphone', group.get('cellphone').value);
       //console.log('email', group.get('email').value);
       if(!group.get('cellphone').value && !group.get('email').value){

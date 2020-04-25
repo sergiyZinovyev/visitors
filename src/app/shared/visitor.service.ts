@@ -50,10 +50,12 @@ export class VisitorService {
 
   createVisitor(body: VisitorModel): Promise<any>{
     return this.crudVisitor(body, 'createInVisitorsCreate')
+      .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone}))
   }
 
   updateVisitor(body: VisitorModel): Promise<any>{
     return this.crudVisitor(body, 'editPro2')
+      .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone}))
   }
 
   private crudVisitor(body:{}, routeName: string){
@@ -90,7 +92,7 @@ export class VisitorService {
           //console.log(key, ': changed')
         }
     }
-    //console.log(flag);
+    //console.log(flag); 
     return flag;
   }
 

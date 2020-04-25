@@ -12,12 +12,14 @@ import {Subscription, Observable, from} from'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ExhibResolver implements Resolve<any> {
   constructor(private service: ExhibvisService) {}
-
+ 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any>|Promise<any>|any {
-    return this.service.addVisitorToExhib();
+    //console.log('route: ',route);
+    //console.log('state: ',state);
+    return this.service.addVisitorToExhib(route.queryParams.idex);
   }
 }
 

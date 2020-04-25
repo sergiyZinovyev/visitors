@@ -3,6 +3,8 @@ import {HttpService} from './http.service';
 import { VisitorService} from './visitor.service';
 import {UrlService, SearchParams} from './url.service';
 import {VisitorModel} from '../components/profile/visitor-model';
+import{ExhibService, ExhibModel} from '../components/exhib/exhib.service'
+
 
 class ExhibvisModel {
 
@@ -21,7 +23,7 @@ class ExhibvisModel {
   utm_content: string;
   new_visitor: string = undefined;
 
-  reg: boolean = false;
+  //reg: boolean = false;
 
   constructor(searchParameters: SearchParams, regnum: number) {
     this.id_exhibition = searchParameters.idex;
@@ -35,7 +37,7 @@ class ExhibvisModel {
   }
     
 }
-
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -48,6 +50,7 @@ export class ExhibvisService {
     private visitor: VisitorService,
     private http: HttpService,
     private urlService: UrlService,
+    private exhibition: ExhibService
   ){
     this.visitor.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
       this.visitorsData.id_visitor = data.regnum
@@ -57,27 +60,40 @@ export class ExhibvisService {
     });
   }
 
-  addVisitorToExhib(){
+  addVisitorToExhib(idex){
     this.errMessage = null;
+    this.setExhib(idex);
     return new Promise((resolve, reject)=>{
-      //if(!this.visitorsData.id_exhibition) return reject('noExhib');
-      this.visitorsData.reg = false;
+      //this.visitorsData.reg = false;
       this.http.get(`checkViv/?idVis=${this.visitorsData.id_visitor}&exhib=${this.visitorsData.id_exhibition}`).subscribe(checkData =>{
         if(this.errMessage) return reject(this.errMessage)
         if(checkData[0]) {
-          this.visitorsData.reg = true;
-          //this.dialogOpen('ви вже реєструвалися'); 
-          return resolve('REGISTERED')
+          //this.visitorsData.reg = true;
+          this.exhibition.getExhib(idex)
+            .then((data: ExhibModel)=>{
+              return resolve({reg: 'REGISTERED', dataExhibition: data})
+            })
+            .catch(err => console.log('getExhib Error: ', err)) 
+          //return resolve('REGISTERED')
         }
         else {
           this.http.post(this.visitorsData, 'createInExhibition_vis').subscribe(data =>{ 
             if(this.errMessage) return reject(this.errMessage)
             console.log("addVisitorToExhib data: ", data);
-            resolve(data)
+            this.exhibition.getExhib(idex)
+            .then((data: ExhibModel)=>{
+              return resolve({reg: 'NOREGISTERED', dataExhibition: data})
+            })
+            .catch(err => console.log('getExhib Error: ', err)) 
+            //resolve(data)
           })
         }
       })
     })
+  }
+ 
+  private setExhib(id){
+    this.visitorsData.id_exhibition = id
   }
  
 }
