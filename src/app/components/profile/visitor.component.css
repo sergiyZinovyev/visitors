@@ -58,3 +58,10 @@
 .btn-font{
   font-size: smaller;
 }
+
+@media screen and (max-device-width:400px){
+  .btn-font-small{
+    font-size: 12px;
+  }
+
+}

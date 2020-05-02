@@ -26,6 +26,9 @@ export class VisitorModel {
     rating: string;
     ins_user: string;
 
+    checkEmail:boolean = false;
+    checkPhone:boolean = false;
+ 
     constructor(getVisitorData?){
         this.regnum = getVisitorData?.regnum ?? "";
         this.name = getVisitorData?.name ?? "";
@@ -68,5 +71,15 @@ export class VisitorModel {
         this.cellphone = v;
     }
     
+    public patchPotvid(addingPotvid: Array<string>){
+        let newPotvid = '';
+        let arrFromPotvid = this.potvid.split(', ').filter(value=> {
+            if(value != '') return value
+        });
+        let potvid = new Set(arrFromPotvid);
+        addingPotvid.forEach(v => potvid.add(v));
+        potvid.forEach(v => newPotvid+=v+', ')
+        this.potvid = newPotvid
+    }
      
 }

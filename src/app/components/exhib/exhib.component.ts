@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
 import {ExhibService, ExhibModel} from './exhib.service';
 import {ExhibvisService} from '../../shared/exhibvis.service';
+import {VisitorService} from '../../shared/visitor.service'
 import { Router } from '@angular/router';
 import {UrlService, SearchParams} from '../../shared/url.service';
 
@@ -17,6 +18,7 @@ export class ExhibComponent implements OnInit {
     private exhib: ExhibService,
     private router: Router,
     private urlService: UrlService,
+    private visitor: VisitorService,
     private exhibVis: ExhibvisService
   ) { }
   
@@ -35,6 +37,7 @@ export class ExhibComponent implements OnInit {
   
   getInvite(idExhib){
     this.urlService.setIdex(idExhib);
+    this.visitor.patchCloneVisitorModel(idExhib);
     this.router.navigate(['invite'], {queryParams: {idex: idExhib}});
   }
 

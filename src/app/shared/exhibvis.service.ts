@@ -43,7 +43,7 @@ class ExhibvisModel {
 })
 export class ExhibvisService {
 
-  visitorsData = new ExhibvisModel(this.urlService.getAllSearch(), this.visitor.curretnVisitorModel.regnum);
+  visitorsData = new ExhibvisModel(this.urlService.searchParams, this.visitor.curretnVisitorModel.regnum);
   errMessage: string;
 
   constructor(

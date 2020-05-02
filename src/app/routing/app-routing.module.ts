@@ -8,11 +8,13 @@ import {IsLoggedInGuard} from './is-logged-in.guard';
 import {IsExhibGuard} from './is-exhib.guard';
 import {ExhibvisService} from '../shared/exhibvis.service';
 import {Subscription, Observable, from} from'rxjs';
-
+ 
 @Injectable({ providedIn: 'root' })
 export class ExhibResolver implements Resolve<any> {
-  constructor(private service: ExhibvisService) {}
- 
+  constructor(
+    private service: ExhibvisService,
+  ) {}
+  
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -22,7 +24,7 @@ export class ExhibResolver implements Resolve<any> {
     return this.service.addVisitorToExhib(route.queryParams.idex);
   }
 }
-
+ 
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'login', component: LoginComponent},

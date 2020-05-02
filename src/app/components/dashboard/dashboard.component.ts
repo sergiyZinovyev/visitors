@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core'; 
 import { Router } from '@angular/router';
+import {Observable} from 'rxjs';
 import {DashboardService} from './dashboard.service';
+import {UrlService, SearchParams} from '../../shared/url.service';
+import {VisitorService} from '../../shared/visitor.service'
 
 
 @Component({
@@ -10,22 +13,24 @@ import {DashboardService} from './dashboard.service';
 })
 export class DashboardComponent implements OnInit {
 
-  lang:string;
-  // language = window.navigator ? (window.navigator.language ||
-  //   window.navigator.NavigatorLanguage.systemLanguage ||
-  //   window.navigator.userLanguage) : "ru";
-  // language = language.substr(0, 2).toLowerCase();
+  lang:string;  
+  searchParamsExhib: number;
 
   constructor(
     private router: Router,
-    private dashboard: DashboardService
+    private dashboard: DashboardService,
+    private urlService: UrlService,
+    private visitor: VisitorService
   ) { }
-
+ 
   ngOnInit(): void {
-    this.dashboard.lang.subscribe(lang => this.lang = lang)
+    this.dashboard.lang.subscribe(lang => this.lang = lang);
+    this.urlService.getSearchParams.subscribe((data:SearchParams) => this.searchParamsExhib = data.idex);
   }
 
   exit(){
+    this.visitor.createNewModel();
+    this.urlService.setIdex(null);
     this.router.navigate(['login'])
   }
 

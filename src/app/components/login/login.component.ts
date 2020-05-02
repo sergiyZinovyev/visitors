@@ -3,7 +3,6 @@ import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, Fo
 import { Router } from '@angular/router';
 import {VisitorService} from '../../shared/visitor.service';
 import {ILogin} from '../../shared/visitors.interfaces';
-import {UrlService} from '../../shared/url.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 
 @Component({
@@ -28,7 +27,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private visitorService: VisitorService,
     private router: Router,
     private dashboard: DashboardService,
-    private urlApp: UrlService
   ) { }
 
   ngOnInit(): void { 

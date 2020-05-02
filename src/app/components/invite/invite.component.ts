@@ -9,7 +9,7 @@ import {DialogService} from '../../modals/dialog.service';
 import{ExhibService, ExhibModel} from '../exhib/exhib.service'
 
 import * as html2pdf from 'html2pdf.js';
-
+ 
 class EmailDataModel {
   email: string;
   prizv: string;

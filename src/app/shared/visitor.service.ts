@@ -10,7 +10,7 @@ import { catchError, map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class VisitorService {
-
+ 
   curretnVisitorModel:VisitorModel = new VisitorModel();
   getCurrrentVisitor: BehaviorSubject<VisitorModel> = new BehaviorSubject(this.curretnVisitorModel);
   getErrMessages: Subject<string> = new Subject();
@@ -54,6 +54,7 @@ export class VisitorService {
   }
 
   updateVisitor(body: VisitorModel): Promise<any>{
+    if(this.compareModels(body)) return new Promise((resolve, reject) => resolve('the model has not changed'))
     return this.crudVisitor(body, 'editPro2')
       .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone}))
   }
@@ -68,9 +69,26 @@ export class VisitorService {
     })
   }
  
-  private createNewModel(data?){
+  createNewModel(data?){
     this.curretnVisitorModel = new VisitorModel(data);
     this.getCurrrentVisitor.next(this.curretnVisitorModel);
+  }
+
+  private cloneVisitorModel(){
+    return new VisitorModel(this.curretnVisitorModel);
+  }
+
+  patchCloneVisitorModel(idex){
+    let clon = this.cloneVisitorModel();
+    this.http.get(`groupexhib?id=${idex}`).pipe(
+      map(vl => vl.map(obj => obj.name))
+    ).subscribe(data =>{
+      //console.log("clone groupexhib", clon.potvid);
+      //console.log("new groupexhib: ", data);
+      clon.patchPotvid(data);
+      //console.log("patched clone", clon);
+      if(clon.regnum)this.updateVisitor(clon).then(_ => console.log("patched groupexhib", this.curretnVisitorModel.potvid)).catch(err => console.log(err))
+    })
   }
 
   setKey(data: ILogin){
@@ -80,7 +98,7 @@ export class VisitorService {
     this.getCurrrentVisitor.next(this.curretnVisitorModel);
   }
 
-  compareModels(newModel: VisitorModel): boolean{
+  private compareModels(newModel: VisitorModel): boolean{
     let currentModel = this.curretnVisitorModel
     let flag = true
     for (let key in currentModel){

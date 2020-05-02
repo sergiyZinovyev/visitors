@@ -213,10 +213,11 @@
                 mat-raised-button 
                 color="accent" 
                 class="btn-lg btn-block py-2 my-btn btn-color">
-                <span class="pr-2 btn-font"><span *ngIf='newVisitor'>{{'Зареєструватися'}} / </span>{{'Отримати запрошення' | translate: lang}}</span>
+                <span *ngIf='newVisitor' class="pr-2 btn-font btn-font-small">{{'Зареєструватися/Отримати запрошення' | translate: lang}}</span>
+                <span *ngIf='!newVisitor' class="pr-2 btn-font">{{'Отримати запрошення' | translate: lang}}</span>
                 <mat-icon>local_activity</mat-icon>
             </button>
-
+ 
              
         </form>
     </div>  

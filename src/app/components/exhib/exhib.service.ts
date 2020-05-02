@@ -4,6 +4,7 @@ import {catchError, map} from 'rxjs/operators';
 
 export class ExhibModel {
   numexhib: number;
+  id_exhib_dict: number;
   name: string;
   description: string;
   datebegin: Date;
@@ -16,6 +17,7 @@ export class ExhibModel {
 
   constructor(exhibData, dbUrl: string) {
     this.numexhib = exhibData?.numexhib ?? null;
+    this.id_exhib_dict = exhibData?.id_exhib_dict ?? null;
     this.name = exhibData?.nameexhibkor ?? "";
     this.description = exhibData?.description ?? "";
     this.datebegin = exhibData?.datebegin ?? "";

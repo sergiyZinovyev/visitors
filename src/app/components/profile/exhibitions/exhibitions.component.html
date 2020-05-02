@@ -1,8 +1,8 @@
 <form [formGroup]="exhibitionForm">
     <div class="row">
         <ng-container *ngFor="let item of exhibitions">
-            <!-- <div *ngIf='item.kod===1' class="col-12 col-sm-6"> -->
-            <div class="col-12 col-sm-6">    
+            <div *ngIf='item.kod===1' class="col-12 col-sm-6">
+            <!-- <div class="col-12 col-sm-6">     -->
                 <mat-checkbox class='ml-1' formControlName={{item.name}}>
                     {{item.name}}
                 </mat-checkbox>

@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import {VisitorService} from '../../shared/visitor.service';
 import {VisitorModel} from './visitor-model';
 import {Subscription, Observable, from} from'rxjs';
-import { catchError, map, tap} from 'rxjs/operators';
+//import { catchError, map, tap} from 'rxjs/operators';
 import {ILogin, IRegion} from '../../shared/visitors.interfaces';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm, AbstractControl } from '@angular/forms';
 import {UrlService, SearchParams} from '../../shared/url.service';
-import {HttpService} from '../../shared/http.service';
-import {ExhibvisService} from '../../shared/exhibvis.service';
+//import {HttpService} from '../../shared/http.service';
+//import {ExhibvisService} from '../../shared/exhibvis.service';
 import {ValidatorvisService} from './validatorvis.service';
-import {DialogService} from '../../modals/dialog.service';
+//import {DialogService} from '../../modals/dialog.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 
 
@@ -27,7 +27,10 @@ export class VisitorComponent implements OnInit, OnDestroy{
   loading: boolean = false;
   lang: string;
 
-  getCurrrentVisitor: Subscription;
+  subCurrrentVisitor: Subscription;
+  subSearchParamsExhib: Subscription;
+  subLang: Subscription;
+  subErrMessages: Subscription;
 
   getCountries: Subscription;
   countries: IRegion[];
@@ -82,7 +85,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
 
 
   potvid: string = null;
-  searchParamsExhib = this.urlApp.getSearchParam('idex');
+  searchParamsExhib: number;
   patchPotvid(val: string){
     this.visitorForm.patchValue({potvid: val});
   }
@@ -92,15 +95,17 @@ export class VisitorComponent implements OnInit, OnDestroy{
     private visitorService: VisitorService,
     private router: Router,
     private urlApp: UrlService,
-    private exhib: ExhibvisService,
+    //private exhib: ExhibvisService,
     private CastomValidator: ValidatorvisService,
-    private dialog: DialogService,
+    //private dialog: DialogService,
     private dashboard: DashboardService,
   ) {}
 
   ngOnInit(): void {
 
-    this.dashboard.lang.subscribe(lang => this.lang = lang);
+    this.subLang = this.dashboard.lang.subscribe(lang => this.lang = lang);
+
+    this.subSearchParamsExhib = this.urlApp.getSearchParams.subscribe((data:SearchParams)=> {this.searchParamsExhib = data.idex; console.log('searchParamsExhib: ', this.searchParamsExhib)});
 
     this.visitorForm.setValidators(this.CastomValidator.validContact.bind(this.CastomValidator));
     
@@ -124,7 +129,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
       this.branches = data;
     });
 
-    this.getCurrrentVisitor = this.visitorService.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
+    this.subCurrrentVisitor = this.visitorService.getCurrrentVisitor.subscribe((data: VisitorModel) =>{
       //console.log('new Model: ',data);
       if(data.regnum) this.newVisitor = false;
       if(data.countryid) this.visitorService.getRegions(data.countryid);
@@ -149,7 +154,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
       this.filteredCities = this.cities.filter(city => city.teretory.toLowerCase().includes(data.toLowerCase()))
     });
 
-    this.visitorService.getErrMessages.subscribe(errMessage =>{
+    this.subErrMessages = this.visitorService.getErrMessages.subscribe(errMessage =>{
       if(errMessage) {
         this.loading = false;
         this.warning = errMessage}
@@ -160,81 +165,43 @@ export class VisitorComponent implements OnInit, OnDestroy{
     return this.CastomValidator.getErrorsMessages(formGroup)
   }
 
-  submit(){
-    let queryPar = '';
+  submit(): void{
     this.warning = '';
     this.submitted = true;
 
-
-    //console.log('visitorForm messages: ', this.getErrorsMessage(this.visitorForm));
-    //console.log('visitorForm status: ', this.visitorForm.status);
     if(this.visitorForm.valid){
-      //console.log('!!! visitorForm valid !!!');
-      //console.log('visitorForm: ', this.visitorForm.value);
       this.loading = true;
       if(this.newVisitor) {
         this.visitorService.createVisitor(this.visitorForm.value)
-          //.then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
-          .then(_=> {
-            //this.loading = false;
-            this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}});
-          })
-          // .then(_ => this.exhib.addVisitorToExhib())
-          // .then(data => {
-          //   if(data == 'REGISTERED') queryPar = 'REGISTERED';
-          //   this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
-          //   this.loading = false;
-          // })
-          .catch(err=>{
+          .then(_ => this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}}))
+          .then(data => {if(!data)this.loading = false})
+          .catch(err => {
             this.loading = false;
             console.log('err: ', err);
-            //if(err == 'noExhib') this.router.navigate(['exhibitions']); 
           })
       } 
-      else if (!this.visitorService.compareModels(this.visitorForm.value)) {
+      else {
         this.visitorService.updateVisitor(this.visitorForm.value)
-          //.then(_ => this.visitorService.getVisitor({email: this.visitorForm.get('email').value, cellphone: this.visitorForm.get('cellphone').value}))
-          .then(_=> {
-            //this.loading = false;
-            this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}});
-          })
-          //.then(_ => this.exhib.addVisitorToExhib()) 
-          // .then(data => {
-          //   if(data == 'REGISTERED') queryPar = 'REGISTERED';
-          //   this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
-          //   this.loading = false;
-          // })
+          .then(_ => this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}}))
+          .then(data=> {if(!data)this.loading = false})
           .catch(err=>{
             this.loading = false;
             console.log('err: ', err);
-            //if(err == 'noExhib') this.router.navigate(['exhibitions']);
           })
-      }
-      else {
-        //this.loading = false;
-        this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}});
-        // this.exhib.addVisitorToExhib()
-        //   .then(data => {
-        //     if(data == 'REGISTERED') queryPar = 'REGISTERED';
-        //     this.router.navigate(['invite'], {queryParams: {reg: queryPar}});
-        //     this.loading = false;
-        //   })
-        //   .catch(err=>{
-        //     this.loading = false;
-        //     console.log('err: ', err);
-        //     if(err == 'noExhib') this.router.navigate(['exhibitions']);
-        //   });
       }
     }
 
   }
  
   ngOnDestroy():void{
-    this.getCurrrentVisitor.unsubscribe();
+    this.subCurrrentVisitor.unsubscribe();
     this.getRegions.unsubscribe();
     this.getCountries.unsubscribe();
     this.getCities.unsubscribe();
     this.getBranches.unsubscribe();
+    this.subSearchParamsExhib.unsubscribe();
+    this.subLang.unsubscribe();
+    this.subErrMessages.unsubscribe();
 
     this.loading = false;
   }

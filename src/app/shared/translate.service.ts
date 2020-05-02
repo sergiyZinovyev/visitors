@@ -129,14 +129,14 @@ export class TranslateService {
       EN: 'At least one exhibition must be selected'
     },
     {
-      id: 'Прізвище',
-      EN: 'Last name'
+      id: 'Зареєструватися/Отримати запрошення',
+      EN: 'Register/Receive Invitation'
     },
     {
       id: "Ім'я",
       EN: 'First name'
     },
-    {
+    { 
       id: 'По-батькові',
       EN: 'Surname'
     },

@@ -14,7 +14,7 @@ export class IsExhibGuard implements CanActivate {
     @Inject(VisitorService) private visitor: VisitorService,
     private dialog: DialogService,
     ){}
-
+ 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if(this.visitor.curretnVisitorModel.regnum) {
       if(next.queryParams.idex) return true;

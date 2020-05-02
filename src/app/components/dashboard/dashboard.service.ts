@@ -25,6 +25,6 @@ export class DashboardService {
   setLang(language: 'EN'|'UK'){
     this.lang.next(language)
   }
-
+  
 }
   

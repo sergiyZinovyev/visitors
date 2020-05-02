@@ -24,13 +24,13 @@
     </div>
     <mat-menu #menu="matMenu" class="justify-content-start shadow-sm main-color"> 
         <button class="link-color" mat-menu-item routerLink="visitor" routerLinkActive="active-link">{{"Профіль" | translate: lang}}</button>
-        <button class="link-color" mat-menu-item routerLink="invite" routerLinkActive="active-link">{{"Запрошення" | translate: lang}}</button>
+        <button class="link-color" mat-menu-item routerLink="invite" [queryParams] = "{idex: searchParamsExhib}" routerLinkActive="active-link">{{"Запрошення" | translate: lang}}</button>
         <button class="link-color" mat-menu-item routerLink="exhibitions" routerLinkActive="active-link">{{"Виставки" | translate: lang}}</button>
     </mat-menu>
   
     <div class="collapse navbar-collapse justify-content-end">
         <a class="main-color mx-1" mat-button routerLink="visitor" routerLinkActive="active-link">{{"Профіль" | translate: lang}}</a>
-        <a class="main-color mx-1" mat-button routerLink="invite" routerLinkActive="active-link">{{"Запрошення" | translate: lang}}</a>
+        <a class="main-color mx-1" mat-button routerLink="invite" [queryParams] = "{idex: searchParamsExhib}" routerLinkActive="active-link">{{"Запрошення" | translate: lang}}</a>
         <a class="main-color mx-1" mat-button routerLink="exhibitions" routerLinkActive="active-link">{{"Виставки" | translate: lang}}</a>
     </div>
     
