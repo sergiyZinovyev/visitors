@@ -37,6 +37,7 @@ import { MatSelectFilterModule } from 'mat-select-filter';
 import { NgxBarcodeComponent } from './shared/lib/ngx-barcode.component';
 import { TranslatePipe } from './translate.pipe';
 import { DialogConfirmComponent } from './modals/dialog-confirm/dialog-confirm.component';
+import { PasswordComponent } from './components/profile/password/password.component';
 
 
 
@@ -58,6 +59,7 @@ import { DialogConfirmComponent } from './modals/dialog-confirm/dialog-confirm.c
     TranslatePipe,
     ExhibComponent,
     DialogConfirmComponent,
+    PasswordComponent,
   ],
   imports: [
     BrowserModule,

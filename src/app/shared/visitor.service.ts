@@ -5,6 +5,7 @@ import {ILogin, IRegion} from './visitors.interfaces';
 import {VisitorModel} from '../components/profile/visitor-model'
 import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
 import { catchError, map} from 'rxjs/operators';
+import {DialogService} from '../modals/dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class VisitorService {
 
   constructor(
     private http: HttpService,
+    private dialog: DialogService
   ){
     this.http.getErrMessages.subscribe(errMessage =>{
       this.errMessage = errMessage;
@@ -41,25 +43,41 @@ export class VisitorService {
   }
 
   getVisitor(body: ILogin): Promise<any>{
-    return this.crudVisitor(body, 'get')
+    return this.crudVisitor(body, 'getVisitor')
       .then(data => {
         if(data[0])this.createNewModel(data[0]);
+        //console.log('curretnVisitorModel: ', this.curretnVisitorModel)
         return data
       })
+      //.catch(err => err);
   }
-
+ 
   createVisitor(body: VisitorModel): Promise<any>{
     return this.crudVisitor(body, 'createInVisitorsCreate')
-      .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone}))
+      .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone, password: body.password}))
+      .then(data => {this.changePass(body, data[0].regnum); return 'ok'}) 
+      //.catch(err => err);
   }
 
   updateVisitor(body: VisitorModel): Promise<any>{
-    if(this.compareModels(body)) return new Promise((resolve, reject) => resolve('the model has not changed'))
+    this.changePass(body);
+    if(this.compareModels(body)) return Promise.resolve('the model has not changed');
     return this.crudVisitor(body, 'editPro2')
-      .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone}))
+      .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone, password: body.password}))
   }
 
-  private crudVisitor(body:{}, routeName: string){
+  private changePass(newVisitorModel, regnum?): void{
+    if(newVisitorModel.password === this.curretnVisitorModel.password) return console.log('password not change');
+    if(!newVisitorModel.email) return this.dialog.dialogOpen('email undefined');
+    newVisitorModel.firstpassword = this.curretnVisitorModel.password;
+    if (regnum) newVisitorModel.regnum = regnum;
+    this.dialog.dialogOpen("на вашу пошту буде надісланий електронний лист з підтвердженням пароля");
+    this.crudVisitor(newVisitorModel, 'changePass')
+      .then(data => {console.log('data changePass:',data)})
+      .catch(err=> {console.log('err: ', err); this.dialog.dialogOpen("Вибачте, помилка на сервері, пароль не змінено, спробуйте пізніше")})
+  }
+
+  private crudVisitor(body:{}, routeName: string): Promise<any>{
     this.errMessage = null;
     return new Promise((resolve, reject) =>{
       this.http.post(body, routeName).subscribe(data =>{
@@ -87,7 +105,7 @@ export class VisitorService {
       //console.log("new groupexhib: ", data);
       clon.patchPotvid(data);
       //console.log("patched clone", clon);
-      if(clon.regnum)this.updateVisitor(clon).then(_ => console.log("patched groupexhib", this.curretnVisitorModel.potvid)).catch(err => console.log(err))
+      if(clon.regnum) this.updateVisitor(clon).then(_ => console.log("patched groupexhib", this.curretnVisitorModel.potvid)).catch(err => console.log(err))
     })
   }
 
@@ -102,15 +120,16 @@ export class VisitorService {
     let currentModel = this.curretnVisitorModel
     let flag = true
     for (let key in currentModel){
+        if (key == 'patchPotvid' || key == 'fullName' || key == 'newEmail' || key == 'newCellphone'|| key == 'password') continue
         if(currentModel[key] == newModel[key]){
-          //console.log(key, ': not changed')
+          //console.log(`${key} -- not changed`)
         }
         else{
           flag = false;
-          //console.log(key, ': changed')
+          console.log(`${key}: ${currentModel[key]} => ${newModel[key]} -- changed`)
         }
     }
-    //console.log(flag); 
+    console.log(flag); 
     return flag;
   }
 

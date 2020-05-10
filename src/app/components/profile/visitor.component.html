@@ -194,6 +194,22 @@
                 </mat-expansion-panel>
             </div>
 
+            <div class="reg-form2">
+                <mat-expansion-panel class="reg-form3">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="discr2">
+                            <div>{{'Рекомендуємо встановити пароль для захисту персональних даних' | translate: lang}}<span class="ml-1 text-danger">*</span></div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-password (newPassword)="patchPassword($event)"></app-password>
+                </mat-expansion-panel>
+            </div>
+
+            <div class="d-flex my-3">
+                <mat-checkbox class='ml-1' formControlName="sending"></mat-checkbox>
+                <div class="ml-2">{{'Погоджуюся з отриманням інформації про заходи серії "Галицькі Експозиції"' | translate: lang}}</div>
+            </div>
+
             <ng-container *ngIf = "submitted && visitorForm.invalid">
                 <div class="alert alert-warning" role="alert">
                     <div class="font-weight-bold mb-2">{{"Не всі обов'язкові поля заповнені або заповнені невірно" | translate: lang}}</div>
@@ -202,8 +218,8 @@
                         <div>- {{item | translate: lang}}</div>
                     </ng-container>
                 </div> 
-            </ng-container>
-
+            </ng-container> 
+ 
             <div *ngIf="warning" class="alert alert-danger">
                 {{warning | translate: lang}}
             </div>

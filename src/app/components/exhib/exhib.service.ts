@@ -6,10 +6,13 @@ export class ExhibModel {
   numexhib: number;
   id_exhib_dict: number;
   name: string;
+  name_en: string;
   description: string;
+  description_en: string;
   datebegin: Date;
   dateend: Date;
   img: string;
+  img_en: string;
   altImg: string;
   logoImg: string;
   altLogoImg: string;
@@ -19,10 +22,13 @@ export class ExhibModel {
     this.numexhib = exhibData?.numexhib ?? null;
     this.id_exhib_dict = exhibData?.id_exhib_dict ?? null;
     this.name = exhibData?.nameexhibkor ?? "";
+    this.name_en = exhibData?.nameexhibkor_en != '' ? exhibData?.nameexhibkor_en : exhibData?.nameexhibkor ?? "";
     this.description = exhibData?.description ?? "";
+    this.description_en = exhibData?.description_en != '' ? exhibData?.description_en : exhibData?.description ?? "";
     this.datebegin = exhibData?.datebegin ?? "";
     this.dateend = exhibData?.dateend ?? "";
     this.img = `${dbUrl}/static/registration/exhibitions/${exhibData?.numexhib}.png` ?? "";
+    this.img_en = `${dbUrl}/static/registration/exhibitions/${exhibData?.numexhib}_en.png` ?? "";
     this.altImg = `${dbUrl}/static/registration/exhibitions/000.png` ?? "";
     this.logoImg = `${dbUrl}/static/registration/exhibitions/logo${exhibData?.numexhib}.png` ?? "";
     this.altLogoImg = `${dbUrl}/static/registration/exhibitions/logo000.png` ?? "";

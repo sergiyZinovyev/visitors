@@ -51,7 +51,7 @@ export class HttpService {
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log(`${operation} failed: ${error.message} | date: ${new Date().toLocaleString("en-US", {
+      this.log(`${operation} | ${error.url} failed: ${error.error ? error.error : error.message} | date: ${new Date().toLocaleString("en-US", {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',

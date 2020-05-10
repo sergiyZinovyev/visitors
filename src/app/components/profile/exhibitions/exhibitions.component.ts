@@ -36,7 +36,7 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
  
-    //if(this.idAddingExhibitions) this.getAddingExhib(this.idAddingExhibitions);
+    //if(this.idAddingExhibitions) this.getAddingExhib(this.idAddingExhibitions); 
 
     this.exhib.getExhibitions().subscribe((data:IExhib[])=>{
       this.exhibitions = data;

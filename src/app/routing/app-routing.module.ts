@@ -14,7 +14,7 @@ export class ExhibResolver implements Resolve<any> {
   constructor(
     private service: ExhibvisService,
   ) {}
-  
+    
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

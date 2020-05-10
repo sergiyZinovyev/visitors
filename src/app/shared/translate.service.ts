@@ -177,32 +177,76 @@ export class TranslateService {
       EN: 'Professional activity'
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'Зареєструйтесь будь ласка',
+      EN: 'Please register'
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'Оберіть виставку',
+      EN: 'Choose an exhibition' 
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'ви вже реєструвалися',
+      EN: 'you have already registered'
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'ЗАПРОШЕННЯ',
+      EN: 'INVITATION'
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'Шановний(а)',
+      EN: 'Dear'
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'Ви отримали персональне запрошення на виставку',
+      EN: 'You have received a personal invitation to the exhibition'
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'яке також було надіслано на Вашу електронну пошту',
+      EN: 'which was also sent to your email'
+    },
+    {
+      id: 'Покажіть цей код на вході',
+      EN: 'Show this code at the entrance'
+    },
+    {
+      id: 'Збережіть це запрошення або просто покажіть на екрані вашого смартфону',
+      EN: 'Save this invitation or just show it on your smartphone'
+    },
+    {
+      id: 'зберегти',
+      EN: 'save'
+    },
+    {
+      id: 'надіслати',
+      EN: 'send'
+    },
+    {
+      id: 'інше запрошення',
+      EN: 'another invitation'
+    },
+    {
+      id: 'Оберіть виставку та отримайте запрошення',
+      EN: 'Choose an exhibition and get an invitation'
+    },
+    {
+      id: 'Детальніше',
+      EN: 'Read more'
+    },
+    {
+      id: 'Зареєструйтесь будь ласка, або, якщо ви вже реєструвалися, натисніть Сancel та вкажить інший телефон чи e-mail',
+      EN: 'Please register, or, if you have already registered, click Сancel and enter another phone or e-mail'
+    },
+    {
+      id: 'Невірний пароль',
+      EN: 'incorrect password'
+    },
+    {
+      id: 'Погоджуюся з отриманням інформації про заходи серії "Галицькі Експозиції"',
+      EN: 'I agree to receive information about events of the series "Galician Expositions"'
+    },
+    {
+      id: 'Рекомендуємо встановити пароль для захисту персональних даних',
+      EN: 'We recommend that you set a password to protect your personal information'
     },
     {
       id: 'xxxxxxxxxxx',

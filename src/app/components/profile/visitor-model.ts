@@ -25,6 +25,9 @@ export class VisitorModel {
     datelastcor: string;
     rating: string;
     ins_user: string;
+    sending: boolean;
+
+    password: string;
 
     checkEmail:boolean = false;
     checkPhone:boolean = false;
@@ -56,6 +59,10 @@ export class VisitorModel {
         this.datelastcor = getVisitorData?.datelastcor ?? "";
         this.rating = getVisitorData?.rating ?? "";
         this.ins_user = getVisitorData?.ins_user ?? "";
+        if(getVisitorData?.sending === 0 || getVisitorData?.sending === false) this.sending = false
+        else this.sending = true;
+
+        this.password = getVisitorData?.password ?? "";
     }
 
     

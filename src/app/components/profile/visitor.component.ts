@@ -81,13 +81,20 @@ export class VisitorComponent implements OnInit, OnDestroy{
     datelastcor: ['', []],
     rating: ['', []],
     ins_user: ['', []],
+    sending: ['', []],
+    password: ['', []],
   });
 
 
   potvid: string = null;
   searchParamsExhib: number;
+
   patchPotvid(val: string){
     this.visitorForm.patchValue({potvid: val});
+  }
+
+  patchPassword(val: string){
+    this.visitorForm.patchValue({password: val});
   }
 
   constructor(
@@ -164,7 +171,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
   getErrorsMessage(formGroup: FormGroup){
     return this.CastomValidator.getErrorsMessages(formGroup)
   }
-
+ 
   submit(): void{
     this.warning = '';
     this.submitted = true;
@@ -192,7 +199,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     }
 
   }
- 
+  
   ngOnDestroy():void{
     this.subCurrrentVisitor.unsubscribe();
     this.getRegions.unsubscribe();

@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import {VisitorService} from '../../shared/visitor.service';
 import {ILogin} from '../../shared/visitors.interfaces';
 import {DashboardService} from '../dashboard/dashboard.service';
-
+import {Subscription} from 'rxjs';
+import {DialogService} from '../../modals/dialog.service';
+ 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,6 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   warning: string = '';
   loading: boolean = false;
   lang: string;
+  getLang: Subscription;
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.email]],
@@ -27,10 +30,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     private visitorService: VisitorService,
     private router: Router,
     private dashboard: DashboardService,
+    private dialog: DialogService,
   ) { }
 
   ngOnInit(): void { 
-    this.dashboard.lang.subscribe(lang => this.lang = lang);
+    this.getLang = this.dashboard.lang.subscribe(lang => this.lang = lang);
 
     this.loginForm.valueChanges.subscribe(_ => {
       this.warning = ''
@@ -41,16 +45,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     })
 
   }
-
+  
   login(){
     if(this.loginForm.valid && (this.loginForm.get('email').value !== '' || this.loginForm.get('cellphone').value !== '')){
       this.loading = true;
       this.visitorService.setKey(this.loginForm.value);
       this.visitorService.getVisitor(this.loginForm.value)
-        .then(data => {
+        .then((data: Array<any>) => {
           console.log('login data: ', data);
           this.loading = false;
-          this.router.navigate(['visitor'])
+          if(data.length < 1){ this.dialog.confirmOpen('Зареєструйтесь будь ласка, або, якщо ви вже реєструвалися, натисніть Сancel та вкажить інший телефон чи e-mail','visitor')}
+          else if(data[0] === 'incorrect password') this.dialog.dialogOpen('Невірний пароль')
+          else this.router.navigate(['visitor'])
         })
         .catch(err => {
           this.loading = false;
@@ -61,6 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.getLang.unsubscribe();
     this.loading = false;
   }
 

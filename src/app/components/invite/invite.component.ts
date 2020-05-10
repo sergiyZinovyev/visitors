@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 
 import {VisitorService} from '../../shared/visitor.service';
 import {HttpService} from '../../shared/http.service';
 import {VisitorModel} from '../profile/visitor-model';
 import {DialogService} from '../../modals/dialog.service';
-import{ExhibService, ExhibModel} from '../exhib/exhib.service'
+import{ExhibService, ExhibModel} from '../exhib/exhib.service';
+import {DashboardService} from '../dashboard/dashboard.service';
 
 import * as html2pdf from 'html2pdf.js';
  
@@ -36,6 +37,9 @@ export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly bcFormat = 'CODE128';
 
+  lang: string;
+  getLang: Subscription;
+
   visitor: VisitorModel = this.visitorService.curretnVisitorModel;
   exhib: ExhibModel;
   imgLoad = {logo: false, img: false};
@@ -50,13 +54,15 @@ export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: DialogService,
     private router: Router,
     private route: ActivatedRoute,
+    private dashboard: DashboardService,
   ) {  } 
  
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
       this.exhib = data['exhibData'].dataExhibition;
       if(data['exhibData'].reg === 'REGISTERED') this.isRegVisitor = true
-    })
+    });
+    this.getLang = this.dashboard.lang.subscribe(lang => this.lang = lang);
   }
 
   ngAfterViewInit(): void{
@@ -102,7 +108,7 @@ export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getPDFAndSend(){
     if(!this.visitor.email) return this.dialog.dialogOpen('Ви не вказали електронну пошту, запрошення не надіслано');
-    this.dialog.dialogOpen(`запрошення буде відправлено на email: ${this.visitor.email}`);
+    this.dialog.dialogOpen(`${this.lang == 'EN' ? "запрошення буде відправлено на email" : "the invitation will be sent to the email"}: ${this.visitor.email}`);
     return this.getPDFWorker().outputPdf('datauristring')
       .then((data: string) => this.sendEmail(data));
   }
@@ -112,7 +118,8 @@ export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void{
-    this.getImgLoad.unsubscribe()
+    this.getImgLoad.unsubscribe();
+    this.getLang.unsubscribe()
   }
 
 }

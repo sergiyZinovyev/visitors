@@ -12,13 +12,13 @@
                     alt="img"
                     id='logo'>
                 <div>
-                    <div class="title">ЗАПРОШЕННЯ</div>
-                    <div class="text-black-50">{{exhib?.name}}</div>
+                    <div class="title">{{'ЗАПРОШЕННЯ' | translate: lang}}</div>
+                    <div class="text-black-50">{{lang == 'EN' ? exhib?.name : exhib?.name_en}}</div>
                 </div>
             </div>
-            <img 
+            <img
                 mat-card-image 
-                [src]="exhib?.img" 
+                [src]="lang == 'EN' ? exhib?.img : exhib?.img_en" 
                 (error)="imgErrorHandler($event, exhib?.altImg)"
                 (load)="imgLoadHandler($event)" 
                 class='' 
@@ -26,27 +26,24 @@
                 id='img'>
             <mat-card-content>
                 <p> 
-                    Шановний(а) 
+                    {{"Шановний(а)" | translate: lang}} 
                     <strong>{{visitor.fullName}}</strong>
-                    , Ви отримали персональне запрошення на виставку
-                    <span *ngIf='visitor.email'>, яке також було надіслано на Вашу електронну пошту</span>
+                    , {{'Ви отримали персональне запрошення на виставку' | translate: lang}}
+                    <span *ngIf='visitor.email'>, {{"яке також було надіслано на Вашу електронну пошту" | translate: lang}}</span>
                 </p>
-                <p>Покажіть цей код на вході:</p>
+                <p>{{"Покажіть цей код на вході" | translate: lang}}:</p>
                 <p>
                     <ngx-barcode #bcElement [bc-value]='visitor.regnum' [bc-display-value]=true [bc-height]=70 [bc-font-size]=14 [bc-format]='bcFormat' bc-background='transparent'></ngx-barcode> 
                 </p>
-                <p>Збережіть це запрошення або просто покажіть на екрані вашого смартфону</p>
+                <p>{{"Збережіть це запрошення або просто покажіть на екрані вашого смартфону" | translate: lang}}</p>
             </mat-card-content>
         </mat-card>
     </div>
 
     <div class="btn-group d-flex align-items-center justify-content-center mt-3 mx-1">
-        <button mat-flat-button color="primary" class="btn my-btn btn-color" (click)="getPDF()">зберегти</button>
-        <button mat-flat-button color="primary" class="btn my-btn btn-color" (click)="getPDFAndSend()">надіслати</button>
-        <button mat-flat-button color="primary" class="btn my-btn btn-color" (click)="getInvite()">інше запрошення</button>
+        <button mat-flat-button color="primary" class="btn my-btn btn-color" (click)="getPDF()">{{"зберегти" | translate: lang}}</button>
+        <button mat-flat-button color="primary" class="btn my-btn btn-color" (click)="getPDFAndSend()">{{"надіслати" | translate: lang}}</button>
+        <button mat-flat-button color="primary" class="btn my-btn btn-color" (click)="getInvite()">{{"інше запрошення" | translate: lang}}</button>
     </div>
-
-<!-- <br><br>
-<button (click)="getPDF()">html2pdf</button>
-<button (click)="getPDFAndSend()">getPDFAndSend</button>  -->
+ 
 </div>
