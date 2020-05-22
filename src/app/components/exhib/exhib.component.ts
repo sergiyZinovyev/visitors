@@ -13,11 +13,13 @@ import {Subscription} from 'rxjs';
 })
 export class ExhibComponent implements OnInit, OnDestroy {
 
+  loading: boolean = false;
+
   exhibitions: ExhibModel[] = [];
 
   lang: string;
   getLang: Subscription;
-
+ 
   constructor(
     private exhib: ExhibService,
     private router: Router,
@@ -27,13 +29,27 @@ export class ExhibComponent implements OnInit, OnDestroy {
   ) { }
   
   ngOnInit(): void {
+    console.log(this.getCurrentDate());
     this.getLang = this.dashboard.lang.subscribe(lang => this.lang = lang);
-    this.exhib.getExhibs('2019-09-01')
+    this.loading = true;
+    //this.exhib.getExhibs('2019-09-01')
+    this.exhib.getExhibs(this.getCurrentDate())
       .then((data: ExhibModel[])=>{
+        this.loading = false;
         console.log(data);
         this.exhibitions = data
       })
       .catch(err => console.log('getExhib Error: ', err))
+  }
+
+  getCurrentDate(): string{
+    let date: string
+    let todayDate = new Date();
+    let currYear = todayDate.getFullYear();
+    let currMonth = todayDate.getMonth()+1;
+    let currDay = todayDate.getDate();
+    date = currYear + "-" + currMonth + "-" + currDay;
+    return date
   }
 
   imgErrorHandler(event, img) {
@@ -41,6 +57,7 @@ export class ExhibComponent implements OnInit, OnDestroy {
   }
    
   getInvite(idExhib){
+    this.loading = true;
     this.urlService.setIdex(idExhib);
     this.visitor.patchCloneVisitorModel(idExhib);
     this.router.navigate(['invite'], {queryParams: {idex: idExhib}});
@@ -48,6 +65,7 @@ export class ExhibComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.getLang.unsubscribe();
+    this.loading = false;
   }
 
 }

@@ -38,6 +38,7 @@ import { NgxBarcodeComponent } from './shared/lib/ngx-barcode.component';
 import { TranslatePipe } from './translate.pipe';
 import { DialogConfirmComponent } from './modals/dialog-confirm/dialog-confirm.component';
 import { PasswordComponent } from './components/profile/password/password.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -60,6 +61,7 @@ import { PasswordComponent } from './components/profile/password/password.compon
     ExhibComponent,
     DialogConfirmComponent,
     PasswordComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

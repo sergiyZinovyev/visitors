@@ -52,7 +52,7 @@ export class ExhibService {
     });
   }
 
-  getExhibs(date){
+  getExhibs(date: string){
     this.errMessage = null;
     return new Promise((resolve, reject) =>{
       this.http.get(`getexhibitions?date=${date}`).pipe(

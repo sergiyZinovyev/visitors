@@ -10,7 +10,7 @@ import {UrlService, SearchParams} from '../../shared/url.service';
 //import {HttpService} from '../../shared/http.service';
 //import {ExhibvisService} from '../../shared/exhibvis.service';
 import {ValidatorvisService} from './validatorvis.service';
-//import {DialogService} from '../../modals/dialog.service';
+import {DialogService} from '../../modals/dialog.service';
 import {DashboardService} from '../dashboard/dashboard.service';
 
 
@@ -93,6 +93,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.visitorForm.patchValue({potvid: val});
   }
 
+  password: string;
   patchPassword(val: string){
     this.visitorForm.patchValue({password: val});
   }
@@ -104,10 +105,10 @@ export class VisitorComponent implements OnInit, OnDestroy{
     private urlApp: UrlService,
     //private exhib: ExhibvisService,
     private CastomValidator: ValidatorvisService,
-    //private dialog: DialogService,
+    private dialog: DialogService,
     private dashboard: DashboardService,
   ) {}
-
+ 
   ngOnInit(): void {
 
     this.subLang = this.dashboard.lang.subscribe(lang => this.lang = lang);
@@ -143,6 +144,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
       if(data.countryid && data.regionid) this.visitorService.getCities(data.countryid, data.regionid);
       this.visitorForm.patchValue(data);
       this.potvid = data.potvid;
+      this.password = data.password;
     })
 
     this.visitorForm.get('countryid').valueChanges.subscribe(data => {
@@ -156,7 +158,7 @@ export class VisitorComponent implements OnInit, OnDestroy{
     this.visitorForm.get('regionid').valueChanges.subscribe(data => {
       this.visitorService.getCities(this.visitorForm.get('countryid').value, data);
     });
-
+ 
     this.visitorForm.get('city').valueChanges.subscribe(data => {
       this.filteredCities = this.cities.filter(city => city.teretory.toLowerCase().includes(data.toLowerCase()))
     });
@@ -172,7 +174,12 @@ export class VisitorComponent implements OnInit, OnDestroy{
     return this.CastomValidator.getErrorsMessages(formGroup)
   }
  
-  submit(): void{
+  saveChange(): void{
+    console.log('saveChange is work');
+    this.submit()
+  }
+
+  submit(route?: string): void{
     this.warning = '';
     this.submitted = true;
 
@@ -180,7 +187,14 @@ export class VisitorComponent implements OnInit, OnDestroy{
       this.loading = true;
       if(this.newVisitor) {
         this.visitorService.createVisitor(this.visitorForm.value)
-          .then(_ => this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}}))
+          .then(_ => {
+            if(route) return this.router.navigate([route], {queryParams: {idex: this.searchParamsExhib}})
+            else {
+              this.loading = false;
+              this.dialog.dialogOpen("Ваші дані успішно змінені");
+              return true
+            }
+          })
           .then(data => {if(!data)this.loading = false})
           .catch(err => {
             this.loading = false;
@@ -189,7 +203,14 @@ export class VisitorComponent implements OnInit, OnDestroy{
       } 
       else {
         this.visitorService.updateVisitor(this.visitorForm.value)
-          .then(_ => this.router.navigate(['invite'], {queryParams: {idex: this.searchParamsExhib}}))
+          .then(_ => {
+            if(route) return this.router.navigate([route], {queryParams: {idex: this.searchParamsExhib}})
+            else {
+              this.loading = false;
+              this.dialog.dialogOpen("Ваші дані успішно змінені");
+              return true
+            }
+          })
           .then(data=> {if(!data)this.loading = false})
           .catch(err=>{
             this.loading = false;

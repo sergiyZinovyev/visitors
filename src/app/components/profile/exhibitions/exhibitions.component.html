@@ -4,7 +4,7 @@
             <div *ngIf='item.kod===1' class="col-12 col-sm-6">
             <!-- <div class="col-12 col-sm-6">     -->
                 <mat-checkbox class='ml-1' formControlName={{item.name}}>
-                    {{item.name}}
+                    {{item.name | translate: lang}}
                 </mat-checkbox>
             </div> 
         </ng-container>
@@ -16,6 +16,6 @@
         color="accent">
         {{'add exhib'}}  
     </button> -->
-    <div *ngIf = '!exhibitionForm.valid' class="alert alert-warning" role="alert">{{exhibitionForm.errors?.custom}}</div>
+    <div *ngIf = '!exhibitionForm.valid' class="alert alert-warning" role="alert">{{exhibitionForm.errors?.custom | translate: lang}}</div>
 </form>
 

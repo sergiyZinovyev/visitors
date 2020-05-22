@@ -45,8 +45,8 @@ export class TranslateService {
       EN: 'Please enter your mobile phone in the specified format (Ukrainian operators only)'
     },
     {
-      id: 'Введіть пароль, якщо Ви встановили пароль при реєстрації',
-      EN: 'Enter the password if you have set a password at registration'
+      id: 'Введіть пароль, який Ви встановили пароль при реєстрації',
+      EN: 'Enter the password you set when registering'
     },
     {
       id: 'невірний пароль',
@@ -130,7 +130,7 @@ export class TranslateService {
     },
     {
       id: 'Зареєструватися/Отримати запрошення',
-      EN: 'Register/Receive Invitation'
+      EN: 'Sign up / Receive Invitation'
     },
     {
       id: "Ім'я",
@@ -249,8 +249,136 @@ export class TranslateService {
       EN: 'We recommend that you set a password to protect your personal information'
     },
     {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
+      id: 'Прізвище',
+      EN: 'Last name'
+    },
+    {
+      id: 'для встановлення пароля необхідна електронна пошта',
+      EN: 'email is required to set a password'
+    },
+    {
+      id: 'Невірний пароль. Якщо Ви забули пароль, натисніть "ОК". Якщо хочете ввести пароль знову натисніть "Сancel"',
+      EN: 'Invalid password. If you have forgotten your password, click "OK". If you want to enter the password again, click "Cancel"'
+    },
+    {
+      id: 'Стать',
+      EN: 'Gender'
+    }, 
+    {
+      id: 'чоловіча',
+      EN: 'male'
+    },
+    {
+      id: 'жіноча',
+      EN: 'female'
+    },
+    {
+      id: 'Редагувати пароль',
+      EN: 'Edit password'
+    },
+    {
+      id: 'Старий пароль',
+      EN: 'First password'
+    },
+    {
+      id: 'Введіть старий пароль',
+      EN: 'Enter the first password'
+    },
+    {
+      id: 'Новий пароль',
+      EN: 'New password'
+    },
+    {
+      id: 'Пароль має містити хоча б одну одну цифру та одну літеру та бути довшим за 6 символів',
+      EN: 'The password must contain at least one digit and one letter and be longer than 6 characters'
+    },
+    {
+      id: 'Повторіть новий пароль',
+      EN: 'Confirm the new password'
+    },
+    {
+      id: 'Пароль не співпадає',
+      EN: 'Password does not match'
+    },
+    {
+      id: 'Введіть пароль',
+      EN: 'Enter the password'
+    },
+    {
+      id: 'Зареєструватися',
+      EN: 'Sign up'
+    },
+    {
+      id: 'Внести зміни',
+      EN: 'Make changes'
+    },
+    {
+      id: 'Ваші дані успішно змінені',
+      EN: 'Your data has been changed successfully'
+    },
+    {
+      id: 'БудЕКСПО',
+      EN: 'BudEXPO'
+    },
+    {
+      id: 'Деревообробка',
+      EN: 'Woodprocessing'
+    },
+    {
+      id: 'Дентал-УКРАЇНА',
+      EN: 'Dental-UKRAINE'
+    },
+    {
+      id: 'ГалМЕД',
+      EN: 'GalMED'
+    },
+    {
+      id: 'ЄвроАГРО',
+      EN: 'EuroAGRO'
+    },
+    {
+      id: 'ТурЕКСПО',
+      EN: 'TourEXPO'
+    },
+    {
+      id: 'Вікна-двері-дах',
+      EN: 'Windows-Doors-Roof'
+    },
+    {
+      id: 'ЕлітЕКСПО',
+      EN: 'ElitEXPO'
+    },
+    {
+      id: 'Опалення',
+      EN: 'Heating'
+    },
+    {
+      id: 'Готельний та рестор. бізнес',
+      EN: 'Hotel and restaurant business'
+    },
+    {
+      id: 'Континент розваг',
+      EN: 'Continent of entertainment'
+    },
+    {
+      id: 'Дитячий світ',
+      EN: 'Children\'s World'
+    },
+    {
+      id: 'Альтернативна енергетика',
+      EN: 'Alternative energy'
+    },
+    {
+      id: 'Дентал-Експо',
+      EN: 'Dental-Expo'
+    },
+    {
+      id: 'Байк ЕКСПО',
+      EN: 'Bike EXPO'
+    },
+    {
+      id: 'Вибачте, помилка запиту до сервера',
+      EN: 'Sorry, server request error'
     },
     {
       id: 'xxxxxxxxxxx',
@@ -264,22 +392,21 @@ export class TranslateService {
       id: 'xxxxxxxxxxx',
       EN: 'xxxxxxxxxxx'
     },
-    {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
-    },
-    {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
-    },
-    {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
-    },
-    {
-      id: 'xxxxxxxxxxx',
-      EN: 'xxxxxxxxxxx'
-    },
+    
   ]  
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

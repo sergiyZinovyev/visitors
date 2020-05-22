@@ -47,6 +47,12 @@
   background-color: #0064af;
 }
 
+.my-btn2{
+  color: #808080;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
 .my-btn{
   font-family: sans-serif;
   font-weight: bold;

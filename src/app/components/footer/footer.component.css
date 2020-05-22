@@ -1,0 +1,32 @@
+.body {
+    margin-top: 40px;
+    padding-top: 20px;
+    background-color: grey;
+    color: white;
+}
+.width{
+    max-width: 1600px;
+}
+
+
+hr {
+    color: rgb(180, 178, 178); /*для IE */
+    background-color:rgb(180, 178, 178); /*для Firefox, Opera, Safari*/
+    border:0px none;
+    height:1px; /* высота 1px IE, Firefox, Opera, Safari */
+    margin-bottom: 0px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.text-right{
+    text-align: right;
+}
+.color{
+    color: rgb(180, 178, 178);
+}
+
+.img{
+    width: 200px;
+    height: auto;
+}
+/* background-color: #0064af; */ 

@@ -13,8 +13,8 @@ import {runOnKeys} from './lib/run-on-keys';
 })
 export class HttpService {
 
-  dbUrl = 'https://visitors.galexpo.com.ua:7002'; //dev host
-  //dbUrl = 'https://visitors.galexpo.com.ua:7001'; //prod host    
+  //dbUrl = 'https://visitors.galexpo.com.ua:7002'; //dev host
+  dbUrl = 'https://visitors.galexpo.com.ua:7001'; //prod host    
 
   errMessages: string[] = [];
   getErrMessages: Subject<string> = new Subject();
@@ -29,7 +29,7 @@ export class HttpService {
         "KeyR"
       )
    }
- 
+  
   // private getAuth(){ //дані для аутентифікації
   //   return `login=${localStorage.getItem('user')}&password=${localStorage.getItem('password')}`
   // } 
@@ -51,21 +51,21 @@ export class HttpService {
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log(`${operation} | ${error.url} failed: ${error.error ? error.error : error.message} | date: ${new Date().toLocaleString("en-US", {
+      this.log(`${operation} | ${error.url} failed: ${error.error ? JSON.stringify(error.error) : error.message} | date: ${new Date().toLocaleString("en-US", {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
         second: 'numeric'
-      })}`);
+      })}`, error.error ? JSON.stringify(error.error) : error.message);
       return of(result as T);
     };
   }
 
-  private log(message: string) {
+  private log(message: string, err) {
     this.errMessages.push(message);
-    this.getErrMessages.next(message);
+    this.getErrMessages.next(err);
   }
 
   private dialogErrOpen():any{

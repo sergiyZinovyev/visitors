@@ -53,28 +53,44 @@ export class VisitorService {
   }
  
   createVisitor(body: VisitorModel): Promise<any>{
-    return this.crudVisitor(body, 'createInVisitorsCreate')
+    let createBody = new VisitorModel(body);
+    createBody.password = this.curretnVisitorModel.password; //передаємо для редагування старий пароль
+    console.log("createInVisitorsCreate body: ",createBody);
+    return this.crudVisitor(createBody, 'createInVisitorsCreate')
       .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone, password: body.password}))
-      .then(data => {this.changePass(body, data[0].regnum); return 'ok'}) 
+      .then(data => {console.log("changePass body: ",body); this.changePass(body, data[0].regnum); return 'ok'}) 
       //.catch(err => err);
   }
 
   updateVisitor(body: VisitorModel): Promise<any>{
     this.changePass(body);
     if(this.compareModels(body)) return Promise.resolve('the model has not changed');
+    body.password = this.curretnVisitorModel.password; //передаємо для редагування старий пароль
     return this.crudVisitor(body, 'editPro2')
       .then(_ => this.getVisitor({email: body.email, cellphone: body.cellphone, password: body.password}))
   }
 
   private changePass(newVisitorModel, regnum?): void{
     if(newVisitorModel.password === this.curretnVisitorModel.password) return console.log('password not change');
-    if(!newVisitorModel.email) return this.dialog.dialogOpen('email undefined');
+    if(!newVisitorModel.email) {this.dialog.dialogOpen('для встановлення пароля необхідна електронна пошта');return}
     newVisitorModel.firstpassword = this.curretnVisitorModel.password;
     if (regnum) newVisitorModel.regnum = regnum;
-    this.dialog.dialogOpen("на вашу пошту буде надісланий електронний лист з підтвердженням пароля");
+    this.dialog.dialogOpen("На вашу пошту буде надісланий електронний лист з підтвердженням пароля, перевірте пошту та підтвердіть пароль");
     this.crudVisitor(newVisitorModel, 'changePass')
       .then(data => {console.log('data changePass:',data)})
       .catch(err=> {console.log('err: ', err); this.dialog.dialogOpen("Вибачте, помилка на сервері, пароль не змінено, спробуйте пізніше")})
+  }
+
+  resetPassword(data): void{
+    //if(!data.email) return this.dialog.dialogOpen('для встановлення пароля необхідна електронна пошта');
+    this.dialog.dialogOpen("На вашу пошту буде надісланий електронний лист з підтвердженням, перевірте пошту та підтвердіть скидання пароля");
+    this.crudVisitor(data, 'resetpassword')
+      .then(data => {console.log('data resetpassword:',data)})
+      .catch(err=> {
+        console.log('err: ', err);
+        if(JSON.parse(err).resetpassError) this.dialog.dialogOpen("Ви не вказали свою електронну пошту при реєстрації. Пароль не скинуто, для відновлення доступу зверніться до адміністратора")
+        else this.dialog.dialogOpen("Вибачте, помилка на сервері, пароль не змінено, спробуйте пізніше")
+      })
   }
 
   private crudVisitor(body:{}, routeName: string): Promise<any>{

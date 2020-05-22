@@ -14,6 +14,8 @@ import {DialogService} from '../../modals/dialog.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
+  showPassword: boolean = false;
+
   warning: string = '';
   loading: boolean = false;
   lang: string;
@@ -36,16 +38,31 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void { 
     this.getLang = this.dashboard.lang.subscribe(lang => this.lang = lang);
 
-    this.loginForm.valueChanges.subscribe(_ => {
-      this.warning = ''
-     });
+    this.loginForm.valueChanges.subscribe(_ => this.warning = '');
+    
+    this.loginForm.get('email').valueChanges.subscribe(ev => this.getShowPassword(ev, 'email'))
+
+    this.loginForm.get('cellphone').valueChanges.subscribe(ev => this.getShowPassword(ev, 'cellphone'))
 
     this.visitorService.getErrMessages.subscribe(errMessage =>{
-      if(errMessage) this.warning = errMessage
+      if(errMessage) this.warning = 'Вибачте, помилка запиту до сервера'
     })
 
   }
   
+  private getShowPassword(value: string, control: string){
+    let body = this.loginForm.value;
+    body[control] = value;
+    this.visitorService.getVisitor(body)
+      .then((data: Array<any>) => {
+        console.log(data);
+        if (data[0] === 'incorrect password') this.showPassword = true;
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   login(){
     if(this.loginForm.valid && (this.loginForm.get('email').value !== '' || this.loginForm.get('cellphone').value !== '')){
       this.loading = true;
@@ -55,7 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log('login data: ', data);
           this.loading = false;
           if(data.length < 1){ this.dialog.confirmOpen('Зареєструйтесь будь ласка, або, якщо ви вже реєструвалися, натисніть Сancel та вкажить інший телефон чи e-mail','visitor')}
-          else if(data[0] === 'incorrect password') this.dialog.dialogOpen('Невірний пароль')
+          else if(data[0] === 'incorrect password') this.dialog.dialogDoSomething('Невірний пароль. Якщо Ви забули пароль, натисніть "ОК". Якщо хочете ввести пароль знову натисніть "Сancel"', () => {this.visitorService.resetPassword(this.loginForm.value)})
           else this.router.navigate(['visitor'])
         })
         .catch(err => {
@@ -65,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     else this.warning = 'Введіть електронну пошту або телефон'
   }
-
+ 
   ngOnDestroy(): void {
     this.getLang.unsubscribe();
     this.loading = false;

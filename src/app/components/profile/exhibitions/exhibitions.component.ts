@@ -2,8 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angul
 import {ExhibitionsService, IExhib} from './exhibitions.service';
 import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import {Subscription, Observable} from'rxjs'; 
-import { group } from '@angular/animations';
-
+import {DashboardService} from '../../dashboard/dashboard.service';
 
 class UserExhibitions {
   constructor(arrayExhib: string[]) {
@@ -26,16 +25,21 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
 
   //getExhibitions: Subscription;
  //getAddingExhibitions: Subscription;
+
+  lang: string;
+  getLang: Subscription;
  
   exhibitions:IExhib[] = [];
   exhibitionForm:FormGroup = new FormGroup({});
 
   constructor(
     private exhib:ExhibitionsService,
+    private dashboard: DashboardService,
   ) { }
-
-  ngOnInit(): void {
  
+  ngOnInit(): void {
+
+    this.getLang = this.dashboard.lang.subscribe(lang => this.lang = lang);
     //if(this.idAddingExhibitions) this.getAddingExhib(this.idAddingExhibitions); 
 
     this.exhib.getExhibitions().subscribe((data:IExhib[])=>{
@@ -78,10 +82,10 @@ export class ExhibitionsComponent implements OnInit, OnDestroy {
           valid = true;
           break
         }
-      }
+      } 
       if(valid) return null;
       return {
-        custom: 'Потрібно обрати принаймі одну виставку'
+        custom: 'Потрібно обрати принаймні одну виставку'
       };
     };
   }
