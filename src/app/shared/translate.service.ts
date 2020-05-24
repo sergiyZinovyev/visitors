@@ -381,6 +381,74 @@ export class TranslateService {
       EN: 'Sorry, server request error'
     },
     {
+      id: 'вул. Винниченка, 30,',
+      EN: 'Vinnychenko, 30 str.,'
+    },
+    {
+      id: 'м. Львів, 79008, Україна',
+      EN: 'Lviv, 79008, Ukraine'
+    },
+    {
+      id: 'Тел.',
+      EN: 'Tel.'
+    },
+    {
+      id: 'Факс',
+      EN: 'Fax'
+    },
+    {
+      id: 'Слідкуй за нами:',
+      EN: 'Follow us:'
+    }, 
+    {
+      id: 'Ви успішно змінили пароль. Увійдіть використовуючи новий пароль',
+      EN: 'You have successfully changed your password. Log in using a new password'
+    },
+    {
+      id: 'Вхід',
+      EN: 'Login'
+    },
+    {
+      id: 'Щось пішло не так. Спробуйте ще раз пізніше',
+      EN: 'Something went wrong. Please try again later'
+    },
+    {
+      id: 'Всі необхідні зміни вже були зроблені',
+      EN: 'All the necessary changes have already been made'
+    },
+    {
+      id: 'На вашу пошту буде надісланий електронний лист з підтвердженням пароля, перевірте пошту та підтвердіть пароль',
+      EN: 'You will receive a password confirmation email, check your email, and confirm your password'
+    },
+    {
+      id: 'На вашу пошту буде надісланий електронний лист з підтвердженням, перевірте пошту та підтвердіть скидання пароля',
+      EN: 'A confirmation email will be sent to your email, check your email and confirm your password reset'
+    },
+    {
+      id: 'xxxxxxxxxxx',
+      EN: 'xxxxxxxxxxx'
+    },
+    {
+      id: 'xxxxxxxxxxx',
+      EN: 'xxxxxxxxxxx'
+    },
+    {
+      id: 'xxxxxxxxxxx',
+      EN: 'xxxxxxxxxxx'
+    },
+    {
+      id: 'xxxxxxxxxxx',
+      EN: 'xxxxxxxxxxx'
+    },
+    {
+      id: 'xxxxxxxxxxx',
+      EN: 'xxxxxxxxxxx'
+    },
+    {
+      id: 'xxxxxxxxxxx',
+      EN: 'xxxxxxxxxxx'
+    },
+    {
       id: 'xxxxxxxxxxx',
       EN: 'xxxxxxxxxxx'
     },

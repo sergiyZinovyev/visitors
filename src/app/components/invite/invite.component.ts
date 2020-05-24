@@ -56,7 +56,7 @@ export class InviteComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private dashboard: DashboardService,
   ) {  } 
- 
+  
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
       this.exhib = data['exhibData'].dataExhibition;

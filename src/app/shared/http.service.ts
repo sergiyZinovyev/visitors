@@ -10,12 +10,12 @@ import {runOnKeys} from './lib/run-on-keys';
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class HttpService {
 
   //dbUrl = 'https://visitors.galexpo.com.ua:7002'; //dev host
   dbUrl = 'https://visitors.galexpo.com.ua:7001'; //prod host    
-
+ 
   errMessages: string[] = [];
   getErrMessages: Subject<string> = new Subject();
 
@@ -37,14 +37,14 @@ export class HttpService {
   get(prop: string): Observable<any>{
     return this.http.get(`${this.dbUrl}/${prop}`)
       .pipe(
-        catchError(this.handleError<any>(`get/${prop}`, []))
+        catchError(this.handleError<any>(`get/${prop}`, 'Error'))
       );
   }
 
   post(body, prop): Observable<any>{
     return this.http.post(`${this.dbUrl}/${prop}`, body) 
       .pipe(
-        catchError(this.handleError<any>(`post/${prop}`, []))
+        catchError(this.handleError<any>(`post/${prop}`, 'Error'))
       );  
   }
 

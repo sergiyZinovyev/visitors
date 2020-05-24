@@ -1,0 +1,17 @@
+<div class="container pt-5 pb-5 my-container">
+    <div class="image">
+        <img [src]="imgLink" class="img mb-2" width='200px' height="auto" alt="image">
+    </div>
+    <div class="messages">
+        {{text | translate: lang}}
+    </div>
+    <div class="dashboard">
+        <button 
+            mat-button 
+            class="btn-block btn-lg py-2 my-btn2"
+            (click)='enter()'>
+            {{'Вхід' | translate: lang}}
+            <!-- <mat-icon>create</mat-icon> -->
+        </button>
+    </div>
+</div>

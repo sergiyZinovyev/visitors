@@ -39,6 +39,7 @@ import { TranslatePipe } from './translate.pipe';
 import { DialogConfirmComponent } from './modals/dialog-confirm/dialog-confirm.component';
 import { PasswordComponent } from './components/profile/password/password.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
 
 
 
@@ -62,6 +63,7 @@ import { FooterComponent } from './components/footer/footer.component';
     DialogConfirmComponent,
     PasswordComponent,
     FooterComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,

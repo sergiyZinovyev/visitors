@@ -29,4 +29,14 @@ hr {
     width: 200px;
     height: auto;
 }
-/* background-color: #0064af; */ 
+.nondecore{
+    text-decoration: none;
+}
+a.nondecore:active,
+a.nondecore {
+  text-decoration: none;
+  color: rgb(180, 178, 178);
+}
+a.nondecore:hover{
+    color: white;  
+}
