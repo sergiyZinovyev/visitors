@@ -28,7 +28,7 @@
     "html2pdf.js": "^0.9.2",
     "jquery": "^1.9.1",
     "jsbarcode": "^3.11.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "mat-select-filter": "^2.3.6",
     "node-sass": "^4.13.1",
     "popper.js": "^1.16.1",
